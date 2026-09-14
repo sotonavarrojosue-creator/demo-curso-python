@@ -379,12 +379,12 @@ class UIManager {
     }
 
     createUI() {
-        // Barra de usuario en el nav
-        const userSection = document.getElementById('user-section');
-        if (!userSection) return;
+        // Barra de usuario debajo del nav
+        const bar = document.getElementById('user-bar');
+        if (!bar) return;
 
-        userSection.innerHTML = `
-            <div id="user-guest" style="display:flex;gap:0.3rem">
+        bar.innerHTML = `
+            <div id="user-guest" style="display:flex;gap:0.4rem">
                 <button class="nav-btn" onclick="ui.showLogin()">Iniciar Sesión</button>
                 <button class="nav-btn nav-btn-accent" onclick="ui.showRegister()">Registrarse</button>
             </div>
