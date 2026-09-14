@@ -380,23 +380,20 @@ class UIManager {
 
     createUI() {
         // Barra de usuario en el nav
-        const nav = document.querySelector('nav');
-        if (!nav) return;
+        const userSection = document.getElementById('user-section');
+        if (!userSection) return;
 
-        const userSection = document.createElement('div');
-        userSection.id = 'user-section';
         userSection.innerHTML = `
-            <div id="user-guest">
+            <div id="user-guest" style="display:flex;gap:0.3rem">
                 <button class="nav-btn" onclick="ui.showLogin()">Iniciar Sesión</button>
                 <button class="nav-btn nav-btn-accent" onclick="ui.showRegister()">Registrarse</button>
             </div>
-            <div id="user-logged" style="display:none">
-                <span id="user-name" style="color:var(--muted);font-size:0.85rem;margin-right:1rem"></span>
-                <button class="nav-btn" onclick="ui.showProgress()">Mi Progreso</button>
+            <div id="user-logged" style="display:none;align-items:center;gap:0.5rem">
+                <span id="user-name" style="color:var(--muted);font-size:0.75rem"></span>
+                <button class="nav-btn" onclick="ui.showProgress()">Progreso</button>
                 <button class="nav-btn" onclick="ui.logout()">Salir</button>
             </div>
         `;
-        nav.appendChild(userSection);
 
         // Modal de Login/Register
         const modal = document.createElement('div');
