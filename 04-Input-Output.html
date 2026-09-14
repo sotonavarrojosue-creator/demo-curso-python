@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input / Output — Aprende Python</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0a0a0f; --surface: #12121a; --border: #2a2a3a; --text: #e0e0ec; --muted: #7a7a8e; --accent: #00d4aa; --purple: #a29bfe; --yellow: #ffd93d; --blue: #4ecdc4; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        nav { position: fixed; top: 0; width: 100%; background: rgba(10,10,15,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 1rem 2rem; z-index: 100; display: flex; justify-content: space-between; align-items: center; }
+        nav a { color: var(--accent); text-decoration: none; font-weight: 600; font-size: 0.9rem; }
+        nav .back { color: var(--muted); }
+        .container { max-width: 750px; margin: 0 auto; padding: 6rem 2rem 4rem; }
+        h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 0.5rem; }
+        h1 span { color: var(--accent); }
+        .meta { color: var(--muted); font-size: 0.85rem; margin-bottom: 2.5rem; font-family: 'JetBrains Mono', monospace; }
+        h2 { font-size: 1.4rem; font-weight: 700; margin: 2.5rem 0 1rem; color: var(--accent); border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+        h3 { font-size: 1.1rem; font-weight: 600; margin: 1.5rem 0 0.5rem; }
+        p { margin-bottom: 1rem; color: var(--text); }
+        ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
+        li { margin-bottom: 0.3rem; }
+        pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem; overflow-x: auto; margin: 1rem 0; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; line-height: 1.5; }
+        code { font-family: 'JetBrains Mono', monospace; font-size: 0.85em; }
+        :not(pre) > code { background: var(--surface); padding: 0.15rem 0.4rem; border-radius: 4px; border: 1px solid var(--border); }
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        th, td { padding: 0.6rem 1rem; border: 1px solid var(--border); text-align: left; }
+        th { background: var(--surface); font-weight: 600; }
+        blockquote { border-left: 3px solid var(--accent); padding-left: 1rem; color: var(--muted); margin: 1rem 0; }
+        strong { color: var(--yellow); }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+        .nav-buttons a { color: var(--accent); text-decoration: none; font-weight: 600; padding: 0.8rem 1.5rem; border: 1px solid var(--border); border-radius: 6px; transition: all 0.2s; }
+        .nav-buttons a:hover { border-color: var(--accent); background: rgba(0,212,170,0.1); }
+        @media (max-width: 640px) { .container { padding: 5rem 1rem 3rem; } h1 { font-size: 1.6rem; } }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="back">← Curso Python</a>
+        <span class="mono" style="color:var(--muted);font-size:0.8rem;">Módulo 04</span>
+    </nav>
+    <div class="container">
+        
+<h1><span>&gt;</span> Módulo 04: Input y Output</h1>
+
+<p>Hacer que tu programa interactúe con el usuario.</p>
+
+<h2>Leyendo input del usuario</h2>
+
+<p>La función <code>input()</code> pausa el programa y espera que el usuario escriba algo:</p>
+
+<pre><code class="language-python">
+nombre = input("¿Cómo te llamas? ")
+print("Hola,", nombre)
+</code></pre>
+
+<p><strong>Ejecución:</strong></p>
+<pre><code class="language-">
+¿Cómo te llamas? Aaron
+Hola, Aaron
+</code></pre>
+
+<p><strong>Importante:</strong> <code>input()</code> SIEMPRE devuelve un string, incluso si el usuario escribe un número:</p>
+
+<pre><code class="language-python">
+edad = input("¿Cuántos años tienes? ")
+print(type(edad))  # &lt;class 'str'&gt; — ¡Es un string!
+</code></pre>
+
+<h2>Convirtiendo input a números</h2>
+
+<p>Para hacer matemáticas con input del usuario, necesitas convertir:</p>
+
+<pre><code class="language-python">
+edad = int(input("¿Cuántos años tienes? "))    # Convierte a entero
+altura = float(input("¿Cuánta altura? (m) "))  # Convierte a decimal
+
+print("En 10 años tendrás", edad + 10, "años")
+</code></pre>
+
+<h2>Formateando salida</h2>
+
+<h3>Método 1: Concatenación</h3>
+<pre><code class="language-python">
+nombre = "Aaron"
+edad = 25
+print("Me llamo " + nombre + " y tengo " + str(edad) + " años")
+</code></pre>
+
+<h3>Método 2: f-strings (recomendado)</h3>
+<pre><code class="language-python">
+nombre = "Aaron"
+edad = 25
+print(f"Me llamo {nombre} y tengo {edad} años")
+</code></pre>
+
+<p>Los f-strings son más limpios y fáciles de leer.</p>
+
+<h3>Método 3: .format()</h3>
+<pre><code class="language-python">
+print("Me llamo {} y tengo {} años".format(nombre, edad))
+</code></pre>
+
+<h3>Método 4: Comas en print()</h3>
+<pre><code class="language-python">
+print("Me llamo", nombre, "y tengo", edad, "años")
+</code></pre>
+
+<h2>Ejemplos prácticos</h2>
+
+<h3>Calculadora simple</h3>
+<pre><code class="language-python">
+num1 = float(input("Primer número: "))
+num2 = float(input("Segundo número: "))
+
+print(f"{num1} + {num2} = {num1 + num2}")
+print(f"{num1} - {num2} = {num1 - num2}")
+print(f"{num1} * {num2} = {num1 * num2}")
+print(f"{num1} / {num2} = {num1 / num2}")
+</code></pre>
+
+<h3>Converter temperatura</h3>
+<pre><code class="language-python">
+grados = float(input("Grados Fahrenheit: "))
+celsius = (grados - 32) * 5 / 9
+print(f"{grados}°F = {celsius:.1f}°C")
+</code></pre>
+
+<h2>Errores comunes</h2>
+
+<p><strong>No convertir input a número:</strong></p>
+<pre><code class="language-python">
+edad = input("Edad: ")  # "25" (string)
+edad + 5                 # ❌ Error: can't concatenate str + int
+
+edad = int(input("Edad: "))  # 25 (int)
+edad + 5                      # ✅ 30
+</code></pre>
+
+<p><strong>Dividir entre cero:</strong></p>
+<pre><code class="language-python">
+numero = float(input("Número: "))
+print(100 / numero)  # ❌ Error si el usuario escribe 0
+</code></pre>
+
+<h2>Ejercicios</h2>
+
+<li>Pide al usuario su nombre y salúdalo 3 veces</li>
+<li>Pide dos números y muestra la suma, resta, multiplicación y división</li>
+<li>Convierte grados Celsius a Fahrenheit: F = C × 9/5 + 32</li>
+<li>Pide la base y altura de un triángulo y calcula el área: A = (base × altura) / 2</li>
+
+<h3>Soluciones</h3>
+
+<pre><code class="language-python">
+# Ejercicio 1
+nombre = input("¿Cómo te llamas? ")
+print(f"Hola {nombre}!")
+print(f"¡Qué bien verte, {nombre}!")
+print(f"Bienvenido, {nombre}")
+
+# Ejercicio 2
+a = float(input("Primer número: "))
+b = float(input("Segundo número: "))
+print(f"Suma: {a + b}")
+print(f"Resta: {a - b}")
+print(f"Multiplicación: {a * b}")
+print(f"División: {a / b}")
+
+# Ejercicio 3
+celsius = float(input("Grados Celsius: "))
+fahrenheit = celsius * 9 / 5 + 32
+print(f"{celsius}°C = {fahrenheit}°F")
+
+# Ejercicio 4
+base = float(input("Base del triángulo: "))
+altura = float(input("Altura del triángulo: "))
+area = (base * altura) / 2
+print(f"El área es: {area}")
+</code></pre>
+
+<hr>
+
+<p><strong>← Anterior:</strong> [[03-Operadores]] | <strong>Siguiente:</strong> [[05-Condicionales]] →</p>
+
+        <div class="nav-buttons">
+            <a href="03-Operadores.html">← Operadores</a>
+            <a href="05-Condicionales.html">Condicionales →</a>
+        </div>
+    </div>
+</body>
+</html>

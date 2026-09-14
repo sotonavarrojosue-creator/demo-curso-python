@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POO Avanzada — Aprende Python</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0a0a0f; --surface: #12121a; --border: #2a2a3a; --text: #e0e0ec; --muted: #7a7a8e; --accent: #00d4aa; --purple: #a29bfe; --yellow: #ffd93d; --blue: #4ecdc4; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        nav { position: fixed; top: 0; width: 100%; background: rgba(10,10,15,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 1rem 2rem; z-index: 100; display: flex; justify-content: space-between; align-items: center; }
+        nav a { color: var(--accent); text-decoration: none; font-weight: 600; font-size: 0.9rem; }
+        nav .back { color: var(--muted); }
+        .container { max-width: 750px; margin: 0 auto; padding: 6rem 2rem 4rem; }
+        h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 0.5rem; }
+        h1 span { color: var(--accent); }
+        .meta { color: var(--muted); font-size: 0.85rem; margin-bottom: 2.5rem; font-family: 'JetBrains Mono', monospace; }
+        h2 { font-size: 1.4rem; font-weight: 700; margin: 2.5rem 0 1rem; color: var(--accent); border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+        h3 { font-size: 1.1rem; font-weight: 600; margin: 1.5rem 0 0.5rem; }
+        p { margin-bottom: 1rem; color: var(--text); }
+        ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
+        li { margin-bottom: 0.3rem; }
+        pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem; overflow-x: auto; margin: 1rem 0; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; line-height: 1.5; }
+        code { font-family: 'JetBrains Mono', monospace; font-size: 0.85em; }
+        :not(pre) > code { background: var(--surface); padding: 0.15rem 0.4rem; border-radius: 4px; border: 1px solid var(--border); }
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        th, td { padding: 0.6rem 1rem; border: 1px solid var(--border); text-align: left; }
+        th { background: var(--surface); font-weight: 600; }
+        blockquote { border-left: 3px solid var(--accent); padding-left: 1rem; color: var(--muted); margin: 1rem 0; }
+        strong { color: var(--yellow); }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+        .nav-buttons a { color: var(--accent); text-decoration: none; font-weight: 600; padding: 0.8rem 1.5rem; border: 1px solid var(--border); border-radius: 6px; transition: all 0.2s; }
+        .nav-buttons a:hover { border-color: var(--accent); background: rgba(0,212,170,0.1); }
+        @media (max-width: 640px) { .container { padding: 5rem 1rem 3rem; } h1 { font-size: 1.6rem; } }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="back">← Curso Python</a>
+        <span class="mono" style="color:var(--muted);font-size:0.8rem;">Módulo 16</span>
+    </nav>
+    <div class="container">
+        
+<h1><span>&gt;</span> Módulo 16: POO Avanzada</h1>
+
+<p>Herencia, polimorfismo y conceptos avanzados.</p>
+
+<h2>Herencia</h2>
+
+<p>Una clase hija hereda todo de la clase padre:</p>
+
+<pre><code class="language-python">
+class Animal:
+    def __init__(self, nombre, sonido):
+        self.nombre = nombre
+        self.sonido = sonido
+    
+    def hablar(self):
+        return f"{self.nombre} hace {self.sonido}"
+
+class Perro(Animal):
+    def __init__(self, nombre):
+        super().__init__(nombre, "guau")
+    
+    def fetch(self):
+        return f"{self.nombre} trae la pelota"
+
+class Gato(Animal):
+    def __init__(self, nombre):
+        super().__init__(nombre, "miau")
+
+perro = Perro("Rex")
+gato = Gato("Michi")
+
+print(perro.hablar())   # Rex hace guau
+print(perro.fetch())    # Rex trae la pelota
+print(gato.hablar())    # Michi hace miau
+</code></pre>
+
+<h2>Polimorfismo</h2>
+
+<p>Métodos con el mismo nombre pero comportamiento diferente:</p>
+
+<pre><code class="language-python">
+class Forma:
+    def area(self):
+        raise NotImplementedError("Subclase debe implementar area()")
+    
+    def describir(self):
+        return f"{self.__class__.__name__} con área {self.area():.2f}"
+
+class Circulo(Forma):
+    def __init__(self, radio):
+        self.radio = radio
+    
+    def area(self):
+        return 3.14159 * self.radio ** 2
+
+class Rectangulo(Forma):
+    def __init__(self, base, altura):
+        self.base = base
+        self.altura = altura
+    
+    def area(self):
+        return self.base * self.altura
+
+# Polimorfismo — misma interfaz, diferente comportamiento
+formas = [Circulo(5), Rectangulo(4, 6), Circulo(3)]
+for forma in/formas):
+    print(forma.describir())
+</code></pre>
+
+<h2>Métodos especiales (Dunder/Magic methods)</h2>
+
+<pre><code class="language-python">
+class Vector:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+    
+    def __add__(self, otro):
+        return Vector(self.x + otro.x, self.y + otro.y)
+    
+    def __mul__(self, escalar):
+        return Vector(self.x * escalar, self.y * escalar)
+    
+    def __eq__(self, otro):
+        return self.x == otro.x and self.y == otro.y
+    
+    def __len__(self):
+        return int((self.x**2 + self.y**2)**0.5)
+    
+    def __str__(self):
+        return f"({self.x}, {self.y})"
+
+v1 = Vector(2, 3)
+v2 = Vector(4, 1)
+
+print(v1 + v2)      # (6, 4)
+print(v1 * 3)       # (6, 9)
+print(v1 == v2)     # False
+print(len(v1))      # 3 (magnitud)
+</code></pre>
+
+<h2>Propiedades (@property)</h2>
+
+<pre><code class="language-python">
+class Temperatura:
+    def __init__(self, celsius):
+        self._celsius = celsius
+    
+    @property
+    def celsius(self):
+        return self._celsius
+    
+    @celsius.setter
+    def celsius(self, valor):
+        if valor &lt; -273.15:
+            raise ValueError("Temperatura menor al cero absoluto")
+        self._celsius = valor
+    
+    @property
+    def fahrenheit(self):
+        return self._celsius * 9/5 + 32
+
+t = Temperatura(100)
+print(t.fahrenheit)    # 212.0
+t.celsius = 0          # Setter
+print(t.fahrenheit)    # 32.0
+</code></pre>
+
+<h2>Clases abstractas</h2>
+
+<pre><code class="language-python">
+from abc import ABC, abstractmethod
+
+class Vehiculo(ABC):
+    @abstractmethod
+    def arrancar(self):
+        pass
+    
+    @abstractmethod
+    def frenar(self):
+        pass
+    
+    def describir(self):
+        return f"Soy un {self.__class__.__name__}"
+
+class Moto(Vehiculo):
+    def arrancar(self):
+        return "Moto arrancando"
+    
+    def frenar(self):
+        return "Moto frenando"
+
+# v = Vehiculo()  # ❌ Error — es abstracta
+m = Moto()
+print(m.arrancar())
+</code></pre>
+
+<h2>Ejemplos prácticos</h2>
+
+<h3>Sistema de empleados</h3>
+
+<pre><code class="language-python">
+class Empleado:
+    def __init__(self, nombre, salario):
+        self.nombre = nombre
+        self.salario = salario
+    
+    def calcular_bono(self):
+        return self.salario * 0.10
+    
+    def __str__(self):
+        return f"{self.nombre} — Bono: ${self.calcular_bono():.2f}"
+
+class Gerente(Empleado):
+    def __init__(self, nombre, salario, departamento):
+        super().__init__(nombre, salario)
+        self.departamento = departamento
+    
+    def calcular_bono(self):
+        return self.salario * 0.20  # Gerentes ganan más bono
+
+class Desarrollador(Empleado):
+    def __init__(self, nombre, salario, lenguajes):
+        super().__init__(nombre, salario)
+        self.lenguajes = lenguajes
+    
+    def calcular_bono(self):
+        return self.salario * 0.15 + len(self.lenguajes) * 500
+
+empleados = [
+    Gerente("Ana", 5000, "TI"),
+    Desarrollador("Carlos", 3000, ["Python", "JS"]),
+    Empleado("Luis", 2500),
+]
+
+for emp in empleados:
+    print(emp)  # Polimorfismo — cada uno calcula su bono diferente
+</code></pre>
+
+<h2>Ejercicios</h2>
+
+<li>Crea una jerarquía: `Animal` → `Perro`, `Gato`, `Pájaro`</li>
+<li>Implementa una clase `Cuenta` con `CuentaAhorro` y `CuentaCorriente`</li>
+<li>Crea una clase `Producto` abstracta con `Electronico` y `Ropa`</li>
+<li>Implementa `__add__` y `__str__` para una clase `Matriz`</li>
+
+<h3>Soluciones</h3>
+
+<pre><code class="language-python">
+# Ejercicio 1
+class Animal:
+    def __init__(self, nombre):
+        self.nombre = nombre
+    def hablar(self):
+        raise NotImplementedError
+
+class Perro(Animal):
+    def hablar(self):
+        return "Guau"
+
+class Gato(Animal):
+    def hablar(self):
+        return "Miau"
+
+class Pajaro(Animal):
+    def hablar(self):
+        return "Pío"
+
+# Ejercicio 2
+class Cuenta:
+    def __init__(self, titular, saldo=0):
+        self.titular = titular
+        self.saldo = saldo
+
+class CuentaAhorro(Cuenta):
+    def __init__(self, titular, saldo=0, tasa=0.02):
+        super().__init__(titular, saldo)
+        self.tasa = tasa
+    
+    def aplicar_interes(self):
+        self.saldo += self.saldo * self.tasa
+
+class CuentaCorriente(Cuenta):
+    def __init__(self, titular, saldo=0, limite=500):
+        super().__init__(titular, saldo)
+        self.limite = limite
+    
+    def retirar(self, monto):
+        if monto &lt;= self.saldo + self.limite:
+            self.saldo -= monto
+            return True
+        return False
+</code></pre>
+
+<hr>
+
+<p><strong>← Anterior:</strong> [[15-Clases-y-Objetos]] | <strong>Siguiente:</strong> [[17-Proyecto-Calculadora]] →</p>
+
+        <div class="nav-buttons">
+            <a href="15-Clases-y-Objetos.html">← Clases y Objetos</a>
+            <a href="17-Proyecto-Calculadora.html">Calculadora →</a>
+        </div>
+    </div>
+</body>
+</html>

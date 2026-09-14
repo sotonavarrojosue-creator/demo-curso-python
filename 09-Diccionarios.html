@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diccionarios — Aprende Python</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0a0a0f; --surface: #12121a; --border: #2a2a3a; --text: #e0e0ec; --muted: #7a7a8e; --accent: #00d4aa; --purple: #a29bfe; --yellow: #ffd93d; --blue: #4ecdc4; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        nav { position: fixed; top: 0; width: 100%; background: rgba(10,10,15,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 1rem 2rem; z-index: 100; display: flex; justify-content: space-between; align-items: center; }
+        nav a { color: var(--accent); text-decoration: none; font-weight: 600; font-size: 0.9rem; }
+        nav .back { color: var(--muted); }
+        .container { max-width: 750px; margin: 0 auto; padding: 6rem 2rem 4rem; }
+        h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 0.5rem; }
+        h1 span { color: var(--accent); }
+        .meta { color: var(--muted); font-size: 0.85rem; margin-bottom: 2.5rem; font-family: 'JetBrains Mono', monospace; }
+        h2 { font-size: 1.4rem; font-weight: 700; margin: 2.5rem 0 1rem; color: var(--accent); border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+        h3 { font-size: 1.1rem; font-weight: 600; margin: 1.5rem 0 0.5rem; }
+        p { margin-bottom: 1rem; color: var(--text); }
+        ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
+        li { margin-bottom: 0.3rem; }
+        pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem; overflow-x: auto; margin: 1rem 0; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; line-height: 1.5; }
+        code { font-family: 'JetBrains Mono', monospace; font-size: 0.85em; }
+        :not(pre) > code { background: var(--surface); padding: 0.15rem 0.4rem; border-radius: 4px; border: 1px solid var(--border); }
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        th, td { padding: 0.6rem 1rem; border: 1px solid var(--border); text-align: left; }
+        th { background: var(--surface); font-weight: 600; }
+        blockquote { border-left: 3px solid var(--accent); padding-left: 1rem; color: var(--muted); margin: 1rem 0; }
+        strong { color: var(--yellow); }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+        .nav-buttons a { color: var(--accent); text-decoration: none; font-weight: 600; padding: 0.8rem 1.5rem; border: 1px solid var(--border); border-radius: 6px; transition: all 0.2s; }
+        .nav-buttons a:hover { border-color: var(--accent); background: rgba(0,212,170,0.1); }
+        @media (max-width: 640px) { .container { padding: 5rem 1rem 3rem; } h1 { font-size: 1.6rem; } }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="back">← Curso Python</a>
+        <span class="mono" style="color:var(--muted);font-size:0.8rem;">Módulo 09</span>
+    </nav>
+    <div class="container">
+        
+<h1><span>&gt;</span> Módulo 09: Diccionarios</h1>
+
+<p>Pares de clave-valor — como un diccionario real.</p>
+
+<h2>Crear diccionarios</h2>
+
+<pre><code class="language-python">
+persona = {
+    "nombre": "Aaron",
+    "edad": 25,
+    "ciudad": "CDMX"
+}
+
+vacio = {}
+</code></pre>
+
+<h2>Acceder a valores</h2>
+
+<pre><code class="language-python">
+persona = {"nombre": "Aaron", "edad": 25}
+
+print(persona["nombre"])     # Aaron
+print(persona.get("edad"))   # 25
+print(persona.get("email", "no disponible"))  # Valor por defecto si no existe
+</code></pre>
+
+<h2>Modificar y agregar</h2>
+
+<pre><code class="language-python">
+persona = {"nombre": "Aaron", "edad": 25}
+
+persona["edad"] = 26           # Modificar
+persona["email"] = "a@b.com"   # Agregar nuevo
+del persona["email"]           # Eliminar
+</code></pre>
+
+<h2>Métodos útiles</h2>
+
+<pre><code class="language-python">
+persona = {"nombre": "Aaron", "edad": 25, "ciudad": "CDMX"}
+
+print(persona.keys())     # dict_keys(['nombre', 'edad', 'ciudad'])
+print(persona.values())   # dict_values(['Aaron', 25, 'CDMX'])
+print(persona.items())    # dict_items([('nombre', 'Aaron'), ...])
+
+print("nombre" in persona)  # True (verificar si existe la clave)
+</code></pre>
+
+<h2>Iterar diccionarios</h2>
+
+<pre><code class="language-python">
+persona = {"nombre": "Aaron", "edad": 25, "ciudad": "CDMX"}
+
+# Por clave
+for clave in persona:
+    print(clave)
+
+# Por valor
+for clave, valor in persona.items():
+    print(f"{clave}: {valor}")
+</code></pre>
+
+<h2>Diccionarios anidados</h2>
+
+<pre><code class="language-python">
+escuela = {
+    "clase_A": {
+        "maestro": "Prof. García",
+        "alumnos": 30
+    },
+    "clase_B": {
+        "maestro": "Prof. López",
+        "alumnos": 28
+    }
+}
+
+print(escuela["clase_A"]["maestro"])  # Prof. García
+</code></pre>
+
+<h2>List comprehension con diccionarios</h2>
+
+<pre><code class="language-python">
+# Cuadrados del 1 al 5
+cuadrados = {x: x**2 for x in range(1, 6)}
+print(cuadrados)  # {1: 1, 2: 4, 3: 9, 4: 16, 5: 25}
+
+# Filtrar
+mayores = {k: v for k, v in cuadrados.items() if v &gt; 10}
+print(mayores)  # {4: 16, 5: 25}
+</code></pre>
+
+<h2>Ejemplos prácticos</h2>
+
+<h3>Contador de palabras</h3>
+<pre><code class="language-python">
+texto = "el gato come pescado el gato duerme"
+palabras = texto.split()
+
+contador = {}
+for palabra in palabras:
+    contador[palabra] = contador.get(palabra, 0) + 1
+
+print(contador)  # {'el': 2, 'gato': 2, 'come': 1, 'pescado': 1, 'duerme': 1}
+</code></pre>
+
+<h3>Agenda de contactos</h3>
+<pre><code class="language-python">
+contactos = {}
+
+while True:
+    accion = input("(a)gregar, (b)uscar, (l)istar, (s)alir: ")
+    
+    if accion == "a":
+        nombre = input("Nombre: ")
+        telefono = input("Teléfono: ")
+        contactos[nombre] = telefono
+        print("Guardado")
+    elif accion == "b":
+        nombre = input("Nombre: ")
+        print(contactos.get(nombre, "No encontrado"))
+    elif accion == "l":
+        for nombre, tel in contactos.items():
+            print(f"{nombre}: {tel}")
+    elif accion == "s":
+        break
+</code></pre>
+
+<h2>Ejercicios</h2>
+
+<li>Crea un diccionario con 3 productos (nombre → precio). Imprime el más caro</li>
+<li>Invierte un diccionario (clave → valor se convierte en valor → clave)</li>
+<li>Cuenta las letras de una palabra y guárdalas en un diccionario</li>
+<li>Fusiona dos diccionarios (si hay clave repetida, suma los valores)</li>
+
+<h3>Soluciones</h3>
+
+<pre><code class="language-python">
+# Ejercicio 1
+productos = {"laptop": 800, "mouse": 25, "teclado": 45}
+mas_caro = max(productos, key=productos.get)
+print(f"El más caro es {mas_caro} con ${productos[mas_caro]}")
+
+# Ejercicio 2
+original = {"a": 1, "b": 2, "c": 3}
+invertido = {v: k for k, v in original.items()}
+print(invertido)  # {1: 'a', 2: 'b', 3: 'c'}
+
+# Ejercicio 3
+palabra = "murcielago"
+contador = {}
+for letra in palabra:
+    contador[letra] = contador.get(letra, 0) + 1
+print(contador)
+
+# Ejercicio 4
+dict1 = {"a": 1, "b": 2}
+dict2 = {"b": 3, "c": 4}
+fusionado = dict1.copy()
+for k, v in dict2.items():
+    fusionado[k] = fusionado.get(k, 0) + v
+print(fusionado)  # {'a': 1, 'b': 5, 'c': 4}
+</code></pre>
+
+<hr>
+
+<p><strong>← Anterior:</strong> [[08-Listas]] | <strong>Siguiente:</strong> [[10-Tuplas-y-Sets]] →</p>
+
+        <div class="nav-buttons">
+            <a href="08-Listas.html">← Listas</a>
+            <a href="10-Tuplas-y-Sets.html">Tuplas y Sets →</a>
+        </div>
+    </div>
+</body>
+</html>

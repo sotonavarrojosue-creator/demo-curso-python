@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funciones Avanzadas — Aprende Python</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0a0a0f; --surface: #12121a; --border: #2a2a3a; --text: #e0e0ec; --muted: #7a7a8e; --accent: #00d4aa; --purple: #a29bfe; --yellow: #ffd93d; --blue: #4ecdc4; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        nav { position: fixed; top: 0; width: 100%; background: rgba(10,10,15,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 1rem 2rem; z-index: 100; display: flex; justify-content: space-between; align-items: center; }
+        nav a { color: var(--accent); text-decoration: none; font-weight: 600; font-size: 0.9rem; }
+        nav .back { color: var(--muted); }
+        .container { max-width: 750px; margin: 0 auto; padding: 6rem 2rem 4rem; }
+        h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 0.5rem; }
+        h1 span { color: var(--accent); }
+        .meta { color: var(--muted); font-size: 0.85rem; margin-bottom: 2.5rem; font-family: 'JetBrains Mono', monospace; }
+        h2 { font-size: 1.4rem; font-weight: 700; margin: 2.5rem 0 1rem; color: var(--accent); border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+        h3 { font-size: 1.1rem; font-weight: 600; margin: 1.5rem 0 0.5rem; }
+        p { margin-bottom: 1rem; color: var(--text); }
+        ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
+        li { margin-bottom: 0.3rem; }
+        pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem; overflow-x: auto; margin: 1rem 0; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; line-height: 1.5; }
+        code { font-family: 'JetBrains Mono', monospace; font-size: 0.85em; }
+        :not(pre) > code { background: var(--surface); padding: 0.15rem 0.4rem; border-radius: 4px; border: 1px solid var(--border); }
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        th, td { padding: 0.6rem 1rem; border: 1px solid var(--border); text-align: left; }
+        th { background: var(--surface); font-weight: 600; }
+        blockquote { border-left: 3px solid var(--accent); padding-left: 1rem; color: var(--muted); margin: 1rem 0; }
+        strong { color: var(--yellow); }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+        .nav-buttons a { color: var(--accent); text-decoration: none; font-weight: 600; padding: 0.8rem 1.5rem; border: 1px solid var(--border); border-radius: 6px; transition: all 0.2s; }
+        .nav-buttons a:hover { border-color: var(--accent); background: rgba(0,212,170,0.1); }
+        @media (max-width: 640px) { .container { padding: 5rem 1rem 3rem; } h1 { font-size: 1.6rem; } }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="back">← Curso Python</a>
+        <span class="mono" style="color:var(--muted);font-size:0.8rem;">Módulo 12</span>
+    </nav>
+    <div class="container">
+        
+<h1><span>&gt;</span> Módulo 12: Funciones Avanzadas</h1>
+
+<p>Técnicas poderosas para código más limpio.</p>
+
+<h2>Lambda — Funciones anónimas en una línea</h2>
+
+<pre><code class="language-python">
+# Función normal
+def cuadrado(x):
+    return x ** 2
+
+# Lambda equivalente
+cuadrado = lambda x: x ** 2
+
+print(cuadrado(5))  # 25
+</code></pre>
+
+<h3>Usos comunes de lambda</h3>
+
+<pre><code class="language-python">
+# Con sorted()
+edades = [("Aaron", 25), ("Beto", 18), ("Carlos", 30)]
+edades_ordenadas = sorted(edades, key=lambda persona: persona[1])
+print(edades_ordenadas)  # [('Beto', 18), ('Aaron', 25), ('Carlos', 30)]
+
+# Con map()
+numeros = [1, 2, 3, 4, 5]
+cuadrados = list(map(lambda x: x**2, numeros))
+print(cuadrados)  # [1, 4, 9, 16, 25]
+
+# Con filter()
+pares = list(filter(lambda x: x % 2 == 0, numeros))
+print(pares)  # [2, 4]
+</code></pre>
+
+<h2>map() — Aplicar función a cada elemento</h2>
+
+<pre><code class="language-python">
+nombres = ["aaron", "beto", "carlos"]
+mayusculas = list(map(str.upper, nombres))
+print(mayusculas)  # ['AARON', 'BETO', 'CARLOS']
+
+# Con lambda
+precios = [100, 200, 300]
+con_iva = list(map(lambda p: p * 1.16, precios))
+print(con_iva)  # [116.0, 232.0, 348.0]
+</code></pre>
+
+<h2>filter() — Filtrar elementos</h2>
+
+<pre><code class="language-python">
+numeros = range(1, 21)
+mayores_10 = list(filter(lambda x: x &gt; 10, numeros))
+print(mayores_10)  # [11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+
+# Filtrar strings vacíos
+textos = ["hola", "", "mundo", "", "python"]
+no_vacios = list(filter(None, textos))
+print(no_vacios)  # ['hola', 'mundo', 'python']
+</code></pre>
+
+<h2>reduce() — Reducir a un solo valor</h2>
+
+<pre><code class="language-python">
+from functools import reduce
+
+numeros = [1, 2, 3, 4, 5]
+total = reduce(lambda a, b: a + b, numeros)
+print(total)  # 15 (1+2+3+4+5)
+
+producto = reduce(lambda a, b: a * b, numeros)
+print(producto)  # 120 (1*2*3*4*5)
+</code></pre>
+
+<h2>sorted() con key</h2>
+
+<pre><code class="language-python">
+# Ordenar diccionarios por valor
+edades = {"Aaron": 25, "Beto": 18, "Carlos": 30}
+ordenado = sorted(edades.items(), key=lambda x: x[1])
+print(ordenado)  # [('Beto', 18), ('Aaron', 25), ('Carlos', 30)]
+
+# Ordenar strings por longitud
+palabras = ["python", "hi", "javascript", "code"]
+ordenado = sorted(palabras, key=len)
+print(ordenado)  # ['hi', 'code', 'python', 'javascript']
+</code></pre>
+
+<h2>Funciones como objetos</h2>
+
+<pre><code class="language-python">
+def ejecutar(funcion, *args):
+    return funcion(*args)
+
+def sumar(a, b):
+    return a + b
+
+def multiplicar(a, b):
+    return a * b
+
+print(ejecutar(sumar, 3, 4))        # 7
+print(ejecutar(multiplicar, 3, 4))  # 12
+</code></pre>
+
+<h2>Ejemplos prácticos</h2>
+
+<h3>Transformar datos con map/filter</h3>
+<pre><code class="language-python">
+# Lista de usuarios con edades
+usuarios = [
+    {"nombre": "Aaron", "edad": 25, "activo": True},
+    {"nombre": "Beto", "edad": 17, "activo": False},
+    {"nombre": "Carlos", "edad": 30, "activo": True},
+]
+
+# Solo usuarios activos
+activos = list(filter(lambda u: u["activo"], usuarios))
+print([u["nombre"] for u in activos])  # ['Aaron', 'Carlos']
+
+# Solo nombres de activos
+nombres_activos = list(map(lambda u: u["nombre"], activos))
+print(nombres_activos)  # ['Aaron', 'Carlos']
+</code></pre>
+
+<h3>Resumen de ventas</h3>
+<pre><code class="language-python">
+ventas = [
+    {"producto": "laptop", "cantidad": 2, "precio": 800},
+    {"producto": "mouse", "cantidad": 10, "precio": 25},
+    {"producto": "teclado", "cantidad": 5, "precio": 45},
+]
+
+# Total por producto
+totales = list(map(lambda v: v["cantidad"] * v["precio"], ventas))
+total_general = reduce(lambda a, b: a + b, totales)
+print(f"Total: ${total_general}")
+</code></pre>
+
+<h2>Ejercicios</h2>
+
+<li>Usa `map()` para convertir una lista de temperaturas de C a F</li>
+<li>Usa `filter()` para obtener solo las palabras largas (> 5 letras)</li>
+<li>Usa `reduce()` para encontrar el número más grande sin usar `max()`</li>
+<li>Ordena una lista de diccionarios por múltiples campos</li>
+
+<h3>Soluciones</h3>
+
+<pre><code class="language-python">
+# Ejercicio 1
+celsius = [0, 20, 37, 100]
+fahrenheit = list(map(lambda c: c * 9/5 + 32, celsius))
+print(fahrenheit)  # [32.0, 68.0, 98.6, 212.0]
+
+# Ejercicio 2
+palabras = ["hi", "python", "code", "javascript", "ai"]
+largas = list(filter(lambda p: len(p) &gt; 5, palabras))
+print(largas)  # ['python', 'javascript']
+
+# Ejercicio 3
+from functools import reduce
+numeros = [3, 7, 2, 9, 1, 5]
+mayor = reduce(lambda a, b: a if a &gt; b else b, numeros)
+print(mayor)  # 9
+
+# Ejercicio 4
+personas = [
+    {"nombre": "Aaron", "edad": 25},
+    {"nombre": "Beto", "edad": 30},
+    {"nombre": "Carlos", "edad": 25},
+]
+orden = sorted(personas, key=lambda p: (p["edad"], p["nombre"]))
+print([(p["nombre"], p["edad"]) for p in orden])
+</code></pre>
+
+<hr>
+
+<p><strong>← Anterior:</strong> [[11-Funciones]] | <strong>Siguiente:</strong> [[13-Archivos]] →</p>
+
+        <div class="nav-buttons">
+            <a href="11-Funciones.html">← Funciones</a>
+            <a href="13-Archivos.html">Archivos →</a>
+        </div>
+    </div>
+</body>
+</html>

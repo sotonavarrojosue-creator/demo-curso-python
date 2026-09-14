@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archivos — Aprende Python</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0a0a0f; --surface: #12121a; --border: #2a2a3a; --text: #e0e0ec; --muted: #7a7a8e; --accent: #00d4aa; --purple: #a29bfe; --yellow: #ffd93d; --blue: #4ecdc4; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        nav { position: fixed; top: 0; width: 100%; background: rgba(10,10,15,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 1rem 2rem; z-index: 100; display: flex; justify-content: space-between; align-items: center; }
+        nav a { color: var(--accent); text-decoration: none; font-weight: 600; font-size: 0.9rem; }
+        nav .back { color: var(--muted); }
+        .container { max-width: 750px; margin: 0 auto; padding: 6rem 2rem 4rem; }
+        h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 0.5rem; }
+        h1 span { color: var(--accent); }
+        .meta { color: var(--muted); font-size: 0.85rem; margin-bottom: 2.5rem; font-family: 'JetBrains Mono', monospace; }
+        h2 { font-size: 1.4rem; font-weight: 700; margin: 2.5rem 0 1rem; color: var(--accent); border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+        h3 { font-size: 1.1rem; font-weight: 600; margin: 1.5rem 0 0.5rem; }
+        p { margin-bottom: 1rem; color: var(--text); }
+        ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
+        li { margin-bottom: 0.3rem; }
+        pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem; overflow-x: auto; margin: 1rem 0; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; line-height: 1.5; }
+        code { font-family: 'JetBrains Mono', monospace; font-size: 0.85em; }
+        :not(pre) > code { background: var(--surface); padding: 0.15rem 0.4rem; border-radius: 4px; border: 1px solid var(--border); }
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        th, td { padding: 0.6rem 1rem; border: 1px solid var(--border); text-align: left; }
+        th { background: var(--surface); font-weight: 600; }
+        blockquote { border-left: 3px solid var(--accent); padding-left: 1rem; color: var(--muted); margin: 1rem 0; }
+        strong { color: var(--yellow); }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+        .nav-buttons a { color: var(--accent); text-decoration: none; font-weight: 600; padding: 0.8rem 1.5rem; border: 1px solid var(--border); border-radius: 6px; transition: all 0.2s; }
+        .nav-buttons a:hover { border-color: var(--accent); background: rgba(0,212,170,0.1); }
+        @media (max-width: 640px) { .container { padding: 5rem 1rem 3rem; } h1 { font-size: 1.6rem; } }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="back">← Curso Python</a>
+        <span class="mono" style="color:var(--muted);font-size:0.8rem;">Módulo 13</span>
+    </nav>
+    <div class="container">
+        
+<h1><span>&gt;</span> Módulo 13: Archivos</h1>
+
+<p>Leer y escribir archivos — útil para guardar datos.</p>
+
+<h2>Leer archivos</h2>
+
+<pre><code class="language-python">
+# Método básico
+archivo = open("datos.txt", "r")
+contenido = archivo.read()
+archivo.close()
+
+# Método con with (recomendado — cierra automáticamente)
+with open("datos.txt", "r") as archivo:
+    contenido = archivo.read()
+    print(contenido)
+</code></pre>
+
+<h3>Leer línea por línea</h3>
+
+<pre><code class="language-python">
+with open("datos.txt", "r") as archivo:
+    for linea in archivo:
+        print(linea.strip())  # .strip() elimina saltos de línea
+</code></pre>
+
+<h3>Leer todo a lista</h3>
+
+<pre><code class="language-python">
+with open("datos.txt", "r") as archivo:
+    lineas = archivo.readlines()  # Lista de strings
+    print(lineas)  # ['línea 1\n', 'línea 2\n', ...]
+</code></pre>
+
+<h2>Escribir archivos</h2>
+
+<pre><code class="language-python">
+# "w" — Sobreescribe el archivo completo
+with open("salida.txt", "w") as archivo:
+    archivo.write("Primera línea\n")
+    archivo.write("Segunda línea\n")
+
+# "a" — Agrega al final (no borra lo existente)
+with open("salida.txt", "a") as archivo:
+    archivo.write("Tercera línea\n")
+</code></pre>
+
+<h2>Modos de apertura</h2>
+
+<table>
+<tr><th>Modo</th><th>Descripción</th></tr>
+<tr><td>`"r"`</td><td>Leer (default)</td></tr>
+<tr><td>`"w"`</td><td>Escribir (sobreescribe)</td></tr>
+<tr><td>`"a"`</td><td>Agregar al final</td></tr>
+<tr><td>`"x"`</td><td>Crear (error si ya existe)</td></tr>
+<tr><td>`"r+"`</td><td>Leer y escribir</td></tr>
+</table>
+
+<h2>Archivos CSV</h2>
+
+<pre><code class="language-python">
+import csv
+
+# Leer CSV
+with open("datos.csv", "r") as archivo:
+    lector = csv.reader(archivo)
+    for fila in lector:
+        print(fila)  # ['nombre', 'edad', 'ciudad']
+
+# Escribir CSV
+datos = [
+    ["nombre", "edad", "ciudad"],
+    ["Aaron", 25, "CDMX"],
+    ["Beto", 30, "GDL"]
+]
+
+with open("nuevos_datos.csv", "w", newline="") as archivo:
+    escritor = csv.writer(archivo)
+    escritor.writerows(datos)
+</code></pre>
+
+<h2>Archivos JSON</h2>
+
+<pre><code class="language-python">
+import json
+
+# Leer JSON
+with open("datos.json", "r") as archivo:
+    datos = json.load(archivo)
+    print(datos)  # {'nombre': 'Aaron', 'edad': 25}
+
+# Escribir JSON
+persona = {"nombre": "Aaron", "edad": 25, "hobbies": ["coding", "leer"]}
+with open("persona.json", "w") as archivo:
+    json.dump(persona, archivo, indent=2)
+</code></pre>
+
+<h2>Ejemplos prácticos</h2>
+
+<h3>Guardar y cargar tareas</h3>
+
+<pre><code class="language-python">
+import json
+
+ARCHIVO = "tareas.json"
+
+def cargar_tareas():
+    try:
+        with open(ARCHIVO, "r") as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return []
+
+def guardar_tareas(tareas):
+    with open(ARCHIVO, "w") as f:
+        json.dump(tareas, f, indent=2)
+
+# Usar
+tareas = cargar_tareas()
+tareas.append({"tarea": "Aprender Python", "hecha": False})
+guardar_tareas(tareas)
+</code></pre>
+
+<h3>Contar palabras en un archivo</h3>
+
+<pre><code class="language-python">
+def contar_palabras(archivo):
+    with open(archivo, "r") as f:
+        texto = f.read().lower()
+    
+    palabras = texto.split()
+    contador = {}
+    for palabra in palabras:
+        palabra = palabra.strip(".,;:!?")
+        contador[palabra] = contador.get(palabra, 0) + 1
+    
+    return dict(sorted(contador.items(), key=lambda x: x[1], reverse=True))
+
+# Resultado: {'python': 5, 'es': 3, 'genial': 2, ...}
+</code></pre>
+
+<h2>Ejercicios</h2>
+
+<li>Crea un archivo con 5 frases, léelo y cuántas líneas tiene</li>
+<li>Escribe un programa que guarde nombre y edad del usuario en un JSON</li>
+<li>Lee un CSV de notas y calcula el promedio</li>
+<li>Crea un registro de gastos que guarde y cargue datos de un JSON</li>
+
+<h3>Soluciones</h3>
+
+<pre><code class="language-python">
+# Ejercicio 1
+with open("frases.txt", "w") as f:
+    f.write("Hola\nMundo\nPython\nEs\nGenial\n")
+
+with open("frases.txt", "r") as f:
+    lineas = f.readlines()
+    print(f"Tiene {len(lineas)} líneas")
+
+# Ejercicio 2
+import json
+nombre = input("Nombre: ")
+edad = int(input("Edad: "))
+datos = {"nombre": nombre, "edad": edad}
+with open("usuario.json", "w") as f:
+    json.dump(datos, f, indent=2)
+print("Guardado")
+
+# Ejercicio 3
+import csv
+with open("notas.csv", "r") as f:
+    lector = csv.DictReader(f)
+    notas = [float(fila["nota"]) for fila in lector]
+    print(f"Promedio: {sum(notas)/len(notas):.1f}")
+
+# Ejercicio 4
+import json
+def cargar_gastos():
+    try:
+        with open("gastos.json", "r") as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return []
+
+gastos = cargar_gastos()
+gastos.append({"concepto": "Almuerzo", "monto": 50})
+with open("gastos.json", "w") as f:
+    json.dump(gastos, f, indent=2)
+</code></pre>
+
+<hr>
+
+<p><strong>← Anterior:</strong> [[12-Funciones-Avanzadas]] | <strong>Siguiente:</strong> [[14-Errores]] →</p>
+
+        <div class="nav-buttons">
+            <a href="12-Funciones-Avanzadas.html">← Funciones Avanzadas</a>
+            <a href="14-Errores.html">Manejo de Errores →</a>
+        </div>
+    </div>
+</body>
+</html>

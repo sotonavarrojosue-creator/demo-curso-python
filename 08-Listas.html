@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listas — Aprende Python</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0a0a0f; --surface: #12121a; --border: #2a2a3a; --text: #e0e0ec; --muted: #7a7a8e; --accent: #00d4aa; --purple: #a29bfe; --yellow: #ffd93d; --blue: #4ecdc4; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        nav { position: fixed; top: 0; width: 100%; background: rgba(10,10,15,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 1rem 2rem; z-index: 100; display: flex; justify-content: space-between; align-items: center; }
+        nav a { color: var(--accent); text-decoration: none; font-weight: 600; font-size: 0.9rem; }
+        nav .back { color: var(--muted); }
+        .container { max-width: 750px; margin: 0 auto; padding: 6rem 2rem 4rem; }
+        h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 0.5rem; }
+        h1 span { color: var(--accent); }
+        .meta { color: var(--muted); font-size: 0.85rem; margin-bottom: 2.5rem; font-family: 'JetBrains Mono', monospace; }
+        h2 { font-size: 1.4rem; font-weight: 700; margin: 2.5rem 0 1rem; color: var(--accent); border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+        h3 { font-size: 1.1rem; font-weight: 600; margin: 1.5rem 0 0.5rem; }
+        p { margin-bottom: 1rem; color: var(--text); }
+        ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
+        li { margin-bottom: 0.3rem; }
+        pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem; overflow-x: auto; margin: 1rem 0; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; line-height: 1.5; }
+        code { font-family: 'JetBrains Mono', monospace; font-size: 0.85em; }
+        :not(pre) > code { background: var(--surface); padding: 0.15rem 0.4rem; border-radius: 4px; border: 1px solid var(--border); }
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        th, td { padding: 0.6rem 1rem; border: 1px solid var(--border); text-align: left; }
+        th { background: var(--surface); font-weight: 600; }
+        blockquote { border-left: 3px solid var(--accent); padding-left: 1rem; color: var(--muted); margin: 1rem 0; }
+        strong { color: var(--yellow); }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+        .nav-buttons a { color: var(--accent); text-decoration: none; font-weight: 600; padding: 0.8rem 1.5rem; border: 1px solid var(--border); border-radius: 6px; transition: all 0.2s; }
+        .nav-buttons a:hover { border-color: var(--accent); background: rgba(0,212,170,0.1); }
+        @media (max-width: 640px) { .container { padding: 5rem 1rem 3rem; } h1 { font-size: 1.6rem; } }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="back">← Curso Python</a>
+        <span class="mono" style="color:var(--muted);font-size:0.8rem;">Módulo 08</span>
+    </nav>
+    <div class="container">
+        
+<h1><span>&gt;</span> Módulo 08: Listas</h1>
+
+<p>Colecciones ordenadas de datos.</p>
+
+<h2>Crear listas</h2>
+
+<pre><code class="language-python">
+numeros = [1, 2, 3, 4, 5]
+frutas = ["manzana", "plátano", "naranja"]
+mezcla = [1, "hola", True, 3.14]  # Pueden mezclar tipos
+vacia = []
+</code></pre>
+
+<h2>Acceder por índice</h2>
+
+<pre><code class="language-python">
+frutas = ["manzana", "plátano", "naranja"]
+
+print(frutas[0])    # manzana (primero)
+print(frutas[1])    # plátano
+print(frutas[-1])   # naranja (último)
+print(frutas[-2])   # plátano (penúltimo)
+</code></pre>
+
+<h2>Modificar elementos</h2>
+
+<pre><code class="language-python">
+frutas = ["manzana", "plátano", "naranja"]
+frutas[1] = "uva"
+print(frutas)  # ['manzana', 'uva', 'naranja']
+</code></pre>
+
+<h2>Métodos de listas</h2>
+
+<pre><code class="language-python">
+frutas = ["manzana", "plátano"]
+
+# Agregar
+frutas.append("naranja")        # Agrega al final
+frutas.insert(1, "uva")         # Inserta en posición 1
+
+# Eliminar
+frutas.remove("plátano")        # Elimina por valor
+eliminado = frutas.pop()        # Elimina y devuelve el último
+eliminado = frutas.pop(0)       # Elimina y devuelve el de posición 0
+
+# Buscar
+print("manzana" in frutas)      # True
+print(frutas.index("uva"))      # 1 (posición)
+print(frutas.count("manzana"))  # 1 (cuántas veces aparece)
+
+# Ordenar
+numeros = [3, 1, 4, 1, 5, 9]
+numeros.sort()                  # Ordena de menor a mayor
+numeros.sort(reverse=True)      # Ordena de mayor a menor
+
+# Otros
+numeros.reverse()               # Invierte la lista
+print(len(numeros))             # Longitud de la lista
+</code></pre>
+
+<h2>Slicing (rebanar)</h2>
+
+<pre><code class="language-python">
+letras = ['a', 'b', 'c', 'd', 'e', 'f']
+
+print(letras[1:4])    # ['b', 'c', 'd'] — del índice 1 al 3
+print(letras[:3])     # ['a', 'b', 'c'] — desde el inicio
+print(letras[2:])     # ['c', 'd', 'e', 'f'] — desde el 2 hasta el final
+print(letras[::2])    # ['a', 'c', 'e'] — cada 2
+print(letras[::-1])   # ['f', 'e', 'd', 'c', 'b', 'a'] — invertida
+</code></pre>
+
+<h2>Copiar listas</h2>
+
+<pre><code class="language-python">
+original = [1, 2, 3]
+
+# ❌ Esto NO crea una copia
+copia_mala = original
+copia_mala.append(4)
+print(original)  # [1, 2, 3, 4] — ¡se modificó la original!
+
+# ✅ Copia real
+copia_buena = original.copy()
+copia_buena.append(5)
+print(original)  # [1, 2, 3, 4] — intacta
+</code></pre>
+
+<h2>List comprehension</h2>
+
+<p>Forma compacta de crear listas:</p>
+
+<pre><code class="language-python">
+# Forma larga
+cuadrados = []
+for x in range(6):
+    cuadrados.append(x ** 2)
+
+# Forma corta (list comprehension)
+cuadrados = [x ** 2 for x in range(6)]
+print(cuadrados)  # [0, 1, 4, 9, 16, 25]
+
+# Con condición
+pares = [x for x in range(20) if x % 2 == 0]
+print(pares)  # [0, 2, 4, 6, 8, 10, 12, 14, 16, 18]
+</code></pre>
+
+<h2>Ejemplos prácticos</h2>
+
+<h3>Promedio de notas</h3>
+<pre><code class="language-python">
+notas = [85, 92, 78, 90, 88]
+promedio = sum(notas) / len(notas)
+print(f"Promedio: {promedio:.1f}")
+
+mayor = max(notas)
+menor = min(notas)
+print(f"Mayor: {mayor}, Menor: {menor}")
+</code></pre>
+
+<h3>Eliminar duplicados</h3>
+<pre><code class="language-python">
+numeros = [1, 2, 2, 3, 3, 3, 4, 4, 4, 4]
+unicos = list(set(numeros))
+print(unicos)  # [1, 2, 3, 4]
+</code></pre>
+
+<h2>Ejercicios</h2>
+
+<li>Crea una lista de 5 colores. Imprime el primero, el último y el de en medio</li>
+<li>Agrega 3 elementos a una lista, luego elimina el del medio</li>
+<li>Dada una lista de números, crea una nueva solo con los pares (list comprehension)</li>
+<li>Invierte una lista sin usar `.reverse()`</li>
+<li>Combina dos listas en una sola sin duplicados</li>
+
+<h3>Soluciones</h3>
+
+<pre><code class="language-python">
+# Ejercicio 1
+colores = ["rojo", "azul", "verde", "amarillo", "morado"]
+print(colores[0])
+print(colores[-1])
+print(colores[2])
+
+# Ejercicio 2
+lista = [10, 20, 30, 40, 50]
+lista.append(60)
+lista.append(70)
+lista.append(80)
+lista.pop(len(lista) // 2)
+print(lista)
+
+# Ejercicio 3
+numeros = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+pares = [x for x in numeros if x % 2 == 0]
+print(pares)
+
+# Ejercicio 4
+original = [1, 2, 3, 4, 5]
+invertida = original[::-1]
+print(invertida)
+
+# Ejercicio 5
+lista_a = [1, 2, 3, 4]
+lista_b = [3, 4, 5, 6]
+combinada = list(set(lista_a + lista_b))
+print(combinada)
+</code></pre>
+
+<hr>
+
+<p><strong>← Anterior:</strong> [[07-Loop-Proyectos]] | <strong>Siguiente:</strong> [[09-Diccionarios]] →</p>
+
+        <div class="nav-buttons">
+            <a href="07-Loop-Proyectos.html">← Proyectos con Loops</a>
+            <a href="09-Diccionarios.html">Diccionarios →</a>
+        </div>
+    </div>
+</body>
+</html>

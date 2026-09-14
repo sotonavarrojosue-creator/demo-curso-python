@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clases y Objetos — Aprende Python</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0a0a0f; --surface: #12121a; --border: #2a2a3a; --text: #e0e0ec; --muted: #7a7a8e; --accent: #00d4aa; --purple: #a29bfe; --yellow: #ffd93d; --blue: #4ecdc4; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        nav { position: fixed; top: 0; width: 100%; background: rgba(10,10,15,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 1rem 2rem; z-index: 100; display: flex; justify-content: space-between; align-items: center; }
+        nav a { color: var(--accent); text-decoration: none; font-weight: 600; font-size: 0.9rem; }
+        nav .back { color: var(--muted); }
+        .container { max-width: 750px; margin: 0 auto; padding: 6rem 2rem 4rem; }
+        h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 0.5rem; }
+        h1 span { color: var(--accent); }
+        .meta { color: var(--muted); font-size: 0.85rem; margin-bottom: 2.5rem; font-family: 'JetBrains Mono', monospace; }
+        h2 { font-size: 1.4rem; font-weight: 700; margin: 2.5rem 0 1rem; color: var(--accent); border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+        h3 { font-size: 1.1rem; font-weight: 600; margin: 1.5rem 0 0.5rem; }
+        p { margin-bottom: 1rem; color: var(--text); }
+        ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
+        li { margin-bottom: 0.3rem; }
+        pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem; overflow-x: auto; margin: 1rem 0; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; line-height: 1.5; }
+        code { font-family: 'JetBrains Mono', monospace; font-size: 0.85em; }
+        :not(pre) > code { background: var(--surface); padding: 0.15rem 0.4rem; border-radius: 4px; border: 1px solid var(--border); }
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        th, td { padding: 0.6rem 1rem; border: 1px solid var(--border); text-align: left; }
+        th { background: var(--surface); font-weight: 600; }
+        blockquote { border-left: 3px solid var(--accent); padding-left: 1rem; color: var(--muted); margin: 1rem 0; }
+        strong { color: var(--yellow); }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+        .nav-buttons a { color: var(--accent); text-decoration: none; font-weight: 600; padding: 0.8rem 1.5rem; border: 1px solid var(--border); border-radius: 6px; transition: all 0.2s; }
+        .nav-buttons a:hover { border-color: var(--accent); background: rgba(0,212,170,0.1); }
+        @media (max-width: 640px) { .container { padding: 5rem 1rem 3rem; } h1 { font-size: 1.6rem; } }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="back">← Curso Python</a>
+        <span class="mono" style="color:var(--muted);font-size:0.8rem;">Módulo 15</span>
+    </nav>
+    <div class="container">
+        
+<h1><span>&gt;</span> Módulo 15: Clases y Objetos</h1>
+
+<p>Programación Orientada a Objetos — modelar el mundo real.</p>
+
+<h2>¿Qué es una clase?</h2>
+
+<p>Una clase es un plano/plantilla. Un objeto es una instancia de esa clase.</p>
+
+<pre><code class="language-python">
+class Persona:
+    def __init__(self, nombre, edad):
+        self.nombre = nombre
+        self.edad = edad
+    
+    def saludar(self):
+        return f"Hola, soy {nombre} y tengo {self.edad} años"
+
+# Crear objetos
+aaron = Persona("Aaron", 25)
+beto = Persona("Beto", 30)
+
+print(aaron.saludar())
+print(beto.saludar())
+</code></pre>
+
+<h2>`__init__` — Constructor</h2>
+
+<p>Se ejecuta automáticamente al crear un objeto:</p>
+
+<pre><code class="language-python">
+class Auto:
+    def __init__(self, marca, color, año):
+        self.marca = marca
+        self.color = color
+        self.año = año
+        self.encendido = False  # Valor por defecto
+    
+    def encender(self):
+        self.encendido = True
+        return f"{self.marca} encendido"
+
+mi_auto = Auto("Toyota", "Rojo", 2020)
+print(mi_auto.encender())  # Toyota encendido
+</code></pre>
+
+<h2>Métodos</h2>
+
+<p>Funciones dentro de una clase que operan sobre los datos del objeto:</p>
+
+<pre><code class="language-python">
+class Circulo:
+    def __init__(self, radio):
+        self.radio = radio
+    
+    def area(self):
+        return 3.14159 * self.radio ** 2
+    
+    def perimetro(self):
+        return 2 * 3.14159 * self.radio
+    
+    def describir(self):
+        return f"Círculo de radio {self.radio}, área {self.area():.2f}"
+
+c = Circulo(5)
+print(c.area())        # 78.54
+print(c.describir())   # Círculo de radio 5, área 78.54
+</code></pre>
+
+<h2>Atributos de clase vs instancia</h2>
+
+<pre><code class="language-python">
+class Producto:
+    # Atributo de clase — compartido por todos los objetos
+    impuesto = 0.16
+    
+    def __init__(self, nombre, precio):
+        # Atributos de instancia — únicos por objeto
+        self.nombre = nombre
+        self.precio = precio
+    
+    def precio_con_impuesto(self):
+        return self.precio * (1 + self.impuesto)
+
+p1 = Producto("Laptop", 800)
+p2 = Producto("Mouse", 25)
+
+print(p1.precio_con_impuesto())  # 928.0
+print(p2.precio_con_impuesto())  # 29.0
+</code></pre>
+
+<h2>`__str__` y `__repr__`</h2>
+
+<pre><code class="language-python">
+class Persona:
+    def __init__(self, nombre, edad):
+        self.nombre = nombre
+        self.edad = edad
+    
+    def __str__(self):
+        return f"{self.nombre}, {self.edad} años"
+    
+    def __repr__(self):
+        return f"Persona('{self.nombre}', {self.edad})"
+
+p = Persona("Aaron", 25)
+print(p)         # Aaron, 25 años (usa __str__)
+print(repr(p))   # Persona('Aaron', 25) (usa __repr__)
+</code></pre>
+
+<h2>Encapsulamiento</h2>
+
+<pre><code class="language-python">
+class CuentaBancaria:
+    def __init__(self, titular, saldo=0):
+        self.titular = titular
+        self.__saldo = saldo  # Privado (doble guión bajo)
+    
+    def depositar(self, monto):
+        if monto &gt; 0:
+            self.__saldo += monto
+            return True
+        return False
+    
+    def retirar(self, monto):
+        if 0 &lt; monto &lt;= self.__saldo:
+            self.__saldo -= monto
+            return True
+        return False
+    
+    def ver_saldo(self):
+        return self.__saldo
+
+cuenta = CuentaBancaria("Aaron", 1000)
+cuenta.depositar(500)
+cuenta.retirar(200)
+print(cuenta.ver_saldo())  # 1300
+# print(cuenta.__saldo)    # ❌ Error — es privado
+</code></pre>
+
+<h2>Ejemplos prácticos</h2>
+
+<h3>Clase Rectángulo</h3>
+
+<pre><code class="language-python">
+class Rectangulo:
+    def __init__(self, base, altura):
+        self.base = base
+        self.altura = altura
+    
+    def area(self):
+        return self.base * self.altura
+    
+    def perimetro(self):
+        return 2 * (self.base + self.altura)
+    
+    def es_cuadrado(self):
+        return self.base == self.altura
+    
+    def __str__(self):
+        return f"Rectángulo({self.base}x{self.altura})"
+
+r = Rectangulo(10, 5)
+print(f"Área: {r.area()}")        # 50
+print(f"¿Cuadrado? {r.es_cuadrado()}")  # False
+</code></pre>
+
+<h3>Clase Estudiante</h3>
+
+<pre><code class="language-python">
+class Estudiante:
+    def __init__(self, nombre):
+        self.nombre = nombre
+        self.notas = []
+    
+    def agregar_nota(self, nota):
+        self.notas.append(nota)
+    
+    def promedio(self):
+        if not self.notas:
+            return 0
+        return sum(self.notas) / len(self.notas)
+    
+    def esta_aprobado(self):
+        return self.promedio() &gt;= 70
+    
+    def __str__(self):
+        estado = "Aprobado" if self.esta_aprobado() else "Reprobado"
+        return f"{self.nombre}: {self.promedio():.1f} ({estado})"
+
+est = Estudiante("Aaron")
+est.agregar_nota(85)
+est.agregar_nota(92)
+est.agregar_nota(78)
+print(est)  # Aaron: 85.0 (Aprobado)
+</code></pre>
+
+<h2>Ejercicios</h2>
+
+<li>Crea una clase `Coche` con marca, modelo, año y métodos para arrancar/frenar</li>
+<li>Crea una clase `Cuenta` con saldo, depósito y retiro (con validación)</li>
+<li>Crea una clase `Perro` con nombre, raza y edad, y un método que lata</li>
+<li>Crea una clase `Calculadora` que guarde el historial de operaciones</li>
+
+<h3>Soluciones</h3>
+
+<pre><code class="language-python">
+# Ejercicio 1
+class Coche:
+    def __init__(self, marca, modelo, año):
+        self.marca = marca
+        self.modelo = modelo
+        self.año = año
+        self.encendido = False
+        self.velocidad = 0
+    
+    def arrancar(self):
+        self.encendido = True
+        return f"{self.marca} arrancó"
+    
+    def frenar(self):
+        self.velocidad = 0
+        return "Frenando..."
+    
+    def acelerar(self, incremento):
+        if self.encendido:
+            self.velocidad += incremento
+            return f"Velocidad: {self.velocidad} km/h"
+        return "Primero arrancá"
+
+# Ejercicio 2
+class Cuenta:
+    def __init__(self, titular, saldo=0):
+        self.titular = titular
+        self.__saldo = saldo
+    
+    def depositar(self, monto):
+        if monto &gt; 0:
+            self.__saldo += monto
+            return f"Depósito: ${monto}. Saldo: ${self.__saldo}"
+        return "Monto inválido"
+    
+    def retirar(self, monto):
+        if 0 &lt; monto &lt;= self.__saldo:
+            self.__saldo -= monto
+            return f"Retiro: ${monto}. Saldo: ${self.__saldo}"
+        return "Fondos insuficientes"
+    
+    def ver_saldo(self):
+        return f"Saldo: ${self.__saldo}"
+
+# Ejercicio 3
+class Perro:
+    def __init__(self, nombre, raza, edad):
+        self.nombre = nombre
+        self.raza = raza
+        self.edad = edad
+    
+    def ladrar(self):
+        return f"¡Guau! Soy {self.nombre}"
+    
+    def __str__(self):
+        return f"{self.nombre} ({self.raza}, {self.edad} años)"
+
+# Ejercicio 4
+class Calculadora:
+    def __init__(self):
+        self.historial = []
+    
+    def operar(self, a, b, op):
+        if op == "+": r = a + b
+        elif op == "-": r = a - b
+        elif op == "*": r = a * b
+        elif op == "/": r = a / b if b != 0 else "Error"
+        self.historial.append(f"{a} {op} {b} = {r}")
+        return r
+    
+    def ver_historial(self):
+        for item in self.historial:
+            print(item)
+</code></pre>
+
+<hr>
+
+<p><strong>← Anterior:</strong> [[14-Errores]] | <strong>Siguiente:</strong> [[16-POO-Avanzada]] →</p>
+
+        <div class="nav-buttons">
+            <a href="14-Errores.html">← Manejo de Errores</a>
+            <a href="16-POO-Avanzada.html">POO Avanzada →</a>
+        </div>
+    </div>
+</body>
+</html>

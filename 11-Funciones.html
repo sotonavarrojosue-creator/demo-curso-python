@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funciones — Aprende Python</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0a0a0f; --surface: #12121a; --border: #2a2a3a; --text: #e0e0ec; --muted: #7a7a8e; --accent: #00d4aa; --purple: #a29bfe; --yellow: #ffd93d; --blue: #4ecdc4; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        nav { position: fixed; top: 0; width: 100%; background: rgba(10,10,15,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 1rem 2rem; z-index: 100; display: flex; justify-content: space-between; align-items: center; }
+        nav a { color: var(--accent); text-decoration: none; font-weight: 600; font-size: 0.9rem; }
+        nav .back { color: var(--muted); }
+        .container { max-width: 750px; margin: 0 auto; padding: 6rem 2rem 4rem; }
+        h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 0.5rem; }
+        h1 span { color: var(--accent); }
+        .meta { color: var(--muted); font-size: 0.85rem; margin-bottom: 2.5rem; font-family: 'JetBrains Mono', monospace; }
+        h2 { font-size: 1.4rem; font-weight: 700; margin: 2.5rem 0 1rem; color: var(--accent); border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+        h3 { font-size: 1.1rem; font-weight: 600; margin: 1.5rem 0 0.5rem; }
+        p { margin-bottom: 1rem; color: var(--text); }
+        ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
+        li { margin-bottom: 0.3rem; }
+        pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem; overflow-x: auto; margin: 1rem 0; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; line-height: 1.5; }
+        code { font-family: 'JetBrains Mono', monospace; font-size: 0.85em; }
+        :not(pre) > code { background: var(--surface); padding: 0.15rem 0.4rem; border-radius: 4px; border: 1px solid var(--border); }
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        th, td { padding: 0.6rem 1rem; border: 1px solid var(--border); text-align: left; }
+        th { background: var(--surface); font-weight: 600; }
+        blockquote { border-left: 3px solid var(--accent); padding-left: 1rem; color: var(--muted); margin: 1rem 0; }
+        strong { color: var(--yellow); }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+        .nav-buttons a { color: var(--accent); text-decoration: none; font-weight: 600; padding: 0.8rem 1.5rem; border: 1px solid var(--border); border-radius: 6px; transition: all 0.2s; }
+        .nav-buttons a:hover { border-color: var(--accent); background: rgba(0,212,170,0.1); }
+        @media (max-width: 640px) { .container { padding: 5rem 1rem 3rem; } h1 { font-size: 1.6rem; } }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="back">← Curso Python</a>
+        <span class="mono" style="color:var(--muted);font-size:0.8rem;">Módulo 11</span>
+    </nav>
+    <div class="container">
+        
+<h1><span>&gt;</span> Módulo 11: Funciones</h1>
+
+<p>Bloques de código reutilizables.</p>
+
+<h2>Definir una función</h2>
+
+<pre><code class="language-python">
+def saludar():
+    print("¡Hola!")
+
+saludar()  # Llamar a la función
+saludar()  # Se puede llamar muchas veces
+</code></pre>
+
+<h2>Parámetros</h2>
+
+<pre><code class="language-python">
+def saludar(nombre):
+    print(f"¡Hola, {nombre}!")
+
+saludar("Aaron")  # ¡Hola, Aaron!
+</code></pre>
+
+<h2>Valores de retorno</h2>
+
+<pre><code class="language-python">
+def sumar(a, b):
+    return a + b
+
+resultado = sumar(5, 3)
+print(resultado)  # 8
+</code></pre>
+
+<h2>Múltiples valores de retorno</h2>
+
+<pre><code class="language-python">
+def calculos(a, b):
+    return a + b, a - b, a * b
+
+suma, resta, multi = calculos(10, 3)
+print(suma, resta, multi)  # 13 7 30
+</code></pre>
+
+<h2>Parámetros por defecto</h2>
+
+<pre><code class="language-python">
+def saludar(nombre, saludo="Hola"):
+    print(f"{saludo}, {nombre}!")
+
+saludar("Aaron")                # Hola, Aaron!
+saludar("Aaron", "Buenos días")  # Buenos días, Aaron!
+</code></pre>
+
+<h2>Parámetros keyword</h2>
+
+<pre><code class="language-python">
+def crear_usuario(nombre, edad, email):
+    print(f"{nombre}, {edad} años, {email}")
+
+# Puedes pasarlos en cualquier orden con keywords
+crear_usuario(email="a@b.com", nombre="Aaron", edad=25)
+</code></pre>
+
+<h2>*args y **kwargs</h2>
+
+<h3>*args — argumentos posicionales variables</h3>
+<pre><code class="language-python">
+def sumar_todos(*numeros):
+    return sum(numeros)
+
+print(sumar_todos(1, 2, 3))        # 6
+print(sumar_todos(1, 2, 3, 4, 5))  # 15
+</code></pre>
+
+<h3>**kwargs — argumentos de palabra clave variables</h3>
+<pre><code class="language-python">
+def crear_perfil(**datos):
+    for clave, valor in datos.items():
+        print(f"{clave}: {valor}")
+
+crear_perfil(nombre="Aaron", edad=25, ciudad="CDMX")
+</code></pre>
+
+<h2>Funciones como argumento</h2>
+
+<pre><code class="language-python">
+def aplicar(funcion, valor):
+    return funcion(valor)
+
+def cuadrado(x):
+    return x ** 2
+
+def doble(x):
+    return x * 2
+
+print(aplicar(cuadrado, 5))  # 25
+print(aplicar(doble, 5))     # 10
+</code></pre>
+
+<h2>Alcance de variables</h2>
+
+<pre><code class="language-python">
+global_var = "soy global"
+
+def mi_funcion():
+    local_var = "soy local"
+    print(global_var)  # ✅ Puede leer global
+    print(local_var)   # ✅ Puede leer local
+
+mi_funcion()
+# print(local_var)  # ❌ Error — no existe fuera de la función
+</code></pre>
+
+<h2>Ejemplos prácticos</h2>
+
+<h3>Validador de email</h3>
+<pre><code class="language-python">
+def es_email_valido(email):
+    return "@" in email and "." in email.split("@")[-1]
+
+print(es_email_valido("a@b.com"))   # True
+print(es_email_valido("invalido"))  # False
+</code></pre>
+
+<h3>Calculadora flexible</h3>
+<pre><code class="language-python">
+def calcular(a, b, operacion="+"):
+    if operacion == "+":
+        return a + b
+    elif operacion == "-":
+        return a - b
+    elif operacion == "*":
+        return a * b
+    elif operacion == "/":
+        return a / b if b != 0 else "Error: división entre cero"
+    else:
+        return "Operación no válida"
+
+print(calcular(10, 5))          # 15
+print(calcular(10, 5, "*"))     # 50
+print(calcular(10, 0, "/"))     # Error
+</code></pre>
+
+<h3>Generador de contraseñas</h3>
+<pre><code class="language-python">
+import random
+import string
+
+def generar_password(longitud=12):
+    caracteres = string.ascii_letters + string.digits + "!@#$%"
+    password = ''.join(random.choice(caracteres) for _ in range(longitud))
+    return password
+
+print(generar_password())      # 12 caracteres aleatorios
+print(generar_password(8))     # 8 caracteres
+</code></pre>
+
+<h2>Ejercicios</h2>
+
+<li>Crea una función que reciba una lista de números y devuelva el promedio</li>
+<li>Crea una función que verifique si una palabra es palíndromo</li>
+<li>Crea una función que convierta temperatura (C ↔ F) con un parámetro opcional</li>
+<li>Crea una función que reciba *args y devuelva el mayor y el menor</li>
+
+<h3>Soluciones</h3>
+
+<pre><code class="language-python">
+# Ejercicio 1
+def promedio(*numeros):
+    return sum(numeros) / len(numeros)
+
+print(promedio(85, 90, 78, 92))  # 86.25
+
+# Ejercicio 2
+def es_palindromo(palabra):
+    palabra = palabra.lower().replace(" ", "")
+    return palabra == palabra[::-1]
+
+print(es_palindromo("reconocer"))  # True
+print(es_palindromo("hola"))       # False
+
+# Ejercicio 3
+def convertir_temp(grados, a_fahrenheit=True):
+    if a_fahrenheit:
+        return grados * 9/5 + 32
+    else:
+        return (grados - 32) * 5/9
+
+print(convertir_temp(100))           # 212°F
+print(convertir_temp(212, False))    # 100°C
+
+# Ejercicio 4
+def mayor_y_menor(*numeros):
+    return max(numeros), min(numeros)
+
+m, n = mayor_y_menor(5, 2, 8, 1, 9, 3)
+print(f"Mayor: {m}, Menor: {n}")  # Mayor: 9, Menor: 1
+</code></pre>
+
+<hr>
+
+<p><strong>← Anterior:</strong> [[10-Tuplas-y-Sets]] | <strong>Siguiente:</strong> [[12-Funciones-Avanzadas]] →</p>
+
+        <div class="nav-buttons">
+            <a href="10-Tuplas-y-Sets.html">← Tuplas y Sets</a>
+            <a href="12-Funciones-Avanzadas.html">Funciones Avanzadas →</a>
+        </div>
+    </div>
+</body>
+</html>
