@@ -1,84 +1,15 @@
 // Firebase Auth + Firestore — Curso Python
-// Configuración movida a config.js para separar secrets del código
-// config.js se carga ANTES de este archivo en cada HTML
-// Security hardening: IIFE, XSS protection, input validation, toast notifications
+// Configuración: reemplazar con tu firebaseConfig
 
-(function() {
-'use strict';
-
-// ========== UTILIDADES DE SEGURIDAD ==========
-
-/**
- * Sanitiza un string para prevenir XSS al insertar en HTML
- */
-function sanitize(str) {
-    if (typeof str !== 'string') return '';
-    const div = document.createElement('div');
-    div.textContent = str;
-    return div.innerHTML;
-}
-
-/**
- * Valida que un email tenga formato correcto
- */
-function isValidEmail(email) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
-
-/**
- * Valida que una contraseña sea suficientemente fuerte
- */
-function isValidPassword(pass) {
-    return typeof pass === 'string' && pass.length >= 6;
-}
-
-/**
- * Valida que un nombre solo contenga caracteres permitidos
- */
-function isValidName(name) {
-    return typeof name === 'string' && name.trim().length >= 2 && name.trim().length <= 100;
-}
-
-// ========== TOAST NOTIFICATIONS ==========
-
-function showToast(message, type) {
-    type = type || 'info';
-    var container = document.getElementById('toast-container');
-    if (!container) {
-        container = document.createElement('div');
-        container.id = 'toast-container';
-        container.style.cssText = 'position:fixed;top:1rem;right:1rem;z-index:9999;display:flex;flex-direction:column;gap:0.5rem;';
-        document.body.appendChild(container);
-    }
-
-    var toast = document.createElement('div');
-    var colors = {
-        success: { bg: '#00d4aa', color: '#0a0a0f' },
-        error: { bg: '#ff6b6b', color: '#fff' },
-        info: { bg: '#374151', color: '#f3f4f6' },
-        warning: { bg: '#f59e0b', color: '#0a0a0f' }
-    };
-    var c = colors[type] || colors.info;
-
-    toast.style.cssText = 'padding:0.8rem 1.2rem;border-radius:6px;font-size:0.9rem;font-family:inherit;max-width:350px;opacity:0;transform:translateX(100%);transition:all 0.3s ease;background:' + c.bg + ';color:' + c.color + ';border:1px solid ' + c.bg + ';box-shadow:0 4px 12px rgba(0,0,0,0.3);cursor:pointer;';
-    toast.textContent = message;
-
-    container.appendChild(toast);
-
-    requestAnimationFrame(function() {
-        toast.style.opacity = '1';
-        toast.style.transform = 'translateX(0)';
-    });
-
-    var removeToast = function() {
-        toast.style.opacity = '0';
-        toast.style.transform = 'translateX(100%)';
-        setTimeout(function() { toast.remove(); }, 300);
-    };
-
-    toast.addEventListener('click', removeToast);
-    setTimeout(removeToast, 4000);
-}
+const FIREBASE_CONFIG = {
+    apiKey: "AIzaSyDLkx5cRmuaFt_1pRcX8ZnsFYIZLp6IxWM",
+    authDomain: "curso-python-app.firebaseapp.com",
+    projectId: "curso-python-app",
+    storageBucket: "curso-python-app.firebasestorage.app",
+    messagingSenderId: "792219958902",
+    appId: "1:792219958902:web:29290b541a8b58a0ffe957",
+    measurementId: "G-S2HCJWVSMM"
+};
 
 // Módulos del curso (deben coincidir con los archivos HTML)
 const CURSO_MODULOS = [
@@ -138,12 +69,8 @@ class AuthManager {
     }
 
     async register(email, password, displayName) {
-        if (!isValidEmail(email)) throw new Error('Email no válido');
-        if (!isValidPassword(password)) throw new Error('La contraseña debe tener al menos 6 caracteres');
-        if (!isValidName(displayName)) throw new Error('El nombre debe tener entre 2 y 100 caracteres');
-
         const cred = await firebase.auth().createUserWithEmailAndPassword(email, password);
-        await cred.user.updateProfile({ displayName: displayName.trim() });
+        await cred.user.updateProfile({ displayName });
         
         // Crear documento de usuario en Firestore
         await firebase.firestore().collection('users').doc(cred.user.uid).set({
@@ -158,9 +85,6 @@ class AuthManager {
     }
 
     async login(email, password) {
-        if (!isValidEmail(email)) throw new Error('Email no válido');
-        if (!password || typeof password !== 'string') throw new Error('Contraseña requerida');
-
         const cred = await firebase.auth().signInWithEmailAndPassword(email, password);
         return cred.user;
     }
@@ -270,13 +194,13 @@ class CertificateGenerator {
 
     async generate() {
         if (!this.auth.isLoggedIn()) {
-            showToast('Debés iniciar sesión para generar tu certificado', 'warning');
+            alert('Debés iniciar sesión para generar tu certificado');
             return;
         }
 
         const prog = await this.progress.getProgress();
         if (!prog.isComplete) {
-            showToast('Faltan ' + (prog.total - prog.completed) + ' módulos para completar el curso', 'warning');
+            alert(`Faltan ${prog.total - prog.completed} módulos para completar el curso`);
             return;
         }
 
@@ -284,8 +208,9 @@ class CertificateGenerator {
         const fecha = new Date().toLocaleDateString('es-ES', { 
             year: 'numeric', month: 'long', day: 'numeric' 
         });
+        const uid = this.auth.getUid().substring(0, 8);
 
-        // Crear canvas
+        // Crear canvas para renderizar
         const canvas = document.createElement('canvas');
         canvas.width = 1200;
         canvas.height = 850;
@@ -348,23 +273,23 @@ class CertificateGenerator {
 
         // Título
         ctx.fillStyle = '#00d4aa';
-        ctx.font = 'bold 18px "JetBrains Mono", monospace';
+        ctx.font = 'bold 18px monospace';
         ctx.textAlign = 'center';
         ctx.fillText('CERTIFICADO DE COMPLETACIÓN', 600, 130);
 
         // Subtítulo
         ctx.fillStyle = '#7a7a8e';
-        ctx.font = '14px "Inter", sans-serif';
+        ctx.font = '14px sans-serif';
         ctx.fillText('Curso de Python — De Cero a Programador', 600, 160);
 
         // "Se certifica que"
         ctx.fillStyle = '#7a7a8e';
-        ctx.font = '16px "Inter", sans-serif';
+        ctx.font = '16px sans-serif';
         ctx.fillText('Se certifica que', 600, 250);
 
         // Nombre del estudiante
         ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 48px "Inter", sans-serif';
+        ctx.font = 'bold 48px sans-serif';
         ctx.fillText(nombre, 600, 320);
 
         // Línea bajo el nombre
@@ -377,19 +302,19 @@ class CertificateGenerator {
 
         // Descripción
         ctx.fillStyle = '#b0b0c0';
-        ctx.font = '16px "Inter", sans-serif';
+        ctx.font = '16px sans-serif';
         ctx.fillText('ha completado satisfactoriamente el curso completo de Python,', 600, 400);
         ctx.fillText('demostrando competencia en 19 módulos y 3 proyectos prácticos.', 600, 430);
 
         // Módulos completados
         ctx.fillStyle = '#00d4aa';
-        ctx.font = 'bold 14px "JetBrains Mono", monospace';
+        ctx.font = 'bold 14px monospace';
         ctx.fillText('19/19 MÓDULOS · 100+ EJERCICIOS · 3 PROYECTOS', 600, 480);
 
         // Fecha
         ctx.fillStyle = '#7a7a8e';
-        ctx.font = '14px "Inter", sans-serif';
-        ctx.fillText(`Fecha de emisión: ${fecha}`, 600, 540);
+        ctx.font = '14px sans-serif';
+        ctx.fillText('Fecha de emisión: ' + fecha, 600, 540);
 
         // Línea decorativa inferior
         ctx.strokeStyle = 'rgba(0, 212, 170, 0.3)';
@@ -400,31 +325,46 @@ class CertificateGenerator {
         ctx.stroke();
 
         // Firmas
-        ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 14px "Inter", sans-serif';
-        ctx.fillText('APARECÉ', 300, 660);
-        ctx.fillText('Plataforma de Aprendizaje', 300, 680);
-
-        ctx.fillStyle = '#7a7a8e';
-        ctx.font = '12px "Inter", sans-serif';
+        ctx.fillStyle = '#4a4a5a';
+        ctx.font = '12px sans-serif';
         ctx.fillText('_______________________', 300, 640);
         ctx.fillText('_______________________', 900, 640);
 
         ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 14px "Inter", sans-serif';
+        ctx.font = 'bold 14px sans-serif';
+        ctx.fillText('APARECÉ', 300, 660);
         ctx.fillText(nombre, 900, 660);
+
+        ctx.fillStyle = '#7a7a8e';
+        ctx.font = '12px sans-serif';
+        ctx.fillText('Plataforma de Aprendizaje', 300, 680);
         ctx.fillText('Estudiante Certificado', 900, 680);
 
         // Footer
         ctx.fillStyle = '#4a4a5a';
-        ctx.font = '11px "JetBrains Mono", monospace';
-        ctx.fillText('Verificado en: curso-python.aparece.dev · ' + this.auth.getUid().substring(0, 8), 600, 770);
+        ctx.font = '11px monospace';
+        ctx.fillText('Verificado en: curso-python.aparece.dev · ' + uid, 600, 770);
 
-        // Descargar
-        const link = document.createElement('a');
-        link.download = `certificado-python-${nombre.replace(/\s/g, '-').toLowerCase()}.png`;
-        link.href = canvas.toDataURL('image/png', 1.0);
-        link.click();
+        // Convertir a imagen y crear PDF con jsPDF
+        const imgData = canvas.toDataURL('image/png', 1.0);
+        
+        // Cargar jsPDF dinámicamente
+        if (!window.jsPDF) {
+            const script = document.createElement('script');
+            script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+            document.head.appendChild(script);
+            await new Promise(resolve => script.onload = resolve);
+        }
+
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF({
+            orientation: 'landscape',
+            unit: 'px',
+            format: [1200, 850]
+        });
+
+        pdf.addImage(imgData, 'PNG', 0, 0, 1200, 850);
+        pdf.save('certificado-python-' + nombre.replace(/\s/g, '-').toLowerCase() + '.pdf');
     }
 }
 
@@ -588,51 +528,29 @@ class UIManager {
         const prog = await this.progress.getProgress();
         const completed = await this.progress.getCompletedModules();
 
-        // Limpiar contenido anterior de forma segura (sin innerHTML)
-        const container = document.getElementById('progress-content');
-        container.textContent = '';
+        let html = `
+            <div class="progress-bar">
+                <div class="progress-fill" style="width:${prog.percentage}%"></div>
+            </div>
+            <p style="text-align:center;margin-bottom:1rem">${prog.completed}/${prog.total} módulos (${prog.percentage}%)</p>
+        `;
 
-        // Barra de progreso
-        const barWrapper = document.createElement('div');
-        barWrapper.className = 'progress-bar';
-        const barFill = document.createElement('div');
-        barFill.className = 'progress-fill';
-        barFill.style.width = prog.percentage + '%';
-        barWrapper.appendChild(barFill);
-        container.appendChild(barWrapper);
-
-        // Texto de progreso
-        const progressText = document.createElement('p');
-        progressText.style.cssText = 'text-align:center;margin-bottom:1rem';
-        progressText.textContent = prog.completed + '/' + prog.total + ' módulos (' + prog.percentage + '%)';
-        container.appendChild(progressText);
-
-        // Lista de módulos
-        CURSO_MODULOS.forEach(function(m) {
+        CURSO_MODULOS.forEach(m => {
             const done = completed.includes(m.id);
-            const check = document.createElement('div');
-            check.className = 'module-check ' + (done ? 'done' : 'pending');
-            const icon = document.createElement('span');
-            icon.textContent = done ? '✅' : '⬜';
-            const title = document.createTextNode(' ' + m.id + '. ' + m.titulo);
-            check.appendChild(icon);
-            check.appendChild(title);
-            container.appendChild(check);
+            html += `<div class="module-check ${done ? 'done' : 'pending'}">
+                ${done ? '✅' : '⬜'} ${m.id}. ${m.titulo}
+            </div>`;
         });
 
-        // Botón de certificado
         if (prog.isComplete) {
-            const certBtn = document.createElement('button');
-            certBtn.className = 'btn-certificate';
-            certBtn.textContent = '📜 Descargar Certificado';
-            certBtn.addEventListener('click', function() { ui.downloadCertificate(); });
-            container.appendChild(certBtn);
+            html += `<button class="btn-certificate" onclick="ui.downloadCertificate()">📄 Descargar Certificado PDF</button>`;
         } else {
-            const hint = document.createElement('p');
-            hint.style.cssText = 'text-align:center;color:var(--muted);margin-top:1rem;font-size:0.85rem';
-            hint.textContent = 'Completá todos los módulos para desbloquear tu certificado';
-            container.appendChild(hint);
+            html += `<p style="text-align:center;color:var(--muted);margin-top:1rem;font-size:0.85rem">
+                Completá todos los módulos para desbloquear tu certificado
+            </p>`;
         }
+
+        document.getElementById('progress-content').innerHTML = html;
     }
 
     closeModal() {
@@ -647,7 +565,6 @@ class UIManager {
         try {
             await this.auth.login(email, pass);
             this.closeModal();
-            showToast('Sesión iniciada correctamente', 'success');
         } catch(err) {
             this.showError(this.translateError(err.code));
         }
@@ -657,7 +574,6 @@ class UIManager {
         try {
             await this.auth.loginWithGoogle();
             this.closeModal();
-            showToast('Sesión iniciada con Google', 'success');
         } catch(err) {
             if (err.code !== 'auth/popup-closed-by-user') {
                 this.showError(this.translateError(err.code));
@@ -673,7 +589,6 @@ class UIManager {
         try {
             await this.auth.register(email, pass, name);
             this.closeModal();
-            showToast('Cuenta creada correctamente', 'success');
         } catch(err) {
             this.showError(this.translateError(err.code));
         }
@@ -681,7 +596,6 @@ class UIManager {
 
     async logout() {
         await this.auth.logout();
-        showToast('Sesión cerrada', 'info');
     }
 
     async downloadCertificate() {
@@ -702,8 +616,6 @@ class UIManager {
             'auth/user-not-found': 'No existe cuenta con este email',
             'auth/wrong-password': 'Contraseña incorrecta',
             'auth/too-many-requests': 'Demasiados intentos. Esperá un momento',
-            'auth/popup-blocked': 'El popup fue bloqueado. Permití popups para este sitio',
-            'auth/network-request-failed': 'Error de conexión. Verificá tu internet',
         };
         return errors[code] || 'Error: ' + code;
     }
@@ -729,12 +641,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             await progress.markModuleComplete(currentModule.id);
-            showToast('Módulo completado', 'success');
+            alert('✅ Módulo completado');
         };
     }
 });
-
-// Exponer solo lo necesario para debugging (quitar en producción)
-window._cursoApp = { getAuth: function() { return auth; }, getProgress: function() { return progress; } };
-
-})();
