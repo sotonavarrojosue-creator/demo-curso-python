@@ -463,7 +463,7 @@ class UIManager {
             .modal-switch { text-align:center; margin-top:1rem; color:var(--muted); font-size:0.85rem; }
             .modal-switch a { color:var(--accent); cursor:pointer; text-decoration:underline; }
             .error-msg { color:#ff6b6b; font-size:0.85rem; margin-top:0.5rem; text-align:center; }
-            .nav-btn { background:transparent; border:1px solid var(--border); color:var(--text); padding:0.4rem 0.8rem; border-radius:4px; font-size:0.8rem; cursor:pointer; font-family:inherit; }
+            .nav-btn { background:transparent; border:1px solid var(--border); color:var(--text); padding:0.35rem 0.6rem; border-radius:4px; font-size:0.75rem; cursor:pointer; font-family:inherit; white-space:nowrap; }
             .nav-btn:hover { border-color:var(--accent); color:var(--accent); }
             .nav-btn-accent { background:var(--accent); color:var(--bg); border-color:var(--accent); font-weight:600; }
             .nav-btn-accent:hover { background:#00b894; }
