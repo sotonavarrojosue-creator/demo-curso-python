@@ -28,7 +28,7 @@
 
         if (el) el.classList.remove('show');
         loading = false;
-        return pyide;
+        return pyodide;
     }
 
     // Capture print() output
