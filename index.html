@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprende Python — Curso Gratuito</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --surface: #12121a;
+            --surface-2: #1a1a25;
+            --border: #2a2a3a;
+            --text: #e0e0ec;
+            --text-muted: #7a7a8e;
+            --accent: #00d4aa;
+            --accent-2: #00b894;
+            --accent-glow: rgba(0, 212, 170, 0.15);
+            --yellow: #ffd93d;
+            --red: #ff6b6b;
+            --blue: #4ecdc4;
+            --purple: #a29bfe;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .mono { font-family: 'JetBrains Mono', monospace; }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 50%, var(--accent-glow) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 50%, rgba(162, 155, 254, 0.08) 0%, transparent 50%);
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-2%, 2%); }
+        }
+
+        .hero-content { position: relative; z-index: 1; max-width: 800px; }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 2rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 span { color: var(--accent); }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 3rem;
+            justify-content: center;
+            margin-top: 3rem;
+        }
+
+        .stat { text-align: center; }
+        .stat-num { font-size: 2rem; font-weight: 800; color: var(--accent); }
+        .stat-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; }
+
+        .code-preview {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: left;
+            margin-top: 3rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .code-preview .line { margin: 0.3rem 0; }
+        .code-preview .keyword { color: var(--purple); }
+        .code-preview .string { color: var(--accent); }
+        .code-preview .comment { color: var(--text-muted); }
+        .code-preview .function { color: var(--yellow); }
+
+        /* Modules */
+        .modules {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-subtitle {
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+        }
+
+        .phase {
+            margin-bottom: 3rem;
+        }
+
+        .phase-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .phase-badge {
+            padding: 0.3rem 0.8rem;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border-radius: 4px;
+        }
+
+        .phase-1 { background: rgba(0, 212, 170, 0.15); color: var(--accent); }
+        .phase-2 { background: rgba(78, 205, 196, 0.15); color: var(--blue); }
+        .phase-3 { background: rgba(162, 155, 254, 0.15); color: var(--purple); }
+        .phase-4 { background: rgba(255, 217, 61, 0.15); color: var(--yellow); }
+        .phase-5 { background: rgba(255, 107, 107, 0.15); color: var(--red); }
+
+        .phase-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .module-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.2s;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .module-card:hover {
+            border-color: var(--accent);
+            background: var(--surface-2);
+            transform: translateX(4px);
+        }
+
+        .module-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent);
+            min-width: 2rem;
+        }
+
+        .module-info { flex: 1; }
+        .module-title { font-weight: 600; }
+        .module-desc { font-size: 0.85rem; color: var(--text-muted); }
+        .module-time { font-size: 0.75rem; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 4rem 2rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .footer a { color: var(--accent); text-decoration: none; }
+
+        /* Mobile */
+        @media (max-width: 640px) {
+            .hero-stats { flex-direction: column; gap: 1.5rem; }
+            .module-card { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<section class="hero">
+    <div class="hero-content">
+        <div class="hero-badge">Curso Gratuito 2026</div>
+        <h1>Aprende <span>Python</span> desde cero</h1>
+        <p>19 módulos, ejercicios prácticos, proyectos reales. De print("Hola") a aplicaciones completas.</p>
+        
+        <div class="hero-stats">
+            <div class="stat">
+                <div class="stat-num">19</div>
+                <div class="stat-label">Módulos</div>
+            </div>
+            <div class="stat">
+                <div class="stat-num">100+</div>
+                <div class="stat-label">Ejercicios</div>
+            </div>
+            <div class="stat">
+                <div class="stat-num">3</div>
+                <div class="stat-label">Proyectos</div>
+            </div>
+        </div>
+
+        <div class="code-preview">
+            <div class="line"><span class="comment"># Tu primera línea de código</span></div>
+            <div class="line"><span class="keyword">print</span>(<span class="string">"¡Hola, mundo!"</span>)</div>
+            <div class="line"></div>
+            <div class="line"><span class="comment"># Esto es solo el comienzo...</span></div>
+        </div>
+    </div>
+</section>
+
+<section class="modules">
+    <h2 class="section-title">Programa del curso</h2>
+    <p class="section-subtitle">Avanza a tu ritmo. Cada módulo tiene teoría + ejercicios.</p>
+
+    <!-- Fase 1 -->
+    <div class="phase">
+        <div class="phase-header">
+            <span class="phase-badge phase-1">Fase 1</span>
+            <span class="phase-name">Fundamentos</span>
+        </div>
+        <a class="module-card" href="01-Hola-Mundo.html">
+            <span class="module-num">01</span>
+            <div class="module-info">
+                <div class="module-title">Hola Mundo</div>
+                <div class="module-desc">Tu primera línea de código</div>
+            </div>
+            <span class="module-time">30 min</span>
+        </a>
+        <a class="module-card" href="02-Variables-y-Tipos.html">
+            <span class="module-num">02</span>
+            <div class="module-info">
+                <div class="module-title">Variables y Tipos</div>
+                <div class="module-desc">Números, strings, booleanos</div>
+            </div>
+            <span class="module-time">45 min</span>
+        </a>
+        <a class="module-card" href="03-Operadores.html">
+            <span class="module-num">03</span>
+            <div class="module-info">
+                <div class="module-title">Operadores</div>
+                <div class="module-desc">Aritméticos, lógicos, comparación</div>
+            </div>
+            <span class="module-time">40 min</span>
+        </a>
+        <a class="module-card" href="04-Input-Output.html">
+            <span class="module-num">04</span>
+            <div class="module-info">
+                <div class="module-title">Input / Output</div>
+                <div class="module-desc">Leer datos, imprimir resultados</div>
+            </div>
+            <span class="module-time">35 min</span>
+        </a>
+    </div>
+
+    <!-- Fase 2 -->
+    <div class="phase">
+        <div class="phase-header">
+            <span class="phase-badge phase-2">Fase 2</span>
+            <span class="phase-name">Control de Flujo</span>
+        </div>
+        <a class="module-card" href="05-Condicionales.html">
+            <span class="module-num">05</span>
+            <div class="module-info">
+                <div class="module-title">Condicionales</div>
+                <div class="module-desc">if, elif, else</div>
+            </div>
+            <span class="module-time">50 min</span>
+        </a>
+        <a class="module-card" href="06-Loops.html">
+            <span class="module-num">06</span>
+            <div class="module-info">
+                <div class="module-title">Loops</div>
+                <div class="module-desc">for, while, break, continue</div>
+            </div>
+            <span class="module-time">50 min</span>
+        </a>
+        <a class="module-card" href="07-Loop-Proyectos.html">
+            <span class="module-num">07</span>
+            <div class="module-info">
+                <div class="module-title">Proyectos con Loops</div>
+                <div class="module-desc">Mini proyectos prácticos</div>
+            </div>
+            <span class="module-time">60 min</span>
+        </a>
+    </div>
+
+    <!-- Fase 3 -->
+    <div class="phase">
+        <div class="phase-header">
+            <span class="phase-badge phase-3">Fase 3</span>
+            <span class="phase-name">Estructuras de Datos</span>
+        </div>
+        <a class="module-card" href="08-Listas.html">
+            <span class="module-num">08</span>
+            <div class="module-info">
+                <div class="module-title">Listas</div>
+                <div class="module-desc">Crear, acceder, modificar, métodos</div>
+            </div>
+            <span class="module-time">50 min</span>
+        </a>
+        <a class="module-card" href="09-Diccionarios.html">
+            <span class="module-num">09</span>
+            <div class="module-info">
+                <div class="module-title">Diccionarios</div>
+                <div class="module-desc">Key-value pairs</div>
+            </div>
+            <span class="module-time">45 min</span>
+        </a>
+        <a class="module-card" href="10-Tuplas-y-Sets.html">
+            <span class="module-num">10</span>
+            <div class="module-info">
+                <div class="module-title">Tuplas y Sets</div>
+                <div class="module-desc">Colecciones inmutables y únicas</div>
+            </div>
+            <span class="module-time">35 min</span>
+        </a>
+    </div>
+
+    <!-- Fase 4 -->
+    <div class="phase">
+        <div class="phase-header">
+            <span class="phase-badge phase-4">Fase 4</span>
+            <span class="phase-name">Funciones</span>
+        </div>
+        <a class="module-card" href="11-Funciones.html">
+            <span class="module-num">11</span>
+            <div class="module-info">
+                <div class="module-title">Funciones</div>
+                <div class="module-desc">Definir, parámetros, retorno</div>
+            </div>
+            <span class="module-time">50 min</span>
+        </a>
+        <a class="module-card" href="12-Funciones-Avanzadas.html">
+            <span class="module-num">12</span>
+            <div class="module-info">
+                <div class="module-title">Funciones Avanzadas</div>
+                <div class="module-desc">Lambda, map, filter, reduce</div>
+            </div>
+            <span class="module-time">45 min</span>
+        </a>
+    </div>
+
+    <!-- Fase 5 -->
+    <div class="phase">
+        <div class="phase-header">
+            <span class="phase-badge phase-5">Fase 5</span>
+            <span class="phase-name">Archivos y Errores</span>
+        </div>
+        <a class="module-card" href="13-Archivos.html">
+            <span class="module-num">13</span>
+            <div class="module-info">
+                <div class="module-title">Archivos</div>
+                <div class="module-desc">CSV, JSON, lectura y escritura</div>
+            </div>
+            <span class="module-time">45 min</span>
+        </a>
+        <a class="module-card" href="14-Errores.html">
+            <span class="module-num">14</span>
+            <div class="module-info">
+                <div class="module-title">Manejo de Errores</div>
+                <div class="module-desc">try, except, finally</div>
+            </div>
+            <span class="module-time">40 min</span>
+        </a>
+    </div>
+
+    <!-- Fase 6 -->
+    <div class="phase">
+        <div class="phase-header">
+            <span class="phase-badge phase-1">Fase 6</span>
+            <span class="phase-name">Programación Orientada a Objetos</span>
+        </div>
+        <a class="module-card" href="15-Clases-y-Objetos.html">
+            <span class="module-num">15</span>
+            <div class="module-info">
+                <div class="module-title">Clases y Objetos</div>
+                <div class="module-desc">Clases, constructores, métodos</div>
+            </div>
+            <span class="module-time">55 min</span>
+        </a>
+        <a class="module-card" href="16-POO-Avanzada.html">
+            <span class="module-num">16</span>
+            <div class="module-info">
+                <div class="module-title">POO Avanzada</div>
+                <div class="module-desc">Herencia, polimorfismo</div>
+            </div>
+            <span class="module-time">50 min</span>
+        </a>
+    </div>
+
+    <!-- Proyectos -->
+    <div class="phase">
+        <div class="phase-header">
+            <span class="phase-badge phase-2">Proyectos</span>
+            <span class="phase-name">Aplica todo lo aprendido</span>
+        </div>
+        <a class="module-card" href="17-Proyecto-Calculadora.html">
+            <span class="module-num">17</span>
+            <div class="module-info">
+                <div class="module-title">Calculadora Completa</div>
+                <div class="module-desc">Historial, memoria, modo científico</div>
+            </div>
+            <span class="module-time">60 min</span>
+        </a>
+        <a class="module-card" href="18-Proyecto-Gestor-Tareas.html">
+            <span class="module-num">18</span>
+            <div class="module-info">
+                <div class="module-title">Gestor de Tareas</div>
+                <div class="module-desc">CRUD completo con persistencia JSON</div>
+            </div>
+            <span class="module-time">60 min</span>
+        </a>
+        <a class="module-card" href="19-Proyecto-Web-Scraper.html">
+            <span class="module-num">19</span>
+            <div class="module-info">
+                <div class="module-title">Web Scraper</div>
+                <div class="module-desc">Extraer datos de páginas web</div>
+            </div>
+            <span class="module-time">60 min</span>
+        </a>
+    </div>
+</section>
+
+<footer class="footer">
+    <p>Curso de Python — Construido con dedicación</p>
+    <p style="margin-top: 0.5rem;">19 módulos · 100+ ejercicios · 3 proyectos · Gratis para siempre</p>
+</footer>
+
+</body>
+</html>
