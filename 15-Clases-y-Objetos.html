@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clases y Objetos — Aprende Python</title>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="interactive.css">
     <style>
         :root { --bg: #0a0a0f; --surface: #12121a; --border: #2a2a3a; --text: #e0e0ec; --muted: #7a7a8e; --accent: #00d4aa; --purple: #a29bfe; --yellow: #ffd93d; --blue: #4ecdc4; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-        .mono { font-family: 'JetBrains Mono', monospace; }
         nav { position: fixed; top: 0; width: 100%; background: rgba(10,10,15,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 1rem 2rem; z-index: 100; display: flex; justify-content: space-between; align-items: center; }
         nav a { color: var(--accent); text-decoration: none; font-weight: 600; font-size: 0.9rem; }
         nav .back { color: var(--muted); }
@@ -22,7 +22,7 @@
         p { margin-bottom: 1rem; color: var(--text); }
         ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
         li { margin-bottom: 0.3rem; }
-        pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem; overflow-x: auto; margin: 1rem 0; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; line-height: 1.5; }
+        pre { display: none; }
         code { font-family: 'JetBrains Mono', monospace; font-size: 0.85em; }
         :not(pre) > code { background: var(--surface); padding: 0.15rem 0.4rem; border-radius: 4px; border: 1px solid var(--border); }
         table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
@@ -30,6 +30,7 @@
         th { background: var(--surface); font-weight: 600; }
         blockquote { border-left: 3px solid var(--accent); padding-left: 1rem; color: var(--muted); margin: 1rem 0; }
         strong { color: var(--yellow); }
+        hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
         .nav-buttons { display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border); }
         .nav-buttons a { color: var(--accent); text-decoration: none; font-weight: 600; padding: 0.8rem 1.5rem; border: 1px solid var(--border); border-radius: 6px; transition: all 0.2s; }
         .nav-buttons a:hover { border-color: var(--accent); background: rgba(0,212,170,0.1); }
@@ -51,8 +52,11 @@
 
 <p>Una clase es un plano/plantilla. Un objeto es una instancia de esa clase.</p>
 
-<pre><code class="language-python">
-class Persona:
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`class Persona:
     def __init__(self, nombre, edad):
         self.nombre = nombre
         self.edad = edad
@@ -65,15 +69,37 @@ aaron = Persona("Aaron", 25)
 beto = Persona("Beto", 30)
 
 print(aaron.saludar())
-print(beto.saludar())
-</code></pre>
+print(beto.saludar())`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">class Persona:
+    def __init__(self, nombre, edad):
+        self.nombre = nombre
+        self.edad = edad
+    
+    def saludar(self):
+        return f"Hola, soy {nombre} y tengo {self.edad} años"
+
+# Crear objetos
+aaron = Persona("Aaron", 25)
+beto = Persona("Beto", 30)
+
+print(aaron.saludar())
+print(beto.saludar())</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>`__init__` — Constructor</h2>
 
 <p>Se ejecuta automáticamente al crear un objeto:</p>
 
-<pre><code class="language-python">
-class Auto:
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`class Auto:
     def __init__(self, marca, color, año):
         self.marca = marca
         self.color = color
@@ -85,15 +111,36 @@ class Auto:
         return f"{self.marca} encendido"
 
 mi_auto = Auto("Toyota", "Rojo", 2020)
-print(mi_auto.encender())  # Toyota encendido
-</code></pre>
+print(mi_auto.encender())  # Toyota encendido`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">class Auto:
+    def __init__(self, marca, color, año):
+        self.marca = marca
+        self.color = color
+        self.año = año
+        self.encendido = False  # Valor por defecto
+    
+    def encender(self):
+        self.encendido = True
+        return f"{self.marca} encendido"
+
+mi_auto = Auto("Toyota", "Rojo", 2020)
+print(mi_auto.encender())  # Toyota encendido</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Métodos</h2>
 
 <p>Funciones dentro de una clase que operan sobre los datos del objeto:</p>
 
-<pre><code class="language-python">
-class Circulo:
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`class Circulo:
     def __init__(self, radio):
         self.radio = radio
     
@@ -108,13 +155,37 @@ class Circulo:
 
 c = Circulo(5)
 print(c.area())        # 78.54
-print(c.describir())   # Círculo de radio 5, área 78.54
-</code></pre>
+print(c.describir())   # Círculo de radio 5, área 78.54`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">class Circulo:
+    def __init__(self, radio):
+        self.radio = radio
+    
+    def area(self):
+        return 3.14159 * self.radio ** 2
+    
+    def perimetro(self):
+        return 2 * 3.14159 * self.radio
+    
+    def describir(self):
+        return f"Círculo de radio {self.radio}, área {self.area():.2f}"
+
+c = Circulo(5)
+print(c.area())        # 78.54
+print(c.describir())   # Círculo de radio 5, área 78.54</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Atributos de clase vs instancia</h2>
 
-<pre><code class="language-python">
-class Producto:
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`class Producto:
     # Atributo de clase — compartido por todos los objetos
     impuesto = 0.16
     
@@ -130,13 +201,38 @@ p1 = Producto("Laptop", 800)
 p2 = Producto("Mouse", 25)
 
 print(p1.precio_con_impuesto())  # 928.0
-print(p2.precio_con_impuesto())  # 29.0
-</code></pre>
+print(p2.precio_con_impuesto())  # 29.0`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">class Producto:
+    # Atributo de clase — compartido por todos los objetos
+    impuesto = 0.16
+    
+    def __init__(self, nombre, precio):
+        # Atributos de instancia — únicos por objeto
+        self.nombre = nombre
+        self.precio = precio
+    
+    def precio_con_impuesto(self):
+        return self.precio * (1 + self.impuesto)
+
+p1 = Producto("Laptop", 800)
+p2 = Producto("Mouse", 25)
+
+print(p1.precio_con_impuesto())  # 928.0
+print(p2.precio_con_impuesto())  # 29.0</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>`__str__` y `__repr__`</h2>
 
-<pre><code class="language-python">
-class Persona:
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`class Persona:
     def __init__(self, nombre, edad):
         self.nombre = nombre
         self.edad = edad
@@ -149,13 +245,35 @@ class Persona:
 
 p = Persona("Aaron", 25)
 print(p)         # Aaron, 25 años (usa __str__)
-print(repr(p))   # Persona('Aaron', 25) (usa __repr__)
-</code></pre>
+print(repr(p))   # Persona('Aaron', 25) (usa __repr__)`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">class Persona:
+    def __init__(self, nombre, edad):
+        self.nombre = nombre
+        self.edad = edad
+    
+    def __str__(self):
+        return f"{self.nombre}, {self.edad} años"
+    
+    def __repr__(self):
+        return f"Persona('{self.nombre}', {self.edad})"
+
+p = Persona("Aaron", 25)
+print(p)         # Aaron, 25 años (usa __str__)
+print(repr(p))   # Persona('Aaron', 25) (usa __repr__)</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Encapsulamiento</h2>
 
-<pre><code class="language-python">
-class CuentaBancaria:
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`class CuentaBancaria:
     def __init__(self, titular, saldo=0):
         self.titular = titular
         self.__saldo = saldo  # Privado (doble guión bajo)
@@ -179,15 +297,48 @@ cuenta = CuentaBancaria("Aaron", 1000)
 cuenta.depositar(500)
 cuenta.retirar(200)
 print(cuenta.ver_saldo())  # 1300
-# print(cuenta.__saldo)    # ❌ Error — es privado
-</code></pre>
+# print(cuenta.__saldo)    # ❌ Error — es privado`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">class CuentaBancaria:
+    def __init__(self, titular, saldo=0):
+        self.titular = titular
+        self.__saldo = saldo  # Privado (doble guión bajo)
+    
+    def depositar(self, monto):
+        if monto &gt; 0:
+            self.__saldo += monto
+            return True
+        return False
+    
+    def retirar(self, monto):
+        if 0 &lt; monto &lt;= self.__saldo:
+            self.__saldo -= monto
+            return True
+        return False
+    
+    def ver_saldo(self):
+        return self.__saldo
+
+cuenta = CuentaBancaria("Aaron", 1000)
+cuenta.depositar(500)
+cuenta.retirar(200)
+print(cuenta.ver_saldo())  # 1300
+# print(cuenta.__saldo)    # ❌ Error — es privado</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Ejemplos prácticos</h2>
 
 <h3>Clase Rectángulo</h3>
 
-<pre><code class="language-python">
-class Rectangulo:
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`class Rectangulo:
     def __init__(self, base, altura):
         self.base = base
         self.altura = altura
@@ -206,13 +357,41 @@ class Rectangulo:
 
 r = Rectangulo(10, 5)
 print(f"Área: {r.area()}")        # 50
-print(f"¿Cuadrado? {r.es_cuadrado()}")  # False
-</code></pre>
+print(f"¿Cuadrado? {r.es_cuadrado()}")  # False`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">class Rectangulo:
+    def __init__(self, base, altura):
+        self.base = base
+        self.altura = altura
+    
+    def area(self):
+        return self.base * self.altura
+    
+    def perimetro(self):
+        return 2 * (self.base + self.altura)
+    
+    def es_cuadrado(self):
+        return self.base == self.altura
+    
+    def __str__(self):
+        return f"Rectángulo({self.base}x{self.altura})"
+
+r = Rectangulo(10, 5)
+print(f"Área: {r.area()}")        # 50
+print(f"¿Cuadrado? {r.es_cuadrado()}")  # False</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h3>Clase Estudiante</h3>
 
-<pre><code class="language-python">
-class Estudiante:
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`class Estudiante:
     def __init__(self, nombre):
         self.nombre = nombre
         self.notas = []
@@ -236,8 +415,38 @@ est = Estudiante("Aaron")
 est.agregar_nota(85)
 est.agregar_nota(92)
 est.agregar_nota(78)
-print(est)  # Aaron: 85.0 (Aprobado)
-</code></pre>
+print(est)  # Aaron: 85.0 (Aprobado)`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">class Estudiante:
+    def __init__(self, nombre):
+        self.nombre = nombre
+        self.notas = []
+    
+    def agregar_nota(self, nota):
+        self.notas.append(nota)
+    
+    def promedio(self):
+        if not self.notas:
+            return 0
+        return sum(self.notas) / len(self.notas)
+    
+    def esta_aprobado(self):
+        return self.promedio() &gt;= 70
+    
+    def __str__(self):
+        estado = "Aprobado" if self.esta_aprobado() else "Reprobado"
+        return f"{self.nombre}: {self.promedio():.1f} ({estado})"
+
+est = Estudiante("Aaron")
+est.agregar_nota(85)
+est.agregar_nota(92)
+est.agregar_nota(78)
+print(est)  # Aaron: 85.0 (Aprobado)</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Ejercicios</h2>
 
@@ -248,8 +457,11 @@ print(est)  # Aaron: 85.0 (Aprobado)
 
 <h3>Soluciones</h3>
 
-<pre><code class="language-python">
-# Ejercicio 1
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`# Ejercicio 1
 class Coche:
     def __init__(self, marca, modelo, año):
         self.marca = marca
@@ -321,8 +533,86 @@ class Calculadora:
     
     def ver_historial(self):
         for item in self.historial:
-            print(item)
-</code></pre>
+            print(item)`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false"># Ejercicio 1
+class Coche:
+    def __init__(self, marca, modelo, año):
+        self.marca = marca
+        self.modelo = modelo
+        self.año = año
+        self.encendido = False
+        self.velocidad = 0
+    
+    def arrancar(self):
+        self.encendido = True
+        return f"{self.marca} arrancó"
+    
+    def frenar(self):
+        self.velocidad = 0
+        return "Frenando..."
+    
+    def acelerar(self, incremento):
+        if self.encendido:
+            self.velocidad += incremento
+            return f"Velocidad: {self.velocidad} km/h"
+        return "Primero arrancá"
+
+# Ejercicio 2
+class Cuenta:
+    def __init__(self, titular, saldo=0):
+        self.titular = titular
+        self.__saldo = saldo
+    
+    def depositar(self, monto):
+        if monto &gt; 0:
+            self.__saldo += monto
+            return f"Depósito: ${monto}. Saldo: ${self.__saldo}"
+        return "Monto inválido"
+    
+    def retirar(self, monto):
+        if 0 &lt; monto &lt;= self.__saldo:
+            self.__saldo -= monto
+            return f"Retiro: ${monto}. Saldo: ${self.__saldo}"
+        return "Fondos insuficientes"
+    
+    def ver_saldo(self):
+        return f"Saldo: ${self.__saldo}"
+
+# Ejercicio 3
+class Perro:
+    def __init__(self, nombre, raza, edad):
+        self.nombre = nombre
+        self.raza = raza
+        self.edad = edad
+    
+    def ladrar(self):
+        return f"¡Guau! Soy {self.nombre}"
+    
+    def __str__(self):
+        return f"{self.nombre} ({self.raza}, {self.edad} años)"
+
+# Ejercicio 4
+class Calculadora:
+    def __init__(self):
+        self.historial = []
+    
+    def operar(self, a, b, op):
+        if op == "+": r = a + b
+        elif op == "-": r = a - b
+        elif op == "*": r = a * b
+        elif op == "/": r = a / b if b != 0 else "Error"
+        self.historial.append(f"{a} {op} {b} = {r}")
+        return r
+    
+    def ver_historial(self):
+        for item in self.historial:
+            print(item)</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <hr>
 
@@ -333,5 +623,6 @@ class Calculadora:
             <a href="16-POO-Avanzada.html">POO Avanzada →</a>
         </div>
     </div>
+    <script src="interactive.js"></script>
 </body>
 </html>

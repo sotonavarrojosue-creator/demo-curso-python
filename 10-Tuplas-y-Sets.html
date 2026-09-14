@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tuplas y Sets — Aprende Python</title>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="interactive.css">
     <style>
         :root { --bg: #0a0a0f; --surface: #12121a; --border: #2a2a3a; --text: #e0e0ec; --muted: #7a7a8e; --accent: #00d4aa; --purple: #a29bfe; --yellow: #ffd93d; --blue: #4ecdc4; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-        .mono { font-family: 'JetBrains Mono', monospace; }
         nav { position: fixed; top: 0; width: 100%; background: rgba(10,10,15,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 1rem 2rem; z-index: 100; display: flex; justify-content: space-between; align-items: center; }
         nav a { color: var(--accent); text-decoration: none; font-weight: 600; font-size: 0.9rem; }
         nav .back { color: var(--muted); }
@@ -22,7 +22,7 @@
         p { margin-bottom: 1rem; color: var(--text); }
         ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
         li { margin-bottom: 0.3rem; }
-        pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem; overflow-x: auto; margin: 1rem 0; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; line-height: 1.5; }
+        pre { display: none; }
         code { font-family: 'JetBrains Mono', monospace; font-size: 0.85em; }
         :not(pre) > code { background: var(--surface); padding: 0.15rem 0.4rem; border-radius: 4px; border: 1px solid var(--border); }
         table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
@@ -30,6 +30,7 @@
         th { background: var(--surface); font-weight: 600; }
         blockquote { border-left: 3px solid var(--accent); padding-left: 1rem; color: var(--muted); margin: 1rem 0; }
         strong { color: var(--yellow); }
+        hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
         .nav-buttons { display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border); }
         .nav-buttons a { color: var(--accent); text-decoration: none; font-weight: 600; padding: 0.8rem 1.5rem; border: 1px solid var(--border); border-radius: 6px; transition: all 0.2s; }
         .nav-buttons a:hover { border-color: var(--accent); background: rgba(0,212,170,0.1); }
@@ -51,12 +52,24 @@
 
 <p>Las tuplas son como listas pero NO se pueden modificar después de crearlas:</p>
 
-<pre><code class="language-python">
-coordenada = (10, 20)
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`coordenada = (10, 20)
 colores = ("rojo", "azul", "verde")
 single = (42,)  # Coma necesaria para tupla de un elemento
-vacia = ()
-</code></pre>
+vacia = ()`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">coordenada = (10, 20)
+colores = ("rojo", "azul", "verde")
+single = (42,)  # Coma necesaria para tupla de un elemento
+vacia = ()</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h3>¿Cuándo usar tuplas?</h3>
 <li>Datos que no deben cambiar (coordenadas, fechas, configuraciones)</li>
@@ -65,80 +78,181 @@ vacia = ()
 
 <h3>Acceso y slicing (igual que listas)</h3>
 
-<pre><code class="language-python">
-colores = ("rojo", "azul", "verde", "amarillo")
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`colores = ("rojo", "azul", "verde", "amarillo")
 print(colores[0])       # rojo
 print(colores[-1])      # amarillo
-print(colores[1:3])     # ('azul', 'verde')
-</code></pre>
+print(colores[1:3])     # ('azul', 'verde')`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">colores = ("rojo", "azul", "verde", "amarillo")
+print(colores[0])       # rojo
+print(colores[-1])      # amarillo
+print(colores[1:3])     # ('azul', 'verde')</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h3>Desempaquetar tuplas</h3>
 
-<pre><code class="language-python">
-coordenada = (10, 20)
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`coordenada = (10, 20)
 x, y = coordenada
 print(f"x={x}, y={y}")  # x=10, y=20
 
 # Swap variables
 a, b = 5, 10
 a, b = b, a
-print(a, b)  # 10 5
-</code></pre>
+print(a, b)  # 10 5`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">coordenada = (10, 20)
+x, y = coordenada
+print(f"x={x}, y={y}")  # x=10, y=20
+
+# Swap variables
+a, b = 5, 10
+a, b = b, a
+print(a, b)  # 10 5</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h3>Tuplas con named tuples</h3>
 
-<pre><code class="language-python">
-from collections import namedtuple
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`from collections import namedtuple
 
 Punto = namedtuple('Punto', ['x', 'y'])
 p = Punto(3, 4)
-print(p.x, p.y)  # 3 4
-</code></pre>
+print(p.x, p.y)  # 3 4`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">from collections import namedtuple
+
+Punto = namedtuple('Punto', ['x', 'y'])
+p = Punto(3, 4)
+print(p.x, p.y)  # 3 4</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Sets — No ordenados, sin duplicados</h2>
 
-<pre><code class="language-python">
-numeros = {1, 2, 3, 4, 5}
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`numeros = {1, 2, 3, 4, 5}
 letras = set("murcielago")  # {'m', 'u', 'r', ...}
-vacia = set()  # ⚠️ No es {} (eso crea un dict vacío)
-</code></pre>
+vacia = set()  # ⚠️ No es {} (eso crea un dict vacío)`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">numeros = {1, 2, 3, 4, 5}
+letras = set("murcielago")  # {'m', 'u', 'r', ...}
+vacia = set()  # ⚠️ No es {} (eso crea un dict vacío)</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h3>Operaciones de conjuntos</h3>
 
-<pre><code class="language-python">
-a = {1, 2, 3, 4}
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`a = {1, 2, 3, 4}
 b = {3, 4, 5, 6}
 
 print(a | b)   # Unión: {1, 2, 3, 4, 5, 6}
-print(a & b)   # Intersección: {3, 4}
+print(a &amp; b)   # Intersección: {3, 4}
 print(a - b)   # Diferencia: {1, 2}
-print(a ^ b)   # Diferencia simétrica: {1, 2, 5, 6}
-</code></pre>
+print(a ^ b)   # Diferencia simétrica: {1, 2, 5, 6}`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">a = {1, 2, 3, 4}
+b = {3, 4, 5, 6}
+
+print(a | b)   # Unión: {1, 2, 3, 4, 5, 6}
+print(a &amp; b)   # Intersección: {3, 4}
+print(a - b)   # Diferencia: {1, 2}
+print(a ^ b)   # Diferencia simétrica: {1, 2, 5, 6}</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h3>Métodos de sets</h3>
 
-<pre><code class="language-python">
-s = {1, 2, 3}
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`s = {1, 2, 3}
 s.add(4)           # {1, 2, 3, 4}
 s.remove(2)        # {1, 3, 4} — Error si no existe
 s.discard(10)      # No da error si no existe
-s.pop()            # Elimina y devuelve un elemento cualquiera
-</code></pre>
+s.pop()            # Elimina y devuelve un elemento cualquiera`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">s = {1, 2, 3}
+s.add(4)           # {1, 2, 3, 4}
+s.remove(2)        # {1, 3, 4} — Error si no existe
+s.discard(10)      # No da error si no existe
+s.pop()            # Elimina y devuelve un elemento cualquiera</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h3>Eliminar duplicados de una lista</h3>
 
-<pre><code class="language-python">
-numeros = [1, 2, 2, 3, 3, 3, 4]
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`numeros = [1, 2, 2, 3, 3, 3, 4]
 unicos = list(set(numeros))
-print(unicos)  # [1, 2, 3, 4]
-</code></pre>
+print(unicos)  # [1, 2, 3, 4]`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">numeros = [1, 2, 2, 3, 3, 3, 4]
+unicos = list(set(numeros))
+print(unicos)  # [1, 2, 3, 4]</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h3>Verificar pertenencia (muy rápido)</h3>
 
-<pre><code class="language-python">
-productos = {"laptop", "mouse", "teclado", "monitor"}
-print("laptop" in productos)  # True — O(1) vs O(n) en listas
-</code></pre>
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`productos = {"laptop", "mouse", "teclado", "monitor"}
+print("laptop" in productos)  # True — O(1) vs O(n) en listas`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">productos = {"laptop", "mouse", "teclado", "monitor"}
+print("laptop" in productos)  # True — O(1) vs O(n) en listas</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Tuplas vs Listas vs Sets</h2>
 
@@ -160,15 +274,18 @@ print("laptop" in productos)  # True — O(1) vs O(n) en listas
 
 <h3>Soluciones</h3>
 
-<pre><code class="language-python">
-# Ejercicio 1
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`# Ejercicio 1
 dias = ("lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo")
 print(f"Fines de semana: {dias[5]}, {dias[6]}")
 
 # Ejercicio 2
 lista1 = [1, 2, 3, 4, 5]
 lista2 = [4, 5, 6, 7, 8]
-comunes = set(lista1) & set(lista2)
+comunes = set(lista1) &amp; set(lista2)
 print(comunes)  # {4, 5}
 
 # Ejercicio 3
@@ -179,8 +296,32 @@ print(f"Letras únicas: {len(letras_unicas)}")
 # Ejercicio 4
 a, b = 10, 20
 a, b = b, a
-print(f"a={a}, b={b}")
-</code></pre>
+print(f"a={a}, b={b}")`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false"># Ejercicio 1
+dias = ("lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo")
+print(f"Fines de semana: {dias[5]}, {dias[6]}")
+
+# Ejercicio 2
+lista1 = [1, 2, 3, 4, 5]
+lista2 = [4, 5, 6, 7, 8]
+comunes = set(lista1) &amp; set(lista2)
+print(comunes)  # {4, 5}
+
+# Ejercicio 3
+nombre = "murcielago"
+letras_unicas = set(nombre)
+print(f"Letras únicas: {len(letras_unicas)}")
+
+# Ejercicio 4
+a, b = 10, 20
+a, b = b, a
+print(f"a={a}, b={b}")</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <hr>
 
@@ -191,5 +332,6 @@ print(f"a={a}, b={b}")
             <a href="11-Funciones.html">Funciones →</a>
         </div>
     </div>
+    <script src="interactive.js"></script>
 </body>
 </html>

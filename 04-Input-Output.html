@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Input / Output — Aprende Python</title>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="interactive.css">
     <style>
         :root { --bg: #0a0a0f; --surface: #12121a; --border: #2a2a3a; --text: #e0e0ec; --muted: #7a7a8e; --accent: #00d4aa; --purple: #a29bfe; --yellow: #ffd93d; --blue: #4ecdc4; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-        .mono { font-family: 'JetBrains Mono', monospace; }
         nav { position: fixed; top: 0; width: 100%; background: rgba(10,10,15,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 1rem 2rem; z-index: 100; display: flex; justify-content: space-between; align-items: center; }
         nav a { color: var(--accent); text-decoration: none; font-weight: 600; font-size: 0.9rem; }
         nav .back { color: var(--muted); }
@@ -22,7 +22,7 @@
         p { margin-bottom: 1rem; color: var(--text); }
         ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
         li { margin-bottom: 0.3rem; }
-        pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem; overflow-x: auto; margin: 1rem 0; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; line-height: 1.5; }
+        pre { display: none; }
         code { font-family: 'JetBrains Mono', monospace; font-size: 0.85em; }
         :not(pre) > code { background: var(--surface); padding: 0.15rem 0.4rem; border-radius: 4px; border: 1px solid var(--border); }
         table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
@@ -30,6 +30,7 @@
         th { background: var(--surface); font-weight: 600; }
         blockquote { border-left: 3px solid var(--accent); padding-left: 1rem; color: var(--muted); margin: 1rem 0; }
         strong { color: var(--yellow); }
+        hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
         .nav-buttons { display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border); }
         .nav-buttons a { color: var(--accent); text-decoration: none; font-weight: 600; padding: 0.8rem 1.5rem; border: 1px solid var(--border); border-radius: 6px; transition: all 0.2s; }
         .nav-buttons a:hover { border-color: var(--accent); background: rgba(0,212,170,0.1); }
@@ -51,99 +52,230 @@
 
 <p>La función <code>input()</code> pausa el programa y espera que el usuario escriba algo:</p>
 
-<pre><code class="language-python">
-nombre = input("¿Cómo te llamas? ")
-print("Hola,", nombre)
-</code></pre>
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`nombre = input("¿Cómo te llamas? ")
+print("Hola,", nombre)`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">nombre = input("¿Cómo te llamas? ")
+print("Hola,", nombre)</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <p><strong>Ejecución:</strong></p>
-<pre><code class="language-">
-¿Cómo te llamas? Aaron
-Hola, Aaron
-</code></pre>
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`¿Cómo te llamas? Aaron
+Hola, Aaron`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">¿Cómo te llamas? Aaron
+Hola, Aaron</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <p><strong>Importante:</strong> <code>input()</code> SIEMPRE devuelve un string, incluso si el usuario escribe un número:</p>
 
-<pre><code class="language-python">
-edad = input("¿Cuántos años tienes? ")
-print(type(edad))  # &lt;class 'str'&gt; — ¡Es un string!
-</code></pre>
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`edad = input("¿Cuántos años tienes? ")
+print(type(edad))  # &lt;class 'str'&gt; — ¡Es un string!`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">edad = input("¿Cuántos años tienes? ")
+print(type(edad))  # &lt;class 'str'&gt; — ¡Es un string!</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Convirtiendo input a números</h2>
 
 <p>Para hacer matemáticas con input del usuario, necesitas convertir:</p>
 
-<pre><code class="language-python">
-edad = int(input("¿Cuántos años tienes? "))    # Convierte a entero
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`edad = int(input("¿Cuántos años tienes? "))    # Convierte a entero
 altura = float(input("¿Cuánta altura? (m) "))  # Convierte a decimal
 
-print("En 10 años tendrás", edad + 10, "años")
-</code></pre>
+print("En 10 años tendrás", edad + 10, "años")`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">edad = int(input("¿Cuántos años tienes? "))    # Convierte a entero
+altura = float(input("¿Cuánta altura? (m) "))  # Convierte a decimal
+
+print("En 10 años tendrás", edad + 10, "años")</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Formateando salida</h2>
 
 <h3>Método 1: Concatenación</h3>
-<pre><code class="language-python">
-nombre = "Aaron"
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`nombre = "Aaron"
 edad = 25
-print("Me llamo " + nombre + " y tengo " + str(edad) + " años")
-</code></pre>
+print("Me llamo " + nombre + " y tengo " + str(edad) + " años")`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">nombre = "Aaron"
+edad = 25
+print("Me llamo " + nombre + " y tengo " + str(edad) + " años")</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h3>Método 2: f-strings (recomendado)</h3>
-<pre><code class="language-python">
-nombre = "Aaron"
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`nombre = "Aaron"
 edad = 25
-print(f"Me llamo {nombre} y tengo {edad} años")
-</code></pre>
+print(f"Me llamo {nombre} y tengo {edad} años")`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">nombre = "Aaron"
+edad = 25
+print(f"Me llamo {nombre} y tengo {edad} años")</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <p>Los f-strings son más limpios y fáciles de leer.</p>
 
 <h3>Método 3: .format()</h3>
-<pre><code class="language-python">
-print("Me llamo {} y tengo {} años".format(nombre, edad))
-</code></pre>
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`print("Me llamo {} y tengo {} años".format(nombre, edad))`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">print("Me llamo {} y tengo {} años".format(nombre, edad))</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h3>Método 4: Comas en print()</h3>
-<pre><code class="language-python">
-print("Me llamo", nombre, "y tengo", edad, "años")
-</code></pre>
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`print("Me llamo", nombre, "y tengo", edad, "años")`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">print("Me llamo", nombre, "y tengo", edad, "años")</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Ejemplos prácticos</h2>
 
 <h3>Calculadora simple</h3>
-<pre><code class="language-python">
-num1 = float(input("Primer número: "))
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`num1 = float(input("Primer número: "))
 num2 = float(input("Segundo número: "))
 
 print(f"{num1} + {num2} = {num1 + num2}")
 print(f"{num1} - {num2} = {num1 - num2}")
 print(f"{num1} * {num2} = {num1 * num2}")
-print(f"{num1} / {num2} = {num1 / num2}")
-</code></pre>
+print(f"{num1} / {num2} = {num1 / num2}")`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">num1 = float(input("Primer número: "))
+num2 = float(input("Segundo número: "))
+
+print(f"{num1} + {num2} = {num1 + num2}")
+print(f"{num1} - {num2} = {num1 - num2}")
+print(f"{num1} * {num2} = {num1 * num2}")
+print(f"{num1} / {num2} = {num1 / num2}")</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h3>Converter temperatura</h3>
-<pre><code class="language-python">
-grados = float(input("Grados Fahrenheit: "))
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`grados = float(input("Grados Fahrenheit: "))
 celsius = (grados - 32) * 5 / 9
-print(f"{grados}°F = {celsius:.1f}°C")
-</code></pre>
+print(f"{grados}°F = {celsius:.1f}°C")`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">grados = float(input("Grados Fahrenheit: "))
+celsius = (grados - 32) * 5 / 9
+print(f"{grados}°F = {celsius:.1f}°C")</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Errores comunes</h2>
 
 <p><strong>No convertir input a número:</strong></p>
-<pre><code class="language-python">
-edad = input("Edad: ")  # "25" (string)
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`edad = input("Edad: ")  # "25" (string)
 edad + 5                 # ❌ Error: can't concatenate str + int
 
 edad = int(input("Edad: "))  # 25 (int)
-edad + 5                      # ✅ 30
-</code></pre>
+edad + 5                      # ✅ 30`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">edad = input("Edad: ")  # "25" (string)
+edad + 5                 # ❌ Error: can't concatenate str + int
+
+edad = int(input("Edad: "))  # 25 (int)
+edad + 5                      # ✅ 30</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <p><strong>Dividir entre cero:</strong></p>
-<pre><code class="language-python">
-numero = float(input("Número: "))
-print(100 / numero)  # ❌ Error si el usuario escribe 0
-</code></pre>
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`numero = float(input("Número: "))
+print(100 / numero)  # ❌ Error si el usuario escribe 0`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">numero = float(input("Número: "))
+print(100 / numero)  # ❌ Error si el usuario escribe 0</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Ejercicios</h2>
 
@@ -154,8 +286,11 @@ print(100 / numero)  # ❌ Error si el usuario escribe 0
 
 <h3>Soluciones</h3>
 
-<pre><code class="language-python">
-# Ejercicio 1
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`# Ejercicio 1
 nombre = input("¿Cómo te llamas? ")
 print(f"Hola {nombre}!")
 print(f"¡Qué bien verte, {nombre}!")
@@ -178,8 +313,37 @@ print(f"{celsius}°C = {fahrenheit}°F")
 base = float(input("Base del triángulo: "))
 altura = float(input("Altura del triángulo: "))
 area = (base * altura) / 2
-print(f"El área es: {area}")
-</code></pre>
+print(f"El área es: {area}")`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false"># Ejercicio 1
+nombre = input("¿Cómo te llamas? ")
+print(f"Hola {nombre}!")
+print(f"¡Qué bien verte, {nombre}!")
+print(f"Bienvenido, {nombre}")
+
+# Ejercicio 2
+a = float(input("Primer número: "))
+b = float(input("Segundo número: "))
+print(f"Suma: {a + b}")
+print(f"Resta: {a - b}")
+print(f"Multiplicación: {a * b}")
+print(f"División: {a / b}")
+
+# Ejercicio 3
+celsius = float(input("Grados Celsius: "))
+fahrenheit = celsius * 9 / 5 + 32
+print(f"{celsius}°C = {fahrenheit}°F")
+
+# Ejercicio 4
+base = float(input("Base del triángulo: "))
+altura = float(input("Altura del triángulo: "))
+area = (base * altura) / 2
+print(f"El área es: {area}")</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <hr>
 
@@ -190,5 +354,6 @@ print(f"El área es: {area}")
             <a href="05-Condicionales.html">Condicionales →</a>
         </div>
     </div>
+    <script src="interactive.js"></script>
 </body>
 </html>

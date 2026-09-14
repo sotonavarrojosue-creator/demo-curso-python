@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Funciones Avanzadas — Aprende Python</title>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="interactive.css">
     <style>
         :root { --bg: #0a0a0f; --surface: #12121a; --border: #2a2a3a; --text: #e0e0ec; --muted: #7a7a8e; --accent: #00d4aa; --purple: #a29bfe; --yellow: #ffd93d; --blue: #4ecdc4; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-        .mono { font-family: 'JetBrains Mono', monospace; }
         nav { position: fixed; top: 0; width: 100%; background: rgba(10,10,15,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 1rem 2rem; z-index: 100; display: flex; justify-content: space-between; align-items: center; }
         nav a { color: var(--accent); text-decoration: none; font-weight: 600; font-size: 0.9rem; }
         nav .back { color: var(--muted); }
@@ -22,7 +22,7 @@
         p { margin-bottom: 1rem; color: var(--text); }
         ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
         li { margin-bottom: 0.3rem; }
-        pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem; overflow-x: auto; margin: 1rem 0; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; line-height: 1.5; }
+        pre { display: none; }
         code { font-family: 'JetBrains Mono', monospace; font-size: 0.85em; }
         :not(pre) > code { background: var(--surface); padding: 0.15rem 0.4rem; border-radius: 4px; border: 1px solid var(--border); }
         table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
@@ -30,6 +30,7 @@
         th { background: var(--surface); font-weight: 600; }
         blockquote { border-left: 3px solid var(--accent); padding-left: 1rem; color: var(--muted); margin: 1rem 0; }
         strong { color: var(--yellow); }
+        hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
         .nav-buttons { display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border); }
         .nav-buttons a { color: var(--accent); text-decoration: none; font-weight: 600; padding: 0.8rem 1.5rem; border: 1px solid var(--border); border-radius: 6px; transition: all 0.2s; }
         .nav-buttons a:hover { border-color: var(--accent); background: rgba(0,212,170,0.1); }
@@ -49,21 +50,40 @@
 
 <h2>Lambda — Funciones anónimas en una línea</h2>
 
-<pre><code class="language-python">
-# Función normal
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`# Función normal
 def cuadrado(x):
     return x ** 2
 
 # Lambda equivalente
 cuadrado = lambda x: x ** 2
 
-print(cuadrado(5))  # 25
-</code></pre>
+print(cuadrado(5))  # 25`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false"># Función normal
+def cuadrado(x):
+    return x ** 2
+
+# Lambda equivalente
+cuadrado = lambda x: x ** 2
+
+print(cuadrado(5))  # 25</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h3>Usos comunes de lambda</h3>
 
-<pre><code class="language-python">
-# Con sorted()
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`# Con sorted()
 edades = [("Aaron", 25), ("Beto", 18), ("Carlos", 30)]
 edades_ordenadas = sorted(edades, key=lambda persona: persona[1])
 print(edades_ordenadas)  # [('Beto', 18), ('Aaron', 25), ('Carlos', 30)]
@@ -75,52 +95,121 @@ print(cuadrados)  # [1, 4, 9, 16, 25]
 
 # Con filter()
 pares = list(filter(lambda x: x % 2 == 0, numeros))
-print(pares)  # [2, 4]
-</code></pre>
+print(pares)  # [2, 4]`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false"># Con sorted()
+edades = [("Aaron", 25), ("Beto", 18), ("Carlos", 30)]
+edades_ordenadas = sorted(edades, key=lambda persona: persona[1])
+print(edades_ordenadas)  # [('Beto', 18), ('Aaron', 25), ('Carlos', 30)]
+
+# Con map()
+numeros = [1, 2, 3, 4, 5]
+cuadrados = list(map(lambda x: x**2, numeros))
+print(cuadrados)  # [1, 4, 9, 16, 25]
+
+# Con filter()
+pares = list(filter(lambda x: x % 2 == 0, numeros))
+print(pares)  # [2, 4]</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>map() — Aplicar función a cada elemento</h2>
 
-<pre><code class="language-python">
-nombres = ["aaron", "beto", "carlos"]
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`nombres = ["aaron", "beto", "carlos"]
 mayusculas = list(map(str.upper, nombres))
 print(mayusculas)  # ['AARON', 'BETO', 'CARLOS']
 
 # Con lambda
 precios = [100, 200, 300]
 con_iva = list(map(lambda p: p * 1.16, precios))
-print(con_iva)  # [116.0, 232.0, 348.0]
-</code></pre>
+print(con_iva)  # [116.0, 232.0, 348.0]`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">nombres = ["aaron", "beto", "carlos"]
+mayusculas = list(map(str.upper, nombres))
+print(mayusculas)  # ['AARON', 'BETO', 'CARLOS']
+
+# Con lambda
+precios = [100, 200, 300]
+con_iva = list(map(lambda p: p * 1.16, precios))
+print(con_iva)  # [116.0, 232.0, 348.0]</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>filter() — Filtrar elementos</h2>
 
-<pre><code class="language-python">
-numeros = range(1, 21)
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`numeros = range(1, 21)
 mayores_10 = list(filter(lambda x: x &gt; 10, numeros))
 print(mayores_10)  # [11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
 
 # Filtrar strings vacíos
 textos = ["hola", "", "mundo", "", "python"]
 no_vacios = list(filter(None, textos))
-print(no_vacios)  # ['hola', 'mundo', 'python']
-</code></pre>
+print(no_vacios)  # ['hola', 'mundo', 'python']`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">numeros = range(1, 21)
+mayores_10 = list(filter(lambda x: x &gt; 10, numeros))
+print(mayores_10)  # [11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+
+# Filtrar strings vacíos
+textos = ["hola", "", "mundo", "", "python"]
+no_vacios = list(filter(None, textos))
+print(no_vacios)  # ['hola', 'mundo', 'python']</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>reduce() — Reducir a un solo valor</h2>
 
-<pre><code class="language-python">
-from functools import reduce
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`from functools import reduce
 
 numeros = [1, 2, 3, 4, 5]
 total = reduce(lambda a, b: a + b, numeros)
 print(total)  # 15 (1+2+3+4+5)
 
 producto = reduce(lambda a, b: a * b, numeros)
-print(producto)  # 120 (1*2*3*4*5)
-</code></pre>
+print(producto)  # 120 (1*2*3*4*5)`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">from functools import reduce
+
+numeros = [1, 2, 3, 4, 5]
+total = reduce(lambda a, b: a + b, numeros)
+print(total)  # 15 (1+2+3+4+5)
+
+producto = reduce(lambda a, b: a * b, numeros)
+print(producto)  # 120 (1*2*3*4*5)</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>sorted() con key</h2>
 
-<pre><code class="language-python">
-# Ordenar diccionarios por valor
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`# Ordenar diccionarios por valor
 edades = {"Aaron": 25, "Beto": 18, "Carlos": 30}
 ordenado = sorted(edades.items(), key=lambda x: x[1])
 print(ordenado)  # [('Beto', 18), ('Aaron', 25), ('Carlos', 30)]
@@ -128,13 +217,30 @@ print(ordenado)  # [('Beto', 18), ('Aaron', 25), ('Carlos', 30)]
 # Ordenar strings por longitud
 palabras = ["python", "hi", "javascript", "code"]
 ordenado = sorted(palabras, key=len)
-print(ordenado)  # ['hi', 'code', 'python', 'javascript']
-</code></pre>
+print(ordenado)  # ['hi', 'code', 'python', 'javascript']`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false"># Ordenar diccionarios por valor
+edades = {"Aaron": 25, "Beto": 18, "Carlos": 30}
+ordenado = sorted(edades.items(), key=lambda x: x[1])
+print(ordenado)  # [('Beto', 18), ('Aaron', 25), ('Carlos', 30)]
+
+# Ordenar strings por longitud
+palabras = ["python", "hi", "javascript", "code"]
+ordenado = sorted(palabras, key=len)
+print(ordenado)  # ['hi', 'code', 'python', 'javascript']</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Funciones como objetos</h2>
 
-<pre><code class="language-python">
-def ejecutar(funcion, *args):
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`def ejecutar(funcion, *args):
     return funcion(*args)
 
 def sumar(a, b):
@@ -144,14 +250,33 @@ def multiplicar(a, b):
     return a * b
 
 print(ejecutar(sumar, 3, 4))        # 7
-print(ejecutar(multiplicar, 3, 4))  # 12
-</code></pre>
+print(ejecutar(multiplicar, 3, 4))  # 12`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">def ejecutar(funcion, *args):
+    return funcion(*args)
+
+def sumar(a, b):
+    return a + b
+
+def multiplicar(a, b):
+    return a * b
+
+print(ejecutar(sumar, 3, 4))        # 7
+print(ejecutar(multiplicar, 3, 4))  # 12</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Ejemplos prácticos</h2>
 
 <h3>Transformar datos con map/filter</h3>
-<pre><code class="language-python">
-# Lista de usuarios con edades
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`# Lista de usuarios con edades
 usuarios = [
     {"nombre": "Aaron", "edad": 25, "activo": True},
     {"nombre": "Beto", "edad": 17, "activo": False},
@@ -164,12 +289,34 @@ print([u["nombre"] for u in activos])  # ['Aaron', 'Carlos']
 
 # Solo nombres de activos
 nombres_activos = list(map(lambda u: u["nombre"], activos))
-print(nombres_activos)  # ['Aaron', 'Carlos']
-</code></pre>
+print(nombres_activos)  # ['Aaron', 'Carlos']`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false"># Lista de usuarios con edades
+usuarios = [
+    {"nombre": "Aaron", "edad": 25, "activo": True},
+    {"nombre": "Beto", "edad": 17, "activo": False},
+    {"nombre": "Carlos", "edad": 30, "activo": True},
+]
+
+# Solo usuarios activos
+activos = list(filter(lambda u: u["activo"], usuarios))
+print([u["nombre"] for u in activos])  # ['Aaron', 'Carlos']
+
+# Solo nombres de activos
+nombres_activos = list(map(lambda u: u["nombre"], activos))
+print(nombres_activos)  # ['Aaron', 'Carlos']</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h3>Resumen de ventas</h3>
-<pre><code class="language-python">
-ventas = [
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`ventas = [
     {"producto": "laptop", "cantidad": 2, "precio": 800},
     {"producto": "mouse", "cantidad": 10, "precio": 25},
     {"producto": "teclado", "cantidad": 5, "precio": 45},
@@ -178,8 +325,23 @@ ventas = [
 # Total por producto
 totales = list(map(lambda v: v["cantidad"] * v["precio"], ventas))
 total_general = reduce(lambda a, b: a + b, totales)
-print(f"Total: ${total_general}")
-</code></pre>
+print(f"Total: ${total_general}")`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">ventas = [
+    {"producto": "laptop", "cantidad": 2, "precio": 800},
+    {"producto": "mouse", "cantidad": 10, "precio": 25},
+    {"producto": "teclado", "cantidad": 5, "precio": 45},
+]
+
+# Total por producto
+totales = list(map(lambda v: v["cantidad"] * v["precio"], ventas))
+total_general = reduce(lambda a, b: a + b, totales)
+print(f"Total: ${total_general}")</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Ejercicios</h2>
 
@@ -190,8 +352,11 @@ print(f"Total: ${total_general}")
 
 <h3>Soluciones</h3>
 
-<pre><code class="language-python">
-# Ejercicio 1
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`# Ejercicio 1
 celsius = [0, 20, 37, 100]
 fahrenheit = list(map(lambda c: c * 9/5 + 32, celsius))
 print(fahrenheit)  # [32.0, 68.0, 98.6, 212.0]
@@ -214,8 +379,37 @@ personas = [
     {"nombre": "Carlos", "edad": 25},
 ]
 orden = sorted(personas, key=lambda p: (p["edad"], p["nombre"]))
-print([(p["nombre"], p["edad"]) for p in orden])
-</code></pre>
+print([(p["nombre"], p["edad"]) for p in orden])`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false"># Ejercicio 1
+celsius = [0, 20, 37, 100]
+fahrenheit = list(map(lambda c: c * 9/5 + 32, celsius))
+print(fahrenheit)  # [32.0, 68.0, 98.6, 212.0]
+
+# Ejercicio 2
+palabras = ["hi", "python", "code", "javascript", "ai"]
+largas = list(filter(lambda p: len(p) &gt; 5, palabras))
+print(largas)  # ['python', 'javascript']
+
+# Ejercicio 3
+from functools import reduce
+numeros = [3, 7, 2, 9, 1, 5]
+mayor = reduce(lambda a, b: a if a &gt; b else b, numeros)
+print(mayor)  # 9
+
+# Ejercicio 4
+personas = [
+    {"nombre": "Aaron", "edad": 25},
+    {"nombre": "Beto", "edad": 30},
+    {"nombre": "Carlos", "edad": 25},
+]
+orden = sorted(personas, key=lambda p: (p["edad"], p["nombre"]))
+print([(p["nombre"], p["edad"]) for p in orden])</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <hr>
 
@@ -226,5 +420,6 @@ print([(p["nombre"], p["edad"]) for p in orden])
             <a href="13-Archivos.html">Archivos →</a>
         </div>
     </div>
+    <script src="interactive.js"></script>
 </body>
 </html>

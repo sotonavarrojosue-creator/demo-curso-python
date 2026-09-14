@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Diccionarios — Aprende Python</title>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="interactive.css">
     <style>
         :root { --bg: #0a0a0f; --surface: #12121a; --border: #2a2a3a; --text: #e0e0ec; --muted: #7a7a8e; --accent: #00d4aa; --purple: #a29bfe; --yellow: #ffd93d; --blue: #4ecdc4; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-        .mono { font-family: 'JetBrains Mono', monospace; }
         nav { position: fixed; top: 0; width: 100%; background: rgba(10,10,15,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 1rem 2rem; z-index: 100; display: flex; justify-content: space-between; align-items: center; }
         nav a { color: var(--accent); text-decoration: none; font-weight: 600; font-size: 0.9rem; }
         nav .back { color: var(--muted); }
@@ -22,7 +22,7 @@
         p { margin-bottom: 1rem; color: var(--text); }
         ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
         li { margin-bottom: 0.3rem; }
-        pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem; overflow-x: auto; margin: 1rem 0; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; line-height: 1.5; }
+        pre { display: none; }
         code { font-family: 'JetBrains Mono', monospace; font-size: 0.85em; }
         :not(pre) > code { background: var(--surface); padding: 0.15rem 0.4rem; border-radius: 4px; border: 1px solid var(--border); }
         table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
@@ -30,6 +30,7 @@
         th { background: var(--surface); font-weight: 600; }
         blockquote { border-left: 3px solid var(--accent); padding-left: 1rem; color: var(--muted); margin: 1rem 0; }
         strong { color: var(--yellow); }
+        hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
         .nav-buttons { display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border); }
         .nav-buttons a { color: var(--accent); text-decoration: none; font-weight: 600; padding: 0.8rem 1.5rem; border: 1px solid var(--border); border-radius: 6px; transition: all 0.2s; }
         .nav-buttons a:hover { border-color: var(--accent); background: rgba(0,212,170,0.1); }
@@ -49,52 +50,111 @@
 
 <h2>Crear diccionarios</h2>
 
-<pre><code class="language-python">
-persona = {
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`persona = {
     "nombre": "Aaron",
     "edad": 25,
     "ciudad": "CDMX"
 }
 
-vacio = {}
-</code></pre>
+vacio = {}`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">persona = {
+    "nombre": "Aaron",
+    "edad": 25,
+    "ciudad": "CDMX"
+}
+
+vacio = {}</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Acceder a valores</h2>
 
-<pre><code class="language-python">
-persona = {"nombre": "Aaron", "edad": 25}
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`persona = {"nombre": "Aaron", "edad": 25}
 
 print(persona["nombre"])     # Aaron
 print(persona.get("edad"))   # 25
-print(persona.get("email", "no disponible"))  # Valor por defecto si no existe
-</code></pre>
+print(persona.get("email", "no disponible"))  # Valor por defecto si no existe`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">persona = {"nombre": "Aaron", "edad": 25}
+
+print(persona["nombre"])     # Aaron
+print(persona.get("edad"))   # 25
+print(persona.get("email", "no disponible"))  # Valor por defecto si no existe</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Modificar y agregar</h2>
 
-<pre><code class="language-python">
-persona = {"nombre": "Aaron", "edad": 25}
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`persona = {"nombre": "Aaron", "edad": 25}
 
 persona["edad"] = 26           # Modificar
 persona["email"] = "a@b.com"   # Agregar nuevo
-del persona["email"]           # Eliminar
-</code></pre>
+del persona["email"]           # Eliminar`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">persona = {"nombre": "Aaron", "edad": 25}
+
+persona["edad"] = 26           # Modificar
+persona["email"] = "a@b.com"   # Agregar nuevo
+del persona["email"]           # Eliminar</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Métodos útiles</h2>
 
-<pre><code class="language-python">
-persona = {"nombre": "Aaron", "edad": 25, "ciudad": "CDMX"}
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`persona = {"nombre": "Aaron", "edad": 25, "ciudad": "CDMX"}
 
 print(persona.keys())     # dict_keys(['nombre', 'edad', 'ciudad'])
 print(persona.values())   # dict_values(['Aaron', 25, 'CDMX'])
 print(persona.items())    # dict_items([('nombre', 'Aaron'), ...])
 
-print("nombre" in persona)  # True (verificar si existe la clave)
-</code></pre>
+print("nombre" in persona)  # True (verificar si existe la clave)`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">persona = {"nombre": "Aaron", "edad": 25, "ciudad": "CDMX"}
+
+print(persona.keys())     # dict_keys(['nombre', 'edad', 'ciudad'])
+print(persona.values())   # dict_values(['Aaron', 25, 'CDMX'])
+print(persona.items())    # dict_items([('nombre', 'Aaron'), ...])
+
+print("nombre" in persona)  # True (verificar si existe la clave)</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Iterar diccionarios</h2>
 
-<pre><code class="language-python">
-persona = {"nombre": "Aaron", "edad": 25, "ciudad": "CDMX"}
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`persona = {"nombre": "Aaron", "edad": 25, "ciudad": "CDMX"}
 
 # Por clave
 for clave in persona:
@@ -102,13 +162,30 @@ for clave in persona:
 
 # Por valor
 for clave, valor in persona.items():
-    print(f"{clave}: {valor}")
-</code></pre>
+    print(f"{clave}: {valor}")`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">persona = {"nombre": "Aaron", "edad": 25, "ciudad": "CDMX"}
+
+# Por clave
+for clave in persona:
+    print(clave)
+
+# Por valor
+for clave, valor in persona.items():
+    print(f"{clave}: {valor}")</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Diccionarios anidados</h2>
 
-<pre><code class="language-python">
-escuela = {
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`escuela = {
     "clase_A": {
         "maestro": "Prof. García",
         "alumnos": 30
@@ -119,38 +196,89 @@ escuela = {
     }
 }
 
-print(escuela["clase_A"]["maestro"])  # Prof. García
-</code></pre>
+print(escuela["clase_A"]["maestro"])  # Prof. García`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">escuela = {
+    "clase_A": {
+        "maestro": "Prof. García",
+        "alumnos": 30
+    },
+    "clase_B": {
+        "maestro": "Prof. López",
+        "alumnos": 28
+    }
+}
+
+print(escuela["clase_A"]["maestro"])  # Prof. García</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>List comprehension con diccionarios</h2>
 
-<pre><code class="language-python">
-# Cuadrados del 1 al 5
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`# Cuadrados del 1 al 5
 cuadrados = {x: x**2 for x in range(1, 6)}
 print(cuadrados)  # {1: 1, 2: 4, 3: 9, 4: 16, 5: 25}
 
 # Filtrar
 mayores = {k: v for k, v in cuadrados.items() if v &gt; 10}
-print(mayores)  # {4: 16, 5: 25}
-</code></pre>
+print(mayores)  # {4: 16, 5: 25}`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false"># Cuadrados del 1 al 5
+cuadrados = {x: x**2 for x in range(1, 6)}
+print(cuadrados)  # {1: 1, 2: 4, 3: 9, 4: 16, 5: 25}
+
+# Filtrar
+mayores = {k: v for k, v in cuadrados.items() if v &gt; 10}
+print(mayores)  # {4: 16, 5: 25}</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Ejemplos prácticos</h2>
 
 <h3>Contador de palabras</h3>
-<pre><code class="language-python">
-texto = "el gato come pescado el gato duerme"
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`texto = "el gato come pescado el gato duerme"
 palabras = texto.split()
 
 contador = {}
 for palabra in palabras:
     contador[palabra] = contador.get(palabra, 0) + 1
 
-print(contador)  # {'el': 2, 'gato': 2, 'come': 1, 'pescado': 1, 'duerme': 1}
-</code></pre>
+print(contador)  # {'el': 2, 'gato': 2, 'come': 1, 'pescado': 1, 'duerme': 1}`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">texto = "el gato come pescado el gato duerme"
+palabras = texto.split()
+
+contador = {}
+for palabra in palabras:
+    contador[palabra] = contador.get(palabra, 0) + 1
+
+print(contador)  # {'el': 2, 'gato': 2, 'come': 1, 'pescado': 1, 'duerme': 1}</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h3>Agenda de contactos</h3>
-<pre><code class="language-python">
-contactos = {}
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`contactos = {}
 
 while True:
     accion = input("(a)gregar, (b)uscar, (l)istar, (s)alir: ")
@@ -167,8 +295,31 @@ while True:
         for nombre, tel in contactos.items():
             print(f"{nombre}: {tel}")
     elif accion == "s":
-        break
-</code></pre>
+        break`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">contactos = {}
+
+while True:
+    accion = input("(a)gregar, (b)uscar, (l)istar, (s)alir: ")
+    
+    if accion == "a":
+        nombre = input("Nombre: ")
+        telefono = input("Teléfono: ")
+        contactos[nombre] = telefono
+        print("Guardado")
+    elif accion == "b":
+        nombre = input("Nombre: ")
+        print(contactos.get(nombre, "No encontrado"))
+    elif accion == "l":
+        for nombre, tel in contactos.items():
+            print(f"{nombre}: {tel}")
+    elif accion == "s":
+        break</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Ejercicios</h2>
 
@@ -179,8 +330,11 @@ while True:
 
 <h3>Soluciones</h3>
 
-<pre><code class="language-python">
-# Ejercicio 1
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`# Ejercicio 1
 productos = {"laptop": 800, "mouse": 25, "teclado": 45}
 mas_caro = max(productos, key=productos.get)
 print(f"El más caro es {mas_caro} con ${productos[mas_caro]}")
@@ -203,8 +357,37 @@ dict2 = {"b": 3, "c": 4}
 fusionado = dict1.copy()
 for k, v in dict2.items():
     fusionado[k] = fusionado.get(k, 0) + v
-print(fusionado)  # {'a': 1, 'b': 5, 'c': 4}
-</code></pre>
+print(fusionado)  # {'a': 1, 'b': 5, 'c': 4}`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false"># Ejercicio 1
+productos = {"laptop": 800, "mouse": 25, "teclado": 45}
+mas_caro = max(productos, key=productos.get)
+print(f"El más caro es {mas_caro} con ${productos[mas_caro]}")
+
+# Ejercicio 2
+original = {"a": 1, "b": 2, "c": 3}
+invertido = {v: k for k, v in original.items()}
+print(invertido)  # {1: 'a', 2: 'b', 3: 'c'}
+
+# Ejercicio 3
+palabra = "murcielago"
+contador = {}
+for letra in palabra:
+    contador[letra] = contador.get(letra, 0) + 1
+print(contador)
+
+# Ejercicio 4
+dict1 = {"a": 1, "b": 2}
+dict2 = {"b": 3, "c": 4}
+fusionado = dict1.copy()
+for k, v in dict2.items():
+    fusionado[k] = fusionado.get(k, 0) + v
+print(fusionado)  # {'a': 1, 'b': 5, 'c': 4}</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <hr>
 
@@ -215,5 +398,6 @@ print(fusionado)  # {'a': 1, 'b': 5, 'c': 4}
             <a href="10-Tuplas-y-Sets.html">Tuplas y Sets →</a>
         </div>
     </div>
+    <script src="interactive.js"></script>
 </body>
 </html>

@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Archivos — Aprende Python</title>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="interactive.css">
     <style>
         :root { --bg: #0a0a0f; --surface: #12121a; --border: #2a2a3a; --text: #e0e0ec; --muted: #7a7a8e; --accent: #00d4aa; --purple: #a29bfe; --yellow: #ffd93d; --blue: #4ecdc4; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-        .mono { font-family: 'JetBrains Mono', monospace; }
         nav { position: fixed; top: 0; width: 100%; background: rgba(10,10,15,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 1rem 2rem; z-index: 100; display: flex; justify-content: space-between; align-items: center; }
         nav a { color: var(--accent); text-decoration: none; font-weight: 600; font-size: 0.9rem; }
         nav .back { color: var(--muted); }
@@ -22,7 +22,7 @@
         p { margin-bottom: 1rem; color: var(--text); }
         ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
         li { margin-bottom: 0.3rem; }
-        pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem; overflow-x: auto; margin: 1rem 0; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; line-height: 1.5; }
+        pre { display: none; }
         code { font-family: 'JetBrains Mono', monospace; font-size: 0.85em; }
         :not(pre) > code { background: var(--surface); padding: 0.15rem 0.4rem; border-radius: 4px; border: 1px solid var(--border); }
         table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
@@ -30,6 +30,7 @@
         th { background: var(--surface); font-weight: 600; }
         blockquote { border-left: 3px solid var(--accent); padding-left: 1rem; color: var(--muted); margin: 1rem 0; }
         strong { color: var(--yellow); }
+        hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
         .nav-buttons { display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border); }
         .nav-buttons a { color: var(--accent); text-decoration: none; font-weight: 600; padding: 0.8rem 1.5rem; border: 1px solid var(--border); border-radius: 6px; transition: all 0.2s; }
         .nav-buttons a:hover { border-color: var(--accent); background: rgba(0,212,170,0.1); }
@@ -49,8 +50,11 @@
 
 <h2>Leer archivos</h2>
 
-<pre><code class="language-python">
-# Método básico
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`# Método básico
 archivo = open("datos.txt", "r")
 contenido = archivo.read()
 archivo.close()
@@ -58,37 +62,89 @@ archivo.close()
 # Método con with (recomendado — cierra automáticamente)
 with open("datos.txt", "r") as archivo:
     contenido = archivo.read()
-    print(contenido)
-</code></pre>
+    print(contenido)`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false"># Método básico
+archivo = open("datos.txt", "r")
+contenido = archivo.read()
+archivo.close()
+
+# Método con with (recomendado — cierra automáticamente)
+with open("datos.txt", "r") as archivo:
+    contenido = archivo.read()
+    print(contenido)</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h3>Leer línea por línea</h3>
 
-<pre><code class="language-python">
-with open("datos.txt", "r") as archivo:
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`with open("datos.txt", "r") as archivo:
     for linea in archivo:
-        print(linea.strip())  # .strip() elimina saltos de línea
-</code></pre>
+        print(linea.strip())  # .strip() elimina saltos de línea`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">with open("datos.txt", "r") as archivo:
+    for linea in archivo:
+        print(linea.strip())  # .strip() elimina saltos de línea</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h3>Leer todo a lista</h3>
 
-<pre><code class="language-python">
-with open("datos.txt", "r") as archivo:
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`with open("datos.txt", "r") as archivo:
     lineas = archivo.readlines()  # Lista de strings
-    print(lineas)  # ['línea 1\n', 'línea 2\n', ...]
-</code></pre>
+    print(lineas)  # ['línea 1\n', 'línea 2\n', ...]`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">with open("datos.txt", "r") as archivo:
+    lineas = archivo.readlines()  # Lista de strings
+    print(lineas)  # ['línea 1\n', 'línea 2\n', ...]</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Escribir archivos</h2>
 
-<pre><code class="language-python">
-# "w" — Sobreescribe el archivo completo
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`# "w" — Sobreescribe el archivo completo
 with open("salida.txt", "w") as archivo:
     archivo.write("Primera línea\n")
     archivo.write("Segunda línea\n")
 
 # "a" — Agrega al final (no borra lo existente)
 with open("salida.txt", "a") as archivo:
-    archivo.write("Tercera línea\n")
-</code></pre>
+    archivo.write("Tercera línea\n")`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false"># "w" — Sobreescribe el archivo completo
+with open("salida.txt", "w") as archivo:
+    archivo.write("Primera línea\n")
+    archivo.write("Segunda línea\n")
+
+# "a" — Agrega al final (no borra lo existente)
+with open("salida.txt", "a") as archivo:
+    archivo.write("Tercera línea\n")</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Modos de apertura</h2>
 
@@ -103,8 +159,11 @@ with open("salida.txt", "a") as archivo:
 
 <h2>Archivos CSV</h2>
 
-<pre><code class="language-python">
-import csv
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`import csv
 
 # Leer CSV
 with open("datos.csv", "r") as archivo:
@@ -121,13 +180,39 @@ datos = [
 
 with open("nuevos_datos.csv", "w", newline="") as archivo:
     escritor = csv.writer(archivo)
-    escritor.writerows(datos)
-</code></pre>
+    escritor.writerows(datos)`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">import csv
+
+# Leer CSV
+with open("datos.csv", "r") as archivo:
+    lector = csv.reader(archivo)
+    for fila in lector:
+        print(fila)  # ['nombre', 'edad', 'ciudad']
+
+# Escribir CSV
+datos = [
+    ["nombre", "edad", "ciudad"],
+    ["Aaron", 25, "CDMX"],
+    ["Beto", 30, "GDL"]
+]
+
+with open("nuevos_datos.csv", "w", newline="") as archivo:
+    escritor = csv.writer(archivo)
+    escritor.writerows(datos)</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Archivos JSON</h2>
 
-<pre><code class="language-python">
-import json
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`import json
 
 # Leer JSON
 with open("datos.json", "r") as archivo:
@@ -137,15 +222,34 @@ with open("datos.json", "r") as archivo:
 # Escribir JSON
 persona = {"nombre": "Aaron", "edad": 25, "hobbies": ["coding", "leer"]}
 with open("persona.json", "w") as archivo:
-    json.dump(persona, archivo, indent=2)
-</code></pre>
+    json.dump(persona, archivo, indent=2)`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">import json
+
+# Leer JSON
+with open("datos.json", "r") as archivo:
+    datos = json.load(archivo)
+    print(datos)  # {'nombre': 'Aaron', 'edad': 25}
+
+# Escribir JSON
+persona = {"nombre": "Aaron", "edad": 25, "hobbies": ["coding", "leer"]}
+with open("persona.json", "w") as archivo:
+    json.dump(persona, archivo, indent=2)</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Ejemplos prácticos</h2>
 
 <h3>Guardar y cargar tareas</h3>
 
-<pre><code class="language-python">
-import json
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`import json
 
 ARCHIVO = "tareas.json"
 
@@ -163,13 +267,40 @@ def guardar_tareas(tareas):
 # Usar
 tareas = cargar_tareas()
 tareas.append({"tarea": "Aprender Python", "hecha": False})
-guardar_tareas(tareas)
-</code></pre>
+guardar_tareas(tareas)`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">import json
+
+ARCHIVO = "tareas.json"
+
+def cargar_tareas():
+    try:
+        with open(ARCHIVO, "r") as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return []
+
+def guardar_tareas(tareas):
+    with open(ARCHIVO, "w") as f:
+        json.dump(tareas, f, indent=2)
+
+# Usar
+tareas = cargar_tareas()
+tareas.append({"tarea": "Aprender Python", "hecha": False})
+guardar_tareas(tareas)</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h3>Contar palabras en un archivo</h3>
 
-<pre><code class="language-python">
-def contar_palabras(archivo):
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`def contar_palabras(archivo):
     with open(archivo, "r") as f:
         texto = f.read().lower()
     
@@ -181,8 +312,26 @@ def contar_palabras(archivo):
     
     return dict(sorted(contador.items(), key=lambda x: x[1], reverse=True))
 
-# Resultado: {'python': 5, 'es': 3, 'genial': 2, ...}
-</code></pre>
+# Resultado: {'python': 5, 'es': 3, 'genial': 2, ...}`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">def contar_palabras(archivo):
+    with open(archivo, "r") as f:
+        texto = f.read().lower()
+    
+    palabras = texto.split()
+    contador = {}
+    for palabra in palabras:
+        palabra = palabra.strip(".,;:!?")
+        contador[palabra] = contador.get(palabra, 0) + 1
+    
+    return dict(sorted(contador.items(), key=lambda x: x[1], reverse=True))
+
+# Resultado: {'python': 5, 'es': 3, 'genial': 2, ...}</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Ejercicios</h2>
 
@@ -193,8 +342,11 @@ def contar_palabras(archivo):
 
 <h3>Soluciones</h3>
 
-<pre><code class="language-python">
-# Ejercicio 1
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`# Ejercicio 1
 with open("frases.txt", "w") as f:
     f.write("Hola\nMundo\nPython\nEs\nGenial\n")
 
@@ -230,8 +382,50 @@ def cargar_gastos():
 gastos = cargar_gastos()
 gastos.append({"concepto": "Almuerzo", "monto": 50})
 with open("gastos.json", "w") as f:
-    json.dump(gastos, f, indent=2)
-</code></pre>
+    json.dump(gastos, f, indent=2)`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false"># Ejercicio 1
+with open("frases.txt", "w") as f:
+    f.write("Hola\nMundo\nPython\nEs\nGenial\n")
+
+with open("frases.txt", "r") as f:
+    lineas = f.readlines()
+    print(f"Tiene {len(lineas)} líneas")
+
+# Ejercicio 2
+import json
+nombre = input("Nombre: ")
+edad = int(input("Edad: "))
+datos = {"nombre": nombre, "edad": edad}
+with open("usuario.json", "w") as f:
+    json.dump(datos, f, indent=2)
+print("Guardado")
+
+# Ejercicio 3
+import csv
+with open("notas.csv", "r") as f:
+    lector = csv.DictReader(f)
+    notas = [float(fila["nota"]) for fila in lector]
+    print(f"Promedio: {sum(notas)/len(notas):.1f}")
+
+# Ejercicio 4
+import json
+def cargar_gastos():
+    try:
+        with open("gastos.json", "r") as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return []
+
+gastos = cargar_gastos()
+gastos.append({"concepto": "Almuerzo", "monto": 50})
+with open("gastos.json", "w") as f:
+    json.dump(gastos, f, indent=2)</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <hr>
 
@@ -242,5 +436,6 @@ with open("gastos.json", "w") as f:
             <a href="14-Errores.html">Manejo de Errores →</a>
         </div>
     </div>
+    <script src="interactive.js"></script>
 </body>
 </html>

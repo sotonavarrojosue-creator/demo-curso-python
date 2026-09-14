@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hola Mundo — Aprende Python</title>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="interactive.css">
     <style>
         :root { --bg: #0a0a0f; --surface: #12121a; --border: #2a2a3a; --text: #e0e0ec; --muted: #7a7a8e; --accent: #00d4aa; --purple: #a29bfe; --yellow: #ffd93d; --blue: #4ecdc4; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-        .mono { font-family: 'JetBrains Mono', monospace; }
         nav { position: fixed; top: 0; width: 100%; background: rgba(10,10,15,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 1rem 2rem; z-index: 100; display: flex; justify-content: space-between; align-items: center; }
         nav a { color: var(--accent); text-decoration: none; font-weight: 600; font-size: 0.9rem; }
         nav .back { color: var(--muted); }
@@ -22,7 +22,7 @@
         p { margin-bottom: 1rem; color: var(--text); }
         ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
         li { margin-bottom: 0.3rem; }
-        pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem; overflow-x: auto; margin: 1rem 0; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; line-height: 1.5; }
+        pre { display: none; }
         code { font-family: 'JetBrains Mono', monospace; font-size: 0.85em; }
         :not(pre) > code { background: var(--surface); padding: 0.15rem 0.4rem; border-radius: 4px; border: 1px solid var(--border); }
         table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
@@ -30,6 +30,7 @@
         th { background: var(--surface); font-weight: 600; }
         blockquote { border-left: 3px solid var(--accent); padding-left: 1rem; color: var(--muted); margin: 1rem 0; }
         strong { color: var(--yellow); }
+        hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
         .nav-buttons { display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border); }
         .nav-buttons a { color: var(--accent); text-decoration: none; font-weight: 600; padding: 0.8rem 1.5rem; border: 1px solid var(--border); border-radius: 6px; transition: all 0.2s; }
         .nav-buttons a:hover { border-color: var(--accent); background: rgba(0,212,170,0.1); }
@@ -55,20 +56,47 @@
 
 <p>Abre tu editor de código, crea un archivo llamado <code>hola.py</code> y escribe:</p>
 
-<pre><code class="language-python">
-print("¡Hola, mundo!")
-</code></pre>
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`print("¡Hola, mundo!")`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">print("¡Hola, mundo!")</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <p>Para ejecutarlo, abre la terminal y escribe:</p>
 
-<pre><code class="language-bash">
-python hola.py
-</code></pre>
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">bash</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`python hola.py`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">python hola.py</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <p><strong>Salida:</strong></p>
-<pre><code class="language-">
-¡Hola, mundo!
-</code></pre>
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`¡Hola, mundo!`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">¡Hola, mundo!</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>¿Qué pasó ahí?</h2>
 
@@ -78,18 +106,40 @@ python hola.py
 
 <h2>Más ejemplos con print</h2>
 
-<pre><code class="language-python">
-print("Mi nombre es Aaron")
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`print("Mi nombre es Aaron")
 print(2 + 3)
-print("Tengo", 25, "años")
-</code></pre>
+print("Tengo", 25, "años")`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">print("Mi nombre es Aaron")
+print(2 + 3)
+print("Tengo", 25, "años")</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <p><strong>Salida:</strong></p>
-<pre><code class="language-">
-Mi nombre es Aaron
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`Mi nombre es Aaron
 5
-Tengo 25 años
-</code></pre>
+Tengo 25 años`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">Mi nombre es Aaron
+5
+Tengo 25 años</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <p>Python ejecuta cada <code>print()</code> en orden, de arriba hacia abajo.</p>
 
@@ -97,34 +147,78 @@ Tengo 25 años
 
 <p>Los comentarios son notas para ti. Python los ignora completamente:</p>
 
-<pre><code class="language-python">
-# Esto es un comentario — Python no lo lee
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`# Esto es un comentario — Python no lo lee
 print("Esto sí se ejecuta")
 
 # Puedes usar comentarios para explicar qué hace tu código
 # La línea de abajo suma dos números
-print(10 + 20)
-</code></pre>
+print(10 + 20)`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false"># Esto es un comentario — Python no lo lee
+print("Esto sí se ejecuta")
+
+# Puedes usar comentarios para explicar qué hace tu código
+# La línea de abajo suma dos números
+print(10 + 20)</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Errores comunes</h2>
 
 <p><strong>Error: Forgot quotation marks</strong></p>
-<pre><code class="language-python">
-print(Hola)    # ❌ Error
-print("Hola")  # ✅ Correcto
-</code></pre>
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`print(Hola)    # ❌ Error
+print("Hola")  # ✅ Correcto`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">print(Hola)    # ❌ Error
+print("Hola")  # ✅ Correcto</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <p><strong>Error: Wrong parentheses</strong></p>
-<pre><code class="language-python">
-print "Hola"   # ❌ Error (Python 2 syntax)
-print("Hola")  # ✅ Correcto
-</code></pre>
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`print "Hola"   # ❌ Error (Python 2 syntax)
+print("Hola")  # ✅ Correcto`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">print "Hola"   # ❌ Error (Python 2 syntax)
+print("Hola")  # ✅ Correcto</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <p><strong>Error: Case sensitive</strong></p>
-<pre><code class="language-python">
-Print("Hola")  # ❌ Error — la P debe ser minúscula
-print("Hola")  # ✅ Correcto
-</code></pre>
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`Print("Hola")  # ❌ Error — la P debe ser minúscula
+print("Hola")  # ✅ Correcto`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">Print("Hola")  # ❌ Error — la P debe ser minúscula
+print("Hola")  # ✅ Correcto</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Ejercicios</h2>
 
@@ -135,8 +229,11 @@ print("Hola")  # ✅ Correcto
 
 <h3>Soluciones</h3>
 
-<pre><code class="language-python">
-# Ejercicio 1
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`# Ejercicio 1
 print("Aaron")
 
 # Ejercicio 2
@@ -148,8 +245,26 @@ print("Ciudad de México")
 print("Azul")
 
 # Ejercicio 4
-print(100 * 365)
-</code></pre>
+print(100 * 365)`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false"># Ejercicio 1
+print("Aaron")
+
+# Ejercicio 2
+print(25)
+
+# Ejercicio 3
+print("Aaron")
+print("Ciudad de México")
+print("Azul")
+
+# Ejercicio 4
+print(100 * 365)</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <hr>
 
@@ -160,5 +275,6 @@ print(100 * 365)
             <a href="02-Variables-y-Tipos.html">Variables y Tipos →</a>
         </div>
     </div>
+    <script src="interactive.js"></script>
 </body>
 </html>

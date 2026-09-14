@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestor de Tareas — Aprende Python</title>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="interactive.css">
     <style>
         :root { --bg: #0a0a0f; --surface: #12121a; --border: #2a2a3a; --text: #e0e0ec; --muted: #7a7a8e; --accent: #00d4aa; --purple: #a29bfe; --yellow: #ffd93d; --blue: #4ecdc4; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-        .mono { font-family: 'JetBrains Mono', monospace; }
         nav { position: fixed; top: 0; width: 100%; background: rgba(10,10,15,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 1rem 2rem; z-index: 100; display: flex; justify-content: space-between; align-items: center; }
         nav a { color: var(--accent); text-decoration: none; font-weight: 600; font-size: 0.9rem; }
         nav .back { color: var(--muted); }
@@ -22,7 +22,7 @@
         p { margin-bottom: 1rem; color: var(--text); }
         ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
         li { margin-bottom: 0.3rem; }
-        pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem; overflow-x: auto; margin: 1rem 0; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; line-height: 1.5; }
+        pre { display: none; }
         code { font-family: 'JetBrains Mono', monospace; font-size: 0.85em; }
         :not(pre) > code { background: var(--surface); padding: 0.15rem 0.4rem; border-radius: 4px; border: 1px solid var(--border); }
         table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
@@ -30,6 +30,7 @@
         th { background: var(--surface); font-weight: 600; }
         blockquote { border-left: 3px solid var(--accent); padding-left: 1rem; color: var(--muted); margin: 1rem 0; }
         strong { color: var(--yellow); }
+        hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
         .nav-buttons { display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border); }
         .nav-buttons a { color: var(--accent); text-decoration: none; font-weight: 600; padding: 0.8rem 1.5rem; border: 1px solid var(--border); border-radius: 6px; transition: all 0.2s; }
         .nav-buttons a:hover { border-color: var(--accent); background: rgba(0,212,170,0.1); }
@@ -49,8 +50,11 @@
 
 <h2>Código completo</h2>
 
-<pre><code class="language-python">
-import json
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`import json
 from datetime import datetime
 
 ARCHIVO = "tareas.json"
@@ -240,14 +244,219 @@ def main():
         input("\n  Presiona Enter para continuar...")
 
 if __name__ == "__main__":
-    main()
-</code></pre>
+    main()`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">import json
+from datetime import datetime
+
+ARCHIVO = "tareas.json"
+
+class Tarea:
+    def __init__(self, titulo, descripcion="", prioridad="media", id=None):
+        self.id = id or datetime.now().strftime("%Y%m%d%H%M%S")
+        self.titulo = titulo
+        self.descripcion = descripcion
+        self.prioridad = prioridad  # baja, media, alta
+        self.completada = False
+        self.fecha_creacion = datetime.now().strftime("%Y-%m-%d %H:%M")
+    
+    def a_dict(self):
+        return {
+            "id": self.id,
+            "titulo": self.titulo,
+            "descripcion": self.descripcion,
+            "prioridad": self.prioridad,
+            "completada": self.completada,
+            "fecha_creacion": self.fecha_creacion
+        }
+    
+    @classmethod
+    def de_dict(cls, datos):
+        tarea = cls(datos["titulo"], datos["descripcion"], datos["prioridad"], datos["id"])
+        tarea.completada = datos["completada"]
+        tarea.fecha_creacion = datos["fecha_creacion"]
+        return tarea
+    
+    def __str__(self):
+        estado = "✅" if self.completada else "⬜"
+        prioridad = {"alta": "🔴", "media": "🟡", "baja": "🟢"}.get(self.prioridad, "⚪")
+        return f"{estado} {prioridad} [{self.id[-4:]}] {self.titulo}"
+
+class GestorTareas:
+    def __init__(self):
+        self.tareas = []
+        self.cargar()
+    
+    def cargar(self):
+        try:
+            with open(ARCHIVO, "r") as f:
+                datos = json.load(f)
+                self.tareas = [Tarea.de_dict(t) for t in datos]
+        except (FileNotFoundError, json.JSONDecodeError):
+            self.tareas = []
+    
+    def guardar(self):
+        with open(ARCHIVO, "w") as f:
+            json.dump([t.a_dict() for t in self.tareas], f, indent=2)
+    
+    def agregar(self, titulo, descripcion="", prioridad="media"):
+        tarea = Tarea(titulo, descripcion, prioridad)
+        self.tareas.append(tarea)
+        self.guardar()
+        return tarea
+    
+    def eliminar(self, id_tarea):
+        for i, t in enumerate(self.tareas):
+            if t.id == id_tarea or t.id.endswith(id_tarea):
+                eliminada = self.tareas.pop(i)
+                self.guardar()
+                return eliminada
+        return None
+    
+    def completar(self, id_tarea):
+        for t in self.tareas:
+            if t.id == id_tarea or t.id.endswith(id_tarea):
+                t.completada = not t.completada
+                self.guardar()
+                return t
+        return None
+    
+    def buscar(self, texto):
+        return [t for t in self.tareas if texto.lower() in t.titulo.lower()]
+    
+    def filtrar_por_estado(self, completadas=False):
+        return [t for t in self.tareas if t.completada == completadas]
+    
+    def ordenar_por_prioridad(self):
+        orden = {"alta": 0, "media": 1, "baja": 2}
+        return sorted(self.tareas, key=lambda t: (t.completada, orden.get(t.prioridad, 1)))
+    
+    def estadisticas(self):
+        total = len(self.tareas)
+        completadas = len([t for t in self.tareas if t.completada])
+        return {
+            "total": total,
+            "completadas": completadas,
+            "pendientes": total - completadas,
+            "porcentaje": (completadas / total * 100) if total &gt; 0 else 0
+        }
+
+def mostrar_tareas(tareas, titulo="TAREAS"):
+    if not tareas:
+        print("  No hay tareas para mostrar")
+        return
+    print(f"\n  📋 {titulo}:")
+    print("  " + "-"*50)
+    for t in tareas:
+        print(f"  {t}")
+    print("  " + "-"*50)
+
+def main():
+    gestor = GestorTareas()
+    
+    while True:
+        stats = gestor.estadisticas()
+        print("\n" + "="*50)
+        print("       📝 GESTOR DE TAREAS")
+        print("="*50)
+        print(f"  Total: {stats['total']} | Completadas: {stats['completadas']} | Pendientes: {stats['pendientes']}")
+        print("-"*50)
+        print("  [1] Agregar tarea")
+        print("  [2] Ver pendientes")
+        print("  [3] Ver completadas")
+        print("  [4] Ver todas")
+        print("  [5] Completar/desmarcar tarea")
+        print("  [6] Eliminar tarea")
+        print("  [7] Buscar tarea")
+        print("  [8] Ver estadísticas")
+        print("  [0] Salir")
+        print("="*50)
+        
+        opcion = input("  Opción: ")
+        
+        if opcion == "1":
+            titulo = input("  Título: ").strip()
+            if not titulo:
+                print("  ❌ El título no puede estar vacío")
+                continue
+            desc = input("  Descripción (opcional): ").strip()
+            print("  Prioridad: [1] Alta  [2] Media  [3] Baja")
+            prio = {"1": "alta", "2": "media", "3": "baja"}.get(input("  → "), "media")
+            tarea = gestor.agregar(titulo, desc, prio)
+            print(f"  ✅ Tarea creada: {tarea}")
+        
+        elif opcion == "2":
+            mostrar_tareas(gestor.filtrar_por_estado(False), "PENDIENTES")
+        
+        elif opcion == "3":
+            mostrar_tareas(gestor.filtrar_por_estado(True), "COMPLETADAS")
+        
+        elif opcion == "4":
+            mostrar_tareas(gestor.ordenar_por_prioridad(), "TODAS")
+        
+        elif opcion == "5":
+            mostrar_tareas(gestor.filtrar_por_estado(False), "PENDIENTES")
+            id_t = input("  ID de tarea a toggle: ").strip()
+            resultado = gestor.completar(id_t)
+            if resultado:
+                estado = "completada" if resultado.completada else "marcada como pendiente"
+                print(f"  ✅ Tarea {estado}")
+            else:
+                print("  ❌ Tarea no encontrada")
+        
+        elif opcion == "6":
+            mostrar_tareas(gestor.tareas, "TODAS")
+            id_t = input("  ID de tarea a eliminar: ").strip()
+            eliminada = gestor.eliminar(id_t)
+            if eliminada:
+                print(f"  🗑️ Eliminada: {eliminada.titulo}")
+            else:
+                print("  ❌ Tarea no encontrada")
+        
+        elif opcion == "7":
+            texto = input("  Buscar: ").strip()
+            resultados = gestor.buscar(texto)
+            mostrar_tareas(resultados, f"RESULTADOS: '{texto}'")
+        
+        elif opcion == "8":
+            stats = gestor.estadisticas()
+            print(f"\n  📊 ESTADÍSTICAS:")
+            print(f"  Total: {stats['total']}")
+            print(f"  Completadas: {stats['completadas']}")
+            print(f"  Pendientes: {stats['pendientes']}")
+            print(f"  Progreso: {stats['porcentaje']:.1f}%")
+        
+        elif opcion == "0":
+            print("\n  👋 ¡Hasta luego!")
+            break
+        
+        else:
+            print("  ❌ Opción no válida")
+        
+        input("\n  Presiona Enter para continuar...")
+
+if __name__ == "__main__":
+    main()</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Cómo usar</h2>
 
-<pre><code class="language-bash">
-python gestor_tareas.py
-</code></pre>
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">bash</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`python gestor_tareas.py`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">python gestor_tareas.py</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Características</h2>
 <li>CRUD completo (Crear, Leer, Actualizar, Eliminar)</li>
@@ -266,5 +475,6 @@ python gestor_tareas.py
             <a href="19-Proyecto-Web-Scraper.html">Web Scraper →</a>
         </div>
     </div>
+    <script src="interactive.js"></script>
 </body>
 </html>

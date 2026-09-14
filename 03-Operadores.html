@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Operadores — Aprende Python</title>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="interactive.css">
     <style>
         :root { --bg: #0a0a0f; --surface: #12121a; --border: #2a2a3a; --text: #e0e0ec; --muted: #7a7a8e; --accent: #00d4aa; --purple: #a29bfe; --yellow: #ffd93d; --blue: #4ecdc4; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-        .mono { font-family: 'JetBrains Mono', monospace; }
         nav { position: fixed; top: 0; width: 100%; background: rgba(10,10,15,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 1rem 2rem; z-index: 100; display: flex; justify-content: space-between; align-items: center; }
         nav a { color: var(--accent); text-decoration: none; font-weight: 600; font-size: 0.9rem; }
         nav .back { color: var(--muted); }
@@ -22,7 +22,7 @@
         p { margin-bottom: 1rem; color: var(--text); }
         ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
         li { margin-bottom: 0.3rem; }
-        pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem; overflow-x: auto; margin: 1rem 0; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; line-height: 1.5; }
+        pre { display: none; }
         code { font-family: 'JetBrains Mono', monospace; font-size: 0.85em; }
         :not(pre) > code { background: var(--surface); padding: 0.15rem 0.4rem; border-radius: 4px; border: 1px solid var(--border); }
         table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
@@ -30,6 +30,7 @@
         th { background: var(--surface); font-weight: 600; }
         blockquote { border-left: 3px solid var(--accent); padding-left: 1rem; color: var(--muted); margin: 1rem 0; }
         strong { color: var(--yellow); }
+        hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
         .nav-buttons { display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border); }
         .nav-buttons a { color: var(--accent); text-decoration: none; font-weight: 600; padding: 0.8rem 1.5rem; border: 1px solid var(--border); border-radius: 6px; transition: all 0.2s; }
         .nav-buttons a:hover { border-color: var(--accent); background: rgba(0,212,170,0.1); }
@@ -49,8 +50,11 @@
 
 <h2>Operadores aritméticos</h2>
 
-<pre><code class="language-python">
-a = 10
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`a = 10
 b = 3
 
 print(a + b)    # 13    — Suma
@@ -59,26 +63,58 @@ print(a * b)    # 30    — Multiplicación
 print(a / b)    # 3.33  — División (siempre decimal)
 print(a // b)   # 3     — División entera (sin decimal)
 print(a % b)    # 1     — Módulo (resto de la división)
-print(a ** b)   # 1000  — Potencia (10³)
-</code></pre>
+print(a ** b)   # 1000  — Potencia (10³)`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">a = 10
+b = 3
+
+print(a + b)    # 13    — Suma
+print(a - b)    # 7     — Resta
+print(a * b)    # 30    — Multiplicación
+print(a / b)    # 3.33  — División (siempre decimal)
+print(a // b)   # 3     — División entera (sin decimal)
+print(a % b)    # 1     — Módulo (resto de la división)
+print(a ** b)   # 1000  — Potencia (10³)</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <p><strong>Ejemplo práctico — Convertir minutos a horas:</strong></p>
 
-<pre><code class="language-python">
-minutos = 150
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`minutos = 150
 horas = minutos // 60
 minutos_restantes = minutos % 60
 
 print(horas, "horas y", minutos_restantes, "minutos")
-# 2 horas y 30 minutos
-</code></pre>
+# 2 horas y 30 minutos`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">minutos = 150
+horas = minutos // 60
+minutos_restantes = minutos % 60
+
+print(horas, "horas y", minutos_restantes, "minutos")
+# 2 horas y 30 minutos</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Operadores de comparación</h2>
 
 <p>Devuelven <code>True</code> o <code>False</code>:</p>
 
-<pre><code class="language-python">
-x = 10
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`x = 10
 y = 20
 
 print(x == y)   # False  — Igual que
@@ -86,19 +122,46 @@ print(x != y)   # True   — Diferente de
 print(x &gt; y)    # False  — Mayor que
 print(x &lt; y)    # True   — Menor que
 print(x &gt;= 10)  # True   — Mayor o igual que
-print(x &lt;= 5)   # False  — Menor o igual que
-</code></pre>
+print(x &lt;= 5)   # False  — Menor o igual que`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">x = 10
+y = 20
+
+print(x == y)   # False  — Igual que
+print(x != y)   # True   — Diferente de
+print(x &gt; y)    # False  — Mayor que
+print(x &lt; y)    # True   — Menor que
+print(x &gt;= 10)  # True   — Mayor o igual que
+print(x &lt;= 5)   # False  — Menor o igual que</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <p><strong>⚠️ Cuidado:</strong> <code>==</code> compara valores, <code>=</code> asigna valores:</p>
-<pre><code class="language-python">
-x = 10      # Asigna 10 a x
-x == 10     # Compara si x es igual a 10 (devuelve True)
-</code></pre>
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`x = 10      # Asigna 10 a x
+x == 10     # Compara si x es igual a 10 (devuelve True)`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">x = 10      # Asigna 10 a x
+x == 10     # Compara si x es igual a 10 (devuelve True)</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Operadores lógicos</h2>
 
-<pre><code class="language-python">
-edad = 25
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`edad = 25
 tiene_id = True
 
 # and — ambos deben ser True
@@ -108,28 +171,68 @@ print(edad &gt;= 18 and tiene_id)    # True
 print(edad &lt; 18 or tiene_id)      # True
 
 # not — invierte el valor
-print(not tiene_id)               # False
-</code></pre>
+print(not tiene_id)               # False`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">edad = 25
+tiene_id = True
+
+# and — ambos deben ser True
+print(edad &gt;= 18 and tiene_id)    # True
+
+# or — al menos uno debe ser True
+print(edad &lt; 18 or tiene_id)      # True
+
+# not — invierte el valor
+print(not tiene_id)               # False</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <p><strong>Ejemplo práctico — Verificar edad para conducir:</strong></p>
 
-<pre><code class="language-python">
-edad = 16
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`edad = 16
 puede_conducir = edad &gt;= 18
-print("¿Puede conducir?", puede_conducir)  # False
-</code></pre>
+print("¿Puede conducir?", puede_conducir)  # False`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">edad = 16
+puede_conducir = edad &gt;= 18
+print("¿Puede conducir?", puede_conducir)  # False</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Asignación compuesta</h2>
 
 <p>Abreviaturas para operar y asignar:</p>
 
-<pre><code class="language-python">
-x = 10
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`x = 10
 x += 5    # Equivale a: x = x + 5 → x = 15
 x -= 3    # Equivale a: x = x - 3 → x = 12
 x *= 2    # Equivale a: x = x * 2 → x = 24
-x /= 4    # Equivale a: x = x / 4 → x = 6.0
-</code></pre>
+x /= 4    # Equivale a: x = x / 4 → x = 6.0`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">x = 10
+x += 5    # Equivale a: x = x + 5 → x = 15
+x -= 3    # Equivale a: x = x - 3 → x = 12
+x *= 2    # Equivale a: x = x * 2 → x = 24
+x /= 4    # Equivale a: x = x / 4 → x = 6.0</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Precedencia de operadores</h2>
 
@@ -143,11 +246,22 @@ x /= 4    # Equivale a: x = x / 4 → x = 6.0
 <li>`and`</li>
 <li>`or`</li>
 
-<pre><code class="language-python">
-# Sin paréntesis — Python calcula en orden
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`# Sin paréntesis — Python calcula en orden
 print(2 + 3 * 4)     # 14 (primero 3*4=12, luego 2+12)
-print((2 + 3) * 4)   # 20 (paréntesis primero)
-</code></pre>
+print((2 + 3) * 4)   # 20 (paréntesis primero)`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false"># Sin paréntesis — Python calcula en orden
+print(2 + 3 * 4)     # 14 (primero 3*4=12, luego 2+12)
+print((2 + 3) * 4)   # 20 (paréntesis primero)</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Ejercicios</h2>
 
@@ -158,8 +272,11 @@ print((2 + 3) * 4)   # 20 (paréntesis primero)
 
 <h3>Soluciones</h3>
 
-<pre><code class="language-python">
-# Ejercicio 1
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`# Ejercicio 1
 edad = 25
 dias = edad * 365
 print("He vivido", dias, "días")
@@ -181,8 +298,36 @@ print("Me sobran $", round(sobrante, 2))
 a = 15
 b = 23
 mayor = a if a &gt; b else b
-print("El mayor es:", mayor)
-</code></pre>
+print("El mayor es:", mayor)`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false"># Ejercicio 1
+edad = 25
+dias = edad * 365
+print("He vivido", dias, "días")
+
+# Ejercicio 2
+numero = 7
+es_par = numero % 2 == 0
+print(numero, "es par:", es_par)
+
+# Ejercicio 3
+precio_cafe = 45.50
+dinero = 200
+cajes_que_puedo_comprar = dinero // precio_cafe
+sobrante = dinero % precio_cafe
+print("Puedo comprar", int(cajes_que_puedo_comprar), "cafés")
+print("Me sobran $", round(sobrante, 2))
+
+# Ejercicio 4
+a = 15
+b = 23
+mayor = a if a &gt; b else b
+print("El mayor es:", mayor)</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <hr>
 
@@ -193,5 +338,6 @@ print("El mayor es:", mayor)
             <a href="04-Input-Output.html">Input / Output →</a>
         </div>
     </div>
+    <script src="interactive.js"></script>
 </body>
 </html>

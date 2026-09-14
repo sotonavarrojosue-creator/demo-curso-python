@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manejo de Errores — Aprende Python</title>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="interactive.css">
     <style>
         :root { --bg: #0a0a0f; --surface: #12121a; --border: #2a2a3a; --text: #e0e0ec; --muted: #7a7a8e; --accent: #00d4aa; --purple: #a29bfe; --yellow: #ffd93d; --blue: #4ecdc4; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-        .mono { font-family: 'JetBrains Mono', monospace; }
         nav { position: fixed; top: 0; width: 100%; background: rgba(10,10,15,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 1rem 2rem; z-index: 100; display: flex; justify-content: space-between; align-items: center; }
         nav a { color: var(--accent); text-decoration: none; font-weight: 600; font-size: 0.9rem; }
         nav .back { color: var(--muted); }
@@ -22,7 +22,7 @@
         p { margin-bottom: 1rem; color: var(--text); }
         ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
         li { margin-bottom: 0.3rem; }
-        pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem; overflow-x: auto; margin: 1rem 0; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; line-height: 1.5; }
+        pre { display: none; }
         code { font-family: 'JetBrains Mono', monospace; font-size: 0.85em; }
         :not(pre) > code { background: var(--surface); padding: 0.15rem 0.4rem; border-radius: 4px; border: 1px solid var(--border); }
         table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
@@ -30,6 +30,7 @@
         th { background: var(--surface); font-weight: 600; }
         blockquote { border-left: 3px solid var(--accent); padding-left: 1rem; color: var(--muted); margin: 1rem 0; }
         strong { color: var(--yellow); }
+        hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
         .nav-buttons { display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border); }
         .nav-buttons a { color: var(--accent); text-decoration: none; font-weight: 600; padding: 0.8rem 1.5rem; border: 1px solid var(--border); border-radius: 6px; transition: all 0.2s; }
         .nav-buttons a:hover { border-color: var(--accent); background: rgba(0,212,170,0.1); }
@@ -49,38 +50,82 @@
 
 <h2>try/except</h2>
 
-<pre><code class="language-python">
-try:
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`try:
     numero = int(input("Número: "))
     resultado = 10 / numero
     print(f"Resultado: {resultado}")
 except ValueError:
     print("No es un número válido")
 except ZeroDivisionError:
-    print("No se puede dividir entre cero")
-</code></pre>
+    print("No se puede dividir entre cero")`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">try:
+    numero = int(input("Número: "))
+    resultado = 10 / numero
+    print(f"Resultado: {resultado}")
+except ValueError:
+    print("No es un número válido")
+except ZeroDivisionError:
+    print("No se puede dividir entre cero")</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Capturar el error</h2>
 
-<pre><code class="language-python">
-try:
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`try:
     archivo = open("no_existe.txt")
 except FileNotFoundError as e:
     print(f"Error: {e}")
-    print("El archivo no existe")
-</code></pre>
+    print("El archivo no existe")`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">try:
+    archivo = open("no_existe.txt")
+except FileNotFoundError as e:
+    print(f"Error: {e}")
+    print("El archivo no existe")</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>finally — Siempre se ejecuta</h2>
 
-<pre><code class="language-python">
-try:
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`try:
     archivo = open("datos.txt")
     contenido = archivo.read()
 except FileNotFoundError:
     print("No se encontró el archivo")
 finally:
-    print("Esto se ejecuta siempre, haya error o no")
-</code></pre>
+    print("Esto se ejecuta siempre, haya error o no")`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">try:
+    archivo = open("datos.txt")
+    contenido = archivo.read()
+except FileNotFoundError:
+    print("No se encontró el archivo")
+finally:
+    print("Esto se ejecuta siempre, haya error o no")</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Excepciones comunes</h2>
 
@@ -98,8 +143,11 @@ finally:
 
 <h2>Crear excepciones propias</h2>
 
-<pre><code class="language-python">
-def dividir(a, b):
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`def dividir(a, b):
     if b == 0:
         raise ValueError("No se puede dividir entre cero")
     return a / b
@@ -107,13 +155,30 @@ def dividir(a, b):
 try:
     print(dividir(10, 0))
 except ValueError as e:
-    print(f"Error: {e}")
-</code></pre>
+    print(f"Error: {e}")`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">def dividir(a, b):
+    if b == 0:
+        raise ValueError("No se puede dividir entre cero")
+    return a / b
+
+try:
+    print(dividir(10, 0))
+except ValueError as e:
+    print(f"Error: {e}")</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Excepciones personalizadas</h2>
 
-<pre><code class="language-python">
-class EdadInvalidaError(Exception):
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`class EdadInvalidaError(Exception):
     def __init__(self, edad, mensaje="Edad no válida"):
         self.edad = edad
         self.mensaje = mensaje
@@ -127,13 +192,36 @@ def registrar_edad(edad):
 try:
     registrar_edad(-5)
 except EdadInvalidaError as e:
-    print(f"Error: {e.edad} — {e.mensaje}")
-</code></pre>
+    print(f"Error: {e.edad} — {e.mensaje}")`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">class EdadInvalidaError(Exception):
+    def __init__(self, edad, mensaje="Edad no válida"):
+        self.edad = edad
+        self.mensaje = mensaje
+        super().__init__(self.mensaje)
+
+def registrar_edad(edad):
+    if edad &lt; 0 or edad &gt; 150:
+        raise EdadInvalidaError(edad)
+    print(f"Edad registrada: {edad}")
+
+try:
+    registrar_edad(-5)
+except EdadInvalidaError as e:
+    print(f"Error: {e.edad} — {e.mensaje}")</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Manejo de errores con archivos</h2>
 
-<pre><code class="language-python">
-import json
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`import json
 
 def cargar_seguro(archivo):
     try:
@@ -147,15 +235,38 @@ def cargar_seguro(archivo):
         return {}
     except PermissionError:
         print(f"Sin permisos para leer {archivo}")
+        return {}`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">import json
+
+def cargar_seguro(archivo):
+    try:
+        with open(archivo, "r") as f:
+            return json.load(f)
+    except FileNotFoundError:
+        print(f"Archivo {archivo} no encontrado — creando nuevo")
         return {}
-</code></pre>
+    except json.JSONDecodeError:
+        print(f"Archivo {archivo} corrupto — creando nuevo")
+        return {}
+    except PermissionError:
+        print(f"Sin permisos para leer {archivo}")
+        return {}</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Ejemplos prácticos</h2>
 
 <h3>Calculadora segura</h3>
 
-<pre><code class="language-python">
-def calculadora():
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`def calculadora():
     while True:
         try:
             num1 = float(input("Número 1 (0 para salir): "))
@@ -181,13 +292,48 @@ def calculadora():
         except ValueError:
             print("Por favor ingresa números válidos")
 
-calculadora()
-</code></pre>
+calculadora()`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">def calculadora():
+    while True:
+        try:
+            num1 = float(input("Número 1 (0 para salir): "))
+            if num1 == 0:
+                break
+            
+            op = input("Operación (+, -, *, /): ")
+            num2 = float(input("Número 2: "))
+            
+            if op == "+":
+                print(f"Resultado: {num1 + num2}")
+            elif op == "-":
+                print(f"Resultado: {num1 - num2}")
+            elif op == "*":
+                print(f"Resultado: {num1 * num2}")
+            elif op == "/":
+                if num2 == 0:
+                    print("Error: No se puede dividir entre cero")
+                else:
+                    print(f"Resultado: {num1 / num2}")
+            else:
+                print("Operación no válida")
+        except ValueError:
+            print("Por favor ingresa números válidos")
+
+calculadora()</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h3>Registro de usuario con validación</h3>
 
-<pre><code class="language-python">
-def registrar_usuario():
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`def registrar_usuario():
     while True:
         try:
             nombre = input("Nombre: ").strip()
@@ -208,8 +354,35 @@ def registrar_usuario():
         except ValueError as e:
             print(f"❌ Error: {e}. Intenta de nuevo.")
 
-registrar_usuario()
-</code></pre>
+registrar_usuario()`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">def registrar_usuario():
+    while True:
+        try:
+            nombre = input("Nombre: ").strip()
+            if len(nombre) &lt; 2:
+                raise ValueError("El nombre debe tener al menos 2 caracteres")
+            
+            edad = int(input("Edad: "))
+            if edad &lt; 0 or edad &gt; 150:
+                raise ValueError("Edad debe ser entre 0 y 150")
+            
+            email = input("Email: ").strip()
+            if "@" not in email:
+                raise ValueError("Email no válido")
+            
+            print(f"✅ Usuario registrado: {nombre}, {edad} años, {email}")
+            break
+            
+        except ValueError as e:
+            print(f"❌ Error: {e}. Intenta de nuevo.")
+
+registrar_usuario()</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Ejercicios</h2>
 
@@ -220,8 +393,11 @@ registrar_usuario()
 
 <h3>Soluciones</h3>
 
-<pre><code class="language-python">
-# Ejercicio 1
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`# Ejercicio 1
 def pedir_numero():
     while True:
         try:
@@ -259,8 +435,52 @@ def cargar_json_seguro(ruta):
     except FileNotFoundError:
         return None, "Archivo no encontrado"
     except json.JSONDecodeError:
-        return None, "Formato JSON inválido"
-</code></pre>
+        return None, "Formato JSON inválido"`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false"># Ejercicio 1
+def pedir_numero():
+    while True:
+        try:
+            return float(input("Número: "))
+        except ValueError:
+            print("Eso no es un número. Intenta de nuevo.")
+
+numero = pedir_numero()
+print(f"Ingresaste: {numero}")
+
+# Ejercicio 2
+def leer_archivo_seguro(ruta):
+    try:
+        with open(ruta, "r") as f:
+            return f.read()
+    except FileNotFoundError:
+        return "Archivo no encontrado"
+    except PermissionError:
+        return "Sin permisos de lectura"
+    except Exception as e:
+        return f"Error inesperado: {e}"
+
+# Ejercicio 3
+class EdadInvalidaError(Exception):
+    def __init__(self, edad):
+        super().__init__(f"Edad {edad} no es válida (debe ser 0-150)")
+        self.edad = edad
+
+# Ejercicio 4
+import json
+def cargar_json_seguro(ruta):
+    try:
+        with open(ruta, "r") as f:
+            return json.load(f), None
+    except FileNotFoundError:
+        return None, "Archivo no encontrado"
+    except json.JSONDecodeError:
+        return None, "Formato JSON inválido"</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <hr>
 
@@ -271,5 +491,6 @@ def cargar_json_seguro(ruta):
             <a href="15-Clases-y-Objetos.html">Clases y Objetos →</a>
         </div>
     </div>
+    <script src="interactive.js"></script>
 </body>
 </html>

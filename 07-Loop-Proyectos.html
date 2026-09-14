@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Proyectos con Loops — Aprende Python</title>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="interactive.css">
     <style>
         :root { --bg: #0a0a0f; --surface: #12121a; --border: #2a2a3a; --text: #e0e0ec; --muted: #7a7a8e; --accent: #00d4aa; --purple: #a29bfe; --yellow: #ffd93d; --blue: #4ecdc4; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-        .mono { font-family: 'JetBrains Mono', monospace; }
         nav { position: fixed; top: 0; width: 100%; background: rgba(10,10,15,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 1rem 2rem; z-index: 100; display: flex; justify-content: space-between; align-items: center; }
         nav a { color: var(--accent); text-decoration: none; font-weight: 600; font-size: 0.9rem; }
         nav .back { color: var(--muted); }
@@ -22,7 +22,7 @@
         p { margin-bottom: 1rem; color: var(--text); }
         ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
         li { margin-bottom: 0.3rem; }
-        pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem; overflow-x: auto; margin: 1rem 0; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; line-height: 1.5; }
+        pre { display: none; }
         code { font-family: 'JetBrains Mono', monospace; font-size: 0.85em; }
         :not(pre) > code { background: var(--surface); padding: 0.15rem 0.4rem; border-radius: 4px; border: 1px solid var(--border); }
         table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
@@ -30,6 +30,7 @@
         th { background: var(--surface); font-weight: 600; }
         blockquote { border-left: 3px solid var(--accent); padding-left: 1rem; color: var(--muted); margin: 1rem 0; }
         strong { color: var(--yellow); }
+        hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
         .nav-buttons { display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border); }
         .nav-buttons a { color: var(--accent); text-decoration: none; font-weight: 600; padding: 0.8rem 1.5rem; border: 1px solid var(--border); border-radius: 6px; transition: all 0.2s; }
         .nav-buttons a:hover { border-color: var(--accent); background: rgba(0,212,170,0.1); }
@@ -49,8 +50,11 @@
 
 <h2>Proyecto 1: Contador de caracteres</h2>
 
-<pre><code class="language-python">
-texto = input("Escribe algo: ")
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`texto = input("Escribe algo: ")
 
 vocales = 0
 consonantes = 0
@@ -70,13 +74,42 @@ for letra in texto.lower():
 print(f"Vocales: {vocales}")
 print(f"Consonantes: {consonantes}")
 print(f"Espacios: {espacios}")
-print(f"Otros caracteres: {otros}")
-</code></pre>
+print(f"Otros caracteres: {otros}")`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">texto = input("Escribe algo: ")
+
+vocales = 0
+consonantes = 0
+espacios = 0
+otros = 0
+
+for letra in texto.lower():
+    if letra in "aeiou":
+        vocales += 1
+    elif letra.isalpha():
+        consonantes += 1
+    elif letra == " ":
+        espacios += 1
+    else:
+        otros += 1
+
+print(f"Vocales: {vocales}")
+print(f"Consonantes: {consonantes}")
+print(f"Espacios: {espacios}")
+print(f"Otros caracteres: {otros}")</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Proyecto 2: Generador de patrones</h2>
 
-<pre><code class="language-python">
-# Triángulo
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`# Triángulo
 n = 5
 for i in range(1, n + 1):
     print("*" * i)
@@ -92,13 +125,38 @@ for i in range(n):
             print("*", end=" ")
         else:
             print(" ", end=" ")
-    print()
-</code></pre>
+    print()`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false"># Triángulo
+n = 5
+for i in range(1, n + 1):
+    print("*" * i)
+
+# Triángulo invertido
+for i in range(n, 0, -1):
+    print("*" * i)
+
+# Cuadrado con hueco
+for i in range(n):
+    for j in range(n):
+        if i == 0 or i == n-1 or j == 0 or j == n-1:
+            print("*", end=" ")
+        else:
+            print(" ", end=" ")
+    print()</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Proyecto 3: Calculadora de promedio</h2>
 
-<pre><code class="language-python">
-notas = []
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`notas = []
 while True:
     nota = input("Nota (fin para terminar): ")
     if nota == "fin":
@@ -121,13 +179,45 @@ if notas:
     else:
         print("Calificación: F")
 else:
-    print("No se ingresaron notas")
-</code></pre>
+    print("No se ingresaron notas")`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">notas = []
+while True:
+    nota = input("Nota (fin para terminar): ")
+    if nota == "fin":
+        break
+    notas.append(float(nota))
+
+if notas:
+    promedio = sum(notas) / len(notas)
+    print(f"Notas: {notas}")
+    print(f"Promedio: {promedio:.2f}")
+    
+    if promedio &gt;= 90:
+        print("Calificación: A")
+    elif promedio &gt;= 80:
+        print("Calificación: B")
+    elif promedio &gt;= 70:
+        print("Calificación: C")
+    elif promedio &gt;= 60:
+        print("Calificación: D")
+    else:
+        print("Calificación: F")
+else:
+    print("No se ingresaron notas")</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Proyecto 4: Validador de contraseña</h2>
 
-<pre><code class="language-python">
-password = input("Crea una contraseña: ")
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`password = input("Crea una contraseña: ")
 
 tiene_mayuscula = False
 tiene_minuscula = False
@@ -141,7 +231,7 @@ for letra in password:
         tiene_minuscula = True
     elif letra.isdigit():
         tiene_numero = True
-    elif letra in "!@#$%^&*()_+-=[]{}|;':\",./&lt;&gt;?":
+    elif letra in "!@#$%^&amp;*()_+-=[]{}|;':\",./&lt;&gt;?":
         tiene_especial = True
 
 print("\nRequisitos de seguridad:")
@@ -153,13 +243,48 @@ print(f"  ✅ Carácter especial: {tiene_especial}")
 if len(password) &gt;= 8 and tiene_mayuscula and tiene_minuscula and tiene_numero:
     print("\n🔒 Contraseña fuerte")
 else:
-    print("\n⚠️ Contraseña débil — necesita al menos 8 caracteres, mayúscula, minúscula y número")
-</code></pre>
+    print("\n⚠️ Contraseña débil — necesita al menos 8 caracteres, mayúscula, minúscula y número")`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">password = input("Crea una contraseña: ")
+
+tiene_mayuscula = False
+tiene_minuscula = False
+tiene_numero = False
+tiene_especial = False
+
+for letra in password:
+    if letra.isupper():
+        tiene_mayuscula = True
+    elif letra.islower():
+        tiene_minuscula = True
+    elif letra.isdigit():
+        tiene_numero = True
+    elif letra in "!@#$%^&amp;*()_+-=[]{}|;':\",./&lt;&gt;?":
+        tiene_especial = True
+
+print("\nRequisitos de seguridad:")
+print(f"  ✅ Mayúscula: {tiene_mayuscula}")
+print(f"  ✅ Minúscula: {tiene_minuscula}")
+print(f"  ✅ Número: {tiene_numero}")
+print(f"  ✅ Carácter especial: {tiene_especial}")
+
+if len(password) &gt;= 8 and tiene_mayuscula and tiene_minuscula and tiene_numero:
+    print("\n🔒 Contraseña fuerte")
+else:
+    print("\n⚠️ Contraseña débil — necesita al menos 8 caracteres, mayúscula, minúscula y número")</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Proyecto 5: Juego del ahorcado simple</h2>
 
-<pre><code class="language-python">
-import random
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`import random
 
 palabras = ["python", "programa", "computadora", "desarrollo", "teclado"]
 secreta = random.palabras(random.choice(palabras))
@@ -203,8 +328,58 @@ while intentos &gt; 0:
         print(f"'{guess}' no está")
         intentos -= 1
 else:
-    print(f"💀 Perdiste. La palabra era: {secreta}")
-</code></pre>
+    print(f"💀 Perdiste. La palabra era: {secreta}")`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">import random
+
+palabras = ["python", "programa", "computadora", "desarrollo", "teclado"]
+secreta = random.palabras(random.choice(palabras))
+adivinadas = []
+intentos = 6
+
+print("🎯 AHORCADO")
+print(f"La palabra tiene {len(secreta)} letras")
+
+while intentos &gt; 0:
+    # Mostrar progreso
+    display = ""
+    for letra in secreta:
+        if letra in adivinadas:
+            display += letra + " "
+        else:
+            display += "_ "
+    print(f"\nPalabra: {display}")
+    print(f"Intentos restantes: {intentos}")
+    print(f"Letras usadas: {', '.join(adivinadas)}")
+    
+    guess = input("Letra: ").lower()
+    
+    if len(guess) != 1 or not guess.isalpha():
+        print("Ingresa solo UNA letra")
+        continue
+    
+    if guess in adivinadas:
+        print("Ya usaste esa letra")
+        continue
+    
+    adivinadas.append(guess)
+    
+    if guess in secreta:
+        print(f"¡'{guess}' está en la palabra!")
+        # Verificar si ganó
+        if all(letra in adivinadas for letra in secreta):
+            print(f"🎉 ¡Ganaste! La palabra era: {secreta}")
+            break
+    else:
+        print(f"'{guess}' no está")
+        intentos -= 1
+else:
+    print(f"💀 Perdiste. La palabra era: {secreta}")</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Ejercicios finales</h2>
 
@@ -222,5 +397,6 @@ else:
             <a href="08-Listas.html">Listas →</a>
         </div>
     </div>
+    <script src="interactive.js"></script>
 </body>
 </html>

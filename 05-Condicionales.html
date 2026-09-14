@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Condicionales — Aprende Python</title>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="interactive.css">
     <style>
         :root { --bg: #0a0a0f; --surface: #12121a; --border: #2a2a3a; --text: #e0e0ec; --muted: #7a7a8e; --accent: #00d4aa; --purple: #a29bfe; --yellow: #ffd93d; --blue: #4ecdc4; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-        .mono { font-family: 'JetBrains Mono', monospace; }
         nav { position: fixed; top: 0; width: 100%; background: rgba(10,10,15,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 1rem 2rem; z-index: 100; display: flex; justify-content: space-between; align-items: center; }
         nav a { color: var(--accent); text-decoration: none; font-weight: 600; font-size: 0.9rem; }
         nav .back { color: var(--muted); }
@@ -22,7 +22,7 @@
         p { margin-bottom: 1rem; color: var(--text); }
         ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
         li { margin-bottom: 0.3rem; }
-        pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem; overflow-x: auto; margin: 1rem 0; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; line-height: 1.5; }
+        pre { display: none; }
         code { font-family: 'JetBrains Mono', monospace; font-size: 0.85em; }
         :not(pre) > code { background: var(--surface); padding: 0.15rem 0.4rem; border-radius: 4px; border: 1px solid var(--border); }
         table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
@@ -30,6 +30,7 @@
         th { background: var(--surface); font-weight: 600; }
         blockquote { border-left: 3px solid var(--accent); padding-left: 1rem; color: var(--muted); margin: 1rem 0; }
         strong { color: var(--yellow); }
+        hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
         .nav-buttons { display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border); }
         .nav-buttons a { color: var(--accent); text-decoration: none; font-weight: 600; padding: 0.8rem 1.5rem; border: 1px solid var(--border); border-radius: 6px; transition: all 0.2s; }
         .nav-buttons a:hover { border-color: var(--accent); background: rgba(0,212,170,0.1); }
@@ -49,51 +50,105 @@
 
 <h2>if — Si esto, entonces aquello</h2>
 
-<pre><code class="language-python">
-edad = 20
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`edad = 20
 
 if edad &gt;= 18:
-    print("Eres mayor de edad")
-</code></pre>
+    print("Eres mayor de edad")`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">edad = 20
+
+if edad &gt;= 18:
+    print("Eres mayor de edad")</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <p><strong>Ejecución:</strong> Como <code>edad</code> es 20 (>= 18), se imprime el mensaje.</p>
 
 <h3>Estructura básica</h3>
 
-<pre><code class="language-python">
-condición:
-    código que se ejecuta si es True
-</code></pre>
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`condición:
+    código que se ejecuta si es True`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">condición:
+    código que se ejecuta si es True</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <p><strong>⚠o IMPORTANTE:</strong> La indentación (4 espacios o 1 tab) es OBLIGATORIA. Sin ella, Python da error.</p>
 
-<pre><code class="language-python">
-# ❌ Error — sin indentación
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`# ❌ Error — sin indentación
 if True
 print("Hola")
 
 # ✅ Correcto
 if True:
-    print("Hola")
-</code></pre>
+    print("Hola")`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false"># ❌ Error — sin indentación
+if True
+print("Hola")
+
+# ✅ Correcto
+if True:
+    print("Hola")</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>if/else — Si esto, sino aquello</h2>
 
-<pre><code class="language-python">
-edad = 15
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`edad = 15
 
 if edad &gt;= 18:
     print("Puedes entrar")
 else:
-    print("No puedes entrar")
-</code></pre>
+    print("No puedes entrar")`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">edad = 15
+
+if edad &gt;= 18:
+    print("Puedes entrar")
+else:
+    print("No puedes entrar")</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <p><strong>Salida:</strong> <code>No puedes entrar</code> (porque 15 < 18)</p>
 
 <h2>if/elif/else — Múltiples opciones</h2>
 
-<pre><code class="language-python">
-nota = 85
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`nota = 85
 
 if nota &gt;= 90:
     print("A — Excelente")
@@ -104,8 +159,25 @@ elif nota &gt;= 70:
 elif nota &gt;= 60:
     print("D — Regular")
 else:
-    print("F — Reprobado")
-</code></pre>
+    print("F — Reprobado")`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">nota = 85
+
+if nota &gt;= 90:
+    print("A — Excelente")
+elif nota &gt;= 80:
+    print("B — Muy bien")
+elif nota &gt;= 70:
+    print("C — Bien")
+elif nota &gt;= 60:
+    print("D — Regular")
+else:
+    print("F — Reprobado")</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <p><strong>Salida:</strong> <code>B — Muy bien</code> (porque 85 >= 80)</p>
 
@@ -113,53 +185,111 @@ else:
 
 <h2>Operadores lógicos en condicionales</h2>
 
-<pre><code class="language-python">
-edad = 25
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`edad = 25
 tiene_dinero = True
 
 if edad &gt;= 18 and tiene_dinero:
     print("Puedes comprar alcohol")
 
 if edad &lt; 18 or not tiene_dinero:
-    print("No puedes comprar")
-</code></pre>
+    print("No puedes comprar")`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">edad = 25
+tiene_dinero = True
+
+if edad &gt;= 18 and tiene_dinero:
+    print("Puedes comprar alcohol")
+
+if edad &lt; 18 or not tiene_dinero:
+    print("No puedes comprar")</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Condicionales con input</h2>
 
-<pre><code class="language-python">
-respuesta = input("¿Te gusta Python? (sí/no): ")
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`respuesta = input("¿Te gusta Python? (sí/no): ")
 
 if respuesta.lower() == "sí" or respuesta.lower() == "si":
     print("¡Genial! Sigue practicando")
 else:
-    print("¡Inténtalo! Python es genial")
-</code></pre>
+    print("¡Inténtalo! Python es genial")`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">respuesta = input("¿Te gusta Python? (sí/no): ")
+
+if respuesta.lower() == "sí" or respuesta.lower() == "si":
+    print("¡Genial! Sigue practicando")
+else:
+    print("¡Inténtalo! Python es genial")</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <p><code>.lower()</code> convierte el texto a minúsculas para que <code>"SÍ"</code>, <code>"Si"</code>, <code>"sí"</code> todos funcionen.</p>
 
 <h2>Condicional ternario (una línea)</h2>
 
-<pre><code class="language-python">
-edad = 20
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`edad = 20
 mensaje = "Mayor" if edad &gt;= 18 else "Menor"
-print(mensaje)  # Mayor
-</code></pre>
+print(mensaje)  # Mayor`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">edad = 20
+mensaje = "Mayor" if edad &gt;= 18 else "Menor"
+print(mensaje)  # Mayor</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Ejemplos prácticos</h2>
 
 <h3>Par o impar</h3>
-<pre><code class="language-python">
-numero = int(input("Número: "))
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`numero = int(input("Número: "))
 
 if numero % 2 == 0:
     print(f"{numero} es par")
 else:
-    print(f"{numero} es impar")
-</code></pre>
+    print(f"{numero} es impar")`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">numero = int(input("Número: "))
+
+if numero % 2 == 0:
+    print(f"{numero} es par")
+else:
+    print(f"{numero} es impar")</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h3>Clasificar edad</h3>
-<pre><code class="language-python">
-edad = int(input("Edad: "))
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`edad = int(input("Edad: "))
 
 if edad &lt; 0:
     print("Edad inválida")
@@ -170,12 +300,32 @@ elif edad &lt; 18:
 elif edad &lt; 65:
     print("Adulto")
 else:
-    print("Adulto mayor")
-</code></pre>
+    print("Adulto mayor")`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">edad = int(input("Edad: "))
+
+if edad &lt; 0:
+    print("Edad inválida")
+elif edad &lt; 13:
+    print("Niño")
+elif edad &lt; 18:
+    print("Adolescente")
+elif edad &lt; 65:
+    print("Adulto")
+else:
+    print("Adulto mayor")</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h3>Calculadora con opción</h3>
-<pre><code class="language-python">
-num1 = float(input("Número 1: "))
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`num1 = float(input("Número 1: "))
 num2 = float(input("Número 2: "))
 op = input("Operación (+, -, *, /): ")
 
@@ -191,28 +341,80 @@ elif op == "/":
     else:
         print("No se puede dividir entre cero")
 else:
-    print("Operación no válida")
-</code></pre>
+    print("Operación no válida")`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">num1 = float(input("Número 1: "))
+num2 = float(input("Número 2: "))
+op = input("Operación (+, -, *, /): ")
+
+if op == "+":
+    print(f"Resultado: {num1 + num2}")
+elif op == "-":
+    print(f"Resultado: {num1 - num2}")
+elif op == "*":
+    print(f"Resultado: {num1 * num2}")
+elif op == "/":
+    if num2 != 0:
+        print(f"Resultado: {num1 / num2}")
+    else:
+        print("No se puede dividir entre cero")
+else:
+    print("Operación no válida")</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Errores comunes</h2>
 
 <p><strong>Usar <code>=</code> en vez de <code>==</code>:</strong></p>
-<pre><code class="language-python">
-if x = 5:   # ❌ Error de sintaxis
-if x == 5:  # ✅ Correcto
-</code></pre>
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`if x = 5:   # ❌ Error de sintaxis
+if x == 5:  # ✅ Correcto`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">if x = 5:   # ❌ Error de sintaxis
+if x == 5:  # ✅ Correcto</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <p><strong>Olvidar los dos puntos:</strong></p>
-<pre><code class="language-python">
-if True    # ❌ Error
-if True:   # ✅ Correcto
-</code></pre>
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`if True    # ❌ Error
+if True:   # ✅ Correcto`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">if True    # ❌ Error
+if True:   # ✅ Correcto</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <p><strong>Indentación inconsistente:</strong></p>
-<pre><code class="language-python">
-if True:
-print("Hola")   # ❌ Error — falta indentación
-</code></pre>
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`if True:
+print("Hola")   # ❌ Error — falta indentación`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">if True:
+print("Hola")   # ❌ Error — falta indentación</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Ejercicios</h2>
 
@@ -223,8 +425,11 @@ print("Hola")   # ❌ Error — falta indentación
 
 <h3>Soluciones</h3>
 
-<pre><code class="language-python">
-# Ejercicio 1
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`# Ejercicio 1
 numero = float(input("Número: "))
 if numero &gt; 0:
     print("Positivo")
@@ -254,8 +459,44 @@ password = input("Contraseña: ")
 if len(password) &gt;= 8:
     print("Contraseña válida ✅")
 else:
-    print(f"Muy corta — tiene {len(password)} caracteres, necesita 8")
-</code></pre>
+    print(f"Muy corta — tiene {len(password)} caracteres, necesita 8")`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false"># Ejercicio 1
+numero = float(input("Número: "))
+if numero &gt; 0:
+    print("Positivo")
+elif numero &lt; 0:
+    print("Negativo")
+else:
+    print("Es cero")
+
+# Ejercicio 2
+edad = int(input("Edad: "))
+if edad &gt;= 18:
+    print("Puede votar y conducir")
+elif edad &gt;= 16:
+    print("Puede conducir pero no votar")
+else:
+    print("Es menor de edad")
+
+# Ejercicio 3
+año = int(input("Año: "))
+if (año % 4 == 0 and año % 100 != 0) or (año % 400 == 0):
+    print(f"{año} es bisiesto")
+else:
+    print(f"{año} no es bisiesto")
+
+# Ejercicio 4
+password = input("Contraseña: ")
+if len(password) &gt;= 8:
+    print("Contraseña válida ✅")
+else:
+    print(f"Muy corta — tiene {len(password)} caracteres, necesita 8")</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <hr>
 
@@ -266,5 +507,6 @@ else:
             <a href="06-Loops.html">Loops →</a>
         </div>
     </div>
+    <script src="interactive.js"></script>
 </body>
 </html>

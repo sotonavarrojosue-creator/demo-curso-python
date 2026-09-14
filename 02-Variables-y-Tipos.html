@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Variables y Tipos — Aprende Python</title>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="interactive.css">
     <style>
         :root { --bg: #0a0a0f; --surface: #12121a; --border: #2a2a3a; --text: #e0e0ec; --muted: #7a7a8e; --accent: #00d4aa; --purple: #a29bfe; --yellow: #ffd93d; --blue: #4ecdc4; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-        .mono { font-family: 'JetBrains Mono', monospace; }
         nav { position: fixed; top: 0; width: 100%; background: rgba(10,10,15,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 1rem 2rem; z-index: 100; display: flex; justify-content: space-between; align-items: center; }
         nav a { color: var(--accent); text-decoration: none; font-weight: 600; font-size: 0.9rem; }
         nav .back { color: var(--muted); }
@@ -22,7 +22,7 @@
         p { margin-bottom: 1rem; color: var(--text); }
         ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
         li { margin-bottom: 0.3rem; }
-        pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem; overflow-x: auto; margin: 1rem 0; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; line-height: 1.5; }
+        pre { display: none; }
         code { font-family: 'JetBrains Mono', monospace; font-size: 0.85em; }
         :not(pre) > code { background: var(--surface); padding: 0.15rem 0.4rem; border-radius: 4px; border: 1px solid var(--border); }
         table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
@@ -30,6 +30,7 @@
         th { background: var(--surface); font-weight: 600; }
         blockquote { border-left: 3px solid var(--accent); padding-left: 1rem; color: var(--muted); margin: 1rem 0; }
         strong { color: var(--yellow); }
+        hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
         .nav-buttons { display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border); }
         .nav-buttons a { color: var(--accent); text-decoration: none; font-weight: 600; padding: 0.8rem 1.5rem; border: 1px solid var(--border); border-radius: 6px; transition: all 0.2s; }
         .nav-buttons a:hover { border-color: var(--accent); background: rgba(0,212,170,0.1); }
@@ -51,12 +52,24 @@
 
 <p>Una variable es un nombre que apunta a un valor. Piensa en ella como una caja con una etiqueta:</p>
 
-<pre><code class="language-python">
-nombre = "Aaron"
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`nombre = "Aaron"
 edad = 25
 altura = 1.75
-estudiante = True
-</code></pre>
+estudiante = True`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">nombre = "Aaron"
+edad = 25
+altura = 1.75
+estudiante = True</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <li>`nombre` es una variable que contiene el string `"Aaron"`</li>
 <li>`edad` contiene el número entero `25`</li>
@@ -68,16 +81,30 @@ estudiante = True
 <p>Python tiene varios tipos. Los más importantes:</p>
 
 <h3>Strings (texto)</h3>
-<pre><code class="language-python">
-mensaje = "Hola mundo"
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`mensaje = "Hola mundo"
 nombre = 'Aaron'  # comillas simples también funcionan
-direccion = "Calle 123, #45"
-</code></pre>
+direccion = "Calle 123, #45"`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">mensaje = "Hola mundo"
+nombre = 'Aaron'  # comillas simples también funcionan
+direccion = "Calle 123, #45"</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h3>Números</h3>
 
-<pre><code class="language-python">
-# Enteros (int) — sin decimales
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`# Enteros (int) — sin decimales
 edad = 25
 año = 2026
 temperatura = -10
@@ -85,31 +112,70 @@ temperatura = -10
 # Decimales (float) — con punto decimal
 altura = 1.75
 precio = 19.99
-pi = 3.14159
-</code></pre>
+pi = 3.14159`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false"># Enteros (int) — sin decimales
+edad = 25
+año = 2026
+temperatura = -10
+
+# Decimales (float) — con punto decimal
+altura = 1.75
+precio = 19.99
+pi = 3.14159</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h3>Booleanos</h3>
 
-<pre><code class="language-python">
-es_mayor = True
-tiene_trabajo = False
-</code></pre>
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`es_mayor = True
+tiene_trabajo = False`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">es_mayor = True
+tiene_trabajo = False</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <p>Solo dos valores posibles: <code>True</code> o <code>False</code>.</p>
 
 <h2>Verificar tipos</h2>
 
-<pre><code class="language-python">
-print(type("Hola"))    # &lt;class 'str'&gt;
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`print(type("Hola"))    # &lt;class 'str'&gt;
 print(type(25))        # &lt;class 'int'&gt;
 print(type(1.75))      # &lt;class 'float'&gt;
-print(type(True))      # &lt;class 'bool'&gt;
-</code></pre>
+print(type(True))      # &lt;class 'bool'&gt;`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">print(type("Hola"))    # &lt;class 'str'&gt;
+print(type(25))        # &lt;class 'int'&gt;
+print(type(1.75))      # &lt;class 'float'&gt;
+print(type(True))      # &lt;class 'bool'&gt;</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Operaciones con strings</h2>
 
-<pre><code class="language-python">
-nombre = "Aaron"
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`nombre = "Aaron"
 saludo = "Hola " + nombre  # Concatenación
 print(saludo)              # Hola Aaron
 
@@ -118,42 +184,104 @@ linea = "-" * 20
 print(linea)               # --------------------
 
 # Longitud
-print(len(nombre))         # 5
-</code></pre>
+print(len(nombre))         # 5`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">nombre = "Aaron"
+saludo = "Hola " + nombre  # Concatenación
+print(saludo)              # Hola Aaron
+
+# Repetir
+linea = "-" * 20
+print(linea)               # --------------------
+
+# Longitud
+print(len(nombre))         # 5</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Errores comunes</h2>
 
 <p><strong>Olvidar comillas:</strong></p>
-<pre><code class="language-python">
-mensaje = Hola    # ❌ Error
-mensaje = "Hola"  # ✅
-</code></pre>
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`mensaje = Hola    # ❌ Error
+mensaje = "Hola"  # ✅`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">mensaje = Hola    # ❌ Error
+mensaje = "Hola"  # ✅</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <p><strong>Mezclar tipos incompatibles:</strong></p>
-<pre><code class="language-python">
-resultado = "Edad: " + 25      # ❌ Error
-resultado = "Edad: " + str(25) # ✅ Convierte el número a string
-</code></pre>
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`resultado = "Edad: " + 25      # ❌ Error
+resultado = "Edad: " + str(25) # ✅ Convierte el número a string`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">resultado = "Edad: " + 25      # ❌ Error
+resultado = "Edad: " + str(25) # ✅ Convierte el número a string</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <p><strong>Nombre de variable inválido:</strong></p>
-<pre><code class="language-python">
-2nombre = "Aaron"  # ❌ No empieza con número
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`2nombre = "Aaron"  # ❌ No empieza con número
 mi-nombre = "Aaron"  # ❌ No usa guiones
-mi_nombre = "Aaron"  # ✅ Usa guiones bajos
-</code></pre>
+mi_nombre = "Aaron"  # ✅ Usa guiones bajos`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">2nombre = "Aaron"  # ❌ No empieza con número
+mi-nombre = "Aaron"  # ❌ No usa guiones
+mi_nombre = "Aaron"  # ✅ Usa guiones bajos</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Convenciones para nombres</h2>
 
-<pre><code class="language-python">
-# ✅ Correcto — snake_case (el estándar en Python)
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`# ✅ Correcto — snake_case (el estándar en Python)
 mi_nombre = "Aaron"
 edad_usuario = 25
 precio_total = 99.99
 
 # ❌ Evitar
 MiNombre = "Aaron"   # camelCase (no es Pythonic)
-minombre = "Aaron"   # sin separadores
-</code></pre>
+minombre = "Aaron"   # sin separadores`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false"># ✅ Correcto — snake_case (el estándar en Python)
+mi_nombre = "Aaron"
+edad_usuario = 25
+precio_total = 99.99
+
+# ❌ Evitar
+MiNombre = "Aaron"   # camelCase (no es Pythonic)
+minombre = "Aaron"   # sin separadores</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Ejercicios</h2>
 
@@ -164,8 +292,11 @@ minombre = "Aaron"   # sin separadores
 
 <h3>Soluciones</h3>
 
-<pre><code class="language-python">
-# Ejercicio 1
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`# Ejercicio 1
 nombre = "Aaron"
 print(nombre)
 
@@ -183,8 +314,32 @@ print("El área es:", area)
 
 # Ejercicio 4
 print(type(3.14))   # &lt;class 'float'&gt;
-print(type(True))    # &lt;class 'bool'&gt;
-</code></pre>
+print(type(True))    # &lt;class 'bool'&gt;`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false"># Ejercicio 1
+nombre = "Aaron"
+print(nombre)
+
+# Ejercicio 2
+nombre = "Aaron"
+edad = 25
+ciudad = "CDMX"
+print("Me llamo " + nombre + ", tengo " + str(edad) + " años y vivo en " + ciudad)
+
+# Ejercicio 3
+base = 10
+altura = 5
+area = base * altura
+print("El área es:", area)
+
+# Ejercicio 4
+print(type(3.14))   # &lt;class 'float'&gt;
+print(type(True))    # &lt;class 'bool'&gt;</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <hr>
 
@@ -195,5 +350,6 @@ print(type(True))    # &lt;class 'bool'&gt;
             <a href="03-Operadores.html">Operadores →</a>
         </div>
     </div>
+    <script src="interactive.js"></script>
 </body>
 </html>

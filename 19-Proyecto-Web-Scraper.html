@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web Scraper — Aprende Python</title>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="interactive.css">
     <style>
         :root { --bg: #0a0a0f; --surface: #12121a; --border: #2a2a3a; --text: #e0e0ec; --muted: #7a7a8e; --accent: #00d4aa; --purple: #a29bfe; --yellow: #ffd93d; --blue: #4ecdc4; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-        .mono { font-family: 'JetBrains Mono', monospace; }
         nav { position: fixed; top: 0; width: 100%; background: rgba(10,10,15,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 1rem 2rem; z-index: 100; display: flex; justify-content: space-between; align-items: center; }
         nav a { color: var(--accent); text-decoration: none; font-weight: 600; font-size: 0.9rem; }
         nav .back { color: var(--muted); }
@@ -22,7 +22,7 @@
         p { margin-bottom: 1rem; color: var(--text); }
         ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
         li { margin-bottom: 0.3rem; }
-        pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem; overflow-x: auto; margin: 1rem 0; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; line-height: 1.5; }
+        pre { display: none; }
         code { font-family: 'JetBrains Mono', monospace; font-size: 0.85em; }
         :not(pre) > code { background: var(--surface); padding: 0.15rem 0.4rem; border-radius: 4px; border: 1px solid var(--border); }
         table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
@@ -30,6 +30,7 @@
         th { background: var(--surface); font-weight: 600; }
         blockquote { border-left: 3px solid var(--accent); padding-left: 1rem; color: var(--muted); margin: 1rem 0; }
         strong { color: var(--yellow); }
+        hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
         .nav-buttons { display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border); }
         .nav-buttons a { color: var(--accent); text-decoration: none; font-weight: 600; padding: 0.8rem 1.5rem; border: 1px solid var(--border); border-radius: 6px; transition: all 0.2s; }
         .nav-buttons a:hover { border-color: var(--accent); background: rgba(0,212,170,0.1); }
@@ -49,14 +50,26 @@
 
 <h2>Instalación</h2>
 
-<pre><code class="language-bash">
-pip install requests beautifulsoup4
-</code></pre>
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">bash</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`pip install requests beautifulsoup4`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">pip install requests beautifulsoup4</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Código completo</h2>
 
-<pre><code class="language-python">
-import requests
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`import requests
 from bs4 import BeautifulSoup
 import json
 import csv
@@ -301,13 +314,267 @@ def main():
         input("\n  Presiona Enter para continuar...")
 
 if __name__ == "__main__":
-    main()
-</code></pre>
+    main()`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">import requests
+from bs4 import BeautifulSoup
+import json
+import csv
+from datetime import datetime
+
+class WebScraper:
+    def __init__(self):
+        self.session = requests.Session()
+        self.session.headers.update({
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+        })
+    
+    def obtener_pagina(self, url):
+        try:
+            respuesta = self.session.get(url, timeout=10)
+            respuesta.raise_for_status()
+            return BeautifulSoup(respuesta.text, "html.parser")
+        except requests.RequestException as e:
+            print(f"❌ Error al acceder a {url}: {e}")
+            return None
+    
+    def extraer_titulos(self, url, selector="h1, h2, h3"):
+        soup = self.obtener_pagina(url)
+        if not soup:
+            return []
+        
+        titulos = []
+        for elem in soup.select(selector):
+            texto = elem.get_text(strip=True)
+            if texto:
+                titulos.append({
+                    "titulo": texto,
+                    "tag": elem.name,
+                    "url": url
+                })
+        return titulos
+    
+    def extraer_links(self, url, filtro=None):
+        soup = self.obtener_pagina(url)
+        if not soup:
+            return []
+        
+        links = []
+        for a in soup.find_all("a", href=True):
+            href = a["href"]
+            texto = a.get_text(strip=True)
+            
+            # Filtrar si se especifica
+            if filtro and filtro not in href.lower() and filtro not in texto.lower():
+                continue
+            
+            # Convertir URLs relativas a absolutas
+            if href.startswith("/"):
+                from urllib.parse import urljoin
+                href = urljoin(url, href)
+            
+            links.append({"texto": texto or href, "url": href})
+        
+        return links
+    
+    def extraer_tabla(self, url, indice_tabla=0):
+        soup = self.obtener_pagina(url)
+        if not soup:
+            return []
+        
+        tablas = soup.find_all("table")
+        if not tablas or indice_tabla &gt;= len(tablas):
+            return []
+        
+        tabla = tablas[indice_tabla]
+        filas = []
+        
+        # Encabezados
+        headers = [th.get_text(strip=True) for th in tabla.find_all("th")]
+        
+        # Datos
+        for tr in tabla.find_all("tr")[1:]:
+            celdas = [td.get_text(strip=True) for td in tr.find_all("td")]
+            if celdas:
+                if headers:
+                    filas.append(dict(zip(headers, celdas)))
+                else:
+                    filas.append(celdas)
+        
+        return filas
+    
+    def extraer_info(self, url):
+        soup = self.obtener_pagina(url)
+        if not soup:
+            return {}
+        
+        info = {
+            "url": url,
+            "titulo": soup.title.get_text(strip=True) if soup.title else "",
+            "meta_descripcion": "",
+            "meta_keywords": "",
+            "h1": [h.get_text(strip=True) for h in soup.find_all("h1")],
+            "imagenes": len(soup.find_all("img")),
+            "links": len(soup.find_all("a")),
+            "parrafos": len(soup.find_all("p")),
+        }
+        
+        for meta in soup.find_all("meta"):
+            if meta.get("name") == "description":
+                info["meta_descripcion"] = meta.get("content", "")
+            elif meta.get("name") == "keywords":
+                info["meta_keywords"] = meta.get("content", "")
+        
+        return info
+    
+    def guardar_json(self, datos, archivo):
+        with open(archivo, "w", encoding="utf-8") as f:
+            json.dump(datos, f, indent=2, ensure_ascii=False)
+        print(f"💾 Guardado en {archivo}")
+    
+    def guardar_csv(self, datos, archivo):
+        if not datos:
+            print("No hay datos para guardar")
+            return
+        
+        if isinstance(datos[0], dict):
+            campos = datos[0].keys()
+        else:
+            campos = None
+        
+        with open(archivo, "w", newline="", encoding="utf-8") as f:
+            if campos:
+                escritor = csv.DictWriter(f, fieldnames=campos)
+                escritor.writeheader()
+                escritor.writerows(datos)
+            else:
+                escritor = csv.writer(f)
+                escritor.writerows(datos)
+        
+        print(f"💾 Guardado en {archivo}")
+
+def main():
+    scraper = WebScraper()
+    
+    while True:
+        print("\n" + "="*50)
+        print("       🌐 WEB SCRAPER")
+        print("="*50)
+        print("  [1] Extraer títulos de una web")
+        print("  [2] Extraer links de una web")
+        print("  [3] Extraer tabla de datos")
+        print("  [4] Info completa de una web")
+        print("  [5] Scraping múltiple (lista de URLs)")
+        print("  [0] Salir")
+        print("="*50)
+        
+        opcion = input("  Opción: ")
+        
+        if opcion == "1":
+            url = input("  URL: ").strip()
+            selector = input("  Selector CSS (default: h1,h2,h3): ").strip() or "h1, h2, h3"
+            titulos = scraper.extraer_titulos(url, selector)
+            
+            if titulos:
+                print(f"\n  📋 Encontrados {len(titulos)} títulos:")
+                for t in titulos:
+                    print(f"    [{t['tag']}] {t['titulo'][:80]}")
+                
+                guardar = input("\n  ¿Guardar en archivo? (s/n): ")
+                if guardar.lower() == "s":
+                    nombre = input("  Nombre del archivo (sin ext): ").strip()
+                    scraper.guardar_json(titulos, f"{nombre}.json")
+        
+        elif opcion == "2":
+            url = input("  URL: ").strip()
+            filtro = input("  Filtro (opcional, Enter para todos): ").strip() or None
+            links = scraper.extraer_links(url, filtro)
+            
+            if links:
+                print(f"\n  🔗 Encontrados {len(links)} links:")
+                for l in links[:20]:
+                    print(f"    {l['texto'][:50]} → {l['url'][:60]}")
+                if len(links) &gt; 20:
+                    print(f"    ... y {len(links)-20} más")
+                
+                guardar = input("\n  ¿Guardar? (s/n): ")
+                if guardar.lower() == "s":
+                    nombre = input("  Nombre del archivo: ").strip()
+                    scraper.guardar_json(links, f"{nombre}.json")
+        
+        elif opcion == "3":
+            url = input("  URL: ").strip()
+            tabla = scraper.extraer_tabla(url)
+            
+            if tabla:
+                print(f"\n  📊 Tabla con {len(tabla)} filas:")
+                for fila in tabla[:10]:
+                    print(f"    {fila}")
+                
+                guardar = input("\n  ¿Guardar como CSV? (s/n): ")
+                if guardar.lower() == "s":
+                    nombre = input("  Nombre del archivo: ").strip()
+                    scraper.guardar_csv(tabla, f"{nombre}.csv")
+            else:
+                print("  No se encontraron tablas")
+        
+        elif opcion == "4":
+            url = input("  URL: ").strip()
+            info = scraper.extraer_info(url)
+            
+            if info:
+                print(f"\n  📋 INFORMACIÓN DE LA WEB:")
+                print(f"  Título: {info['titulo']}")
+                print(f"  H1: {', '.join(info['h1'][:3])}")
+                print(f"  Meta desc: {info['meta_descripcion'][:100]}")
+                print(f"  Imágenes: {info['imagenes']}")
+                print(f"  Links: {info['links']}")
+                print(f"  Párrafos: {info['parrafos']}")
+        
+        elif opcion == "5":
+            print("  Ingresa URLs (una por línea, vacío para terminar):")
+            urls = []
+            while True:
+                url = input("  URL: ").strip()
+                if not url:
+                    break
+                urls.append(url)
+            
+            todos_titulos = []
+            for url in urls:
+                print(f"\n  Procesando: {url}")
+                titulos = scraper.extraer_titulos(url)
+                todos_titulos.extend(titulos)
+                print(f"    → {len(titulos)} títulos")
+            
+            if todos_titulos:
+                nombre = input("\n  Nombre del archivo: ").strip()
+                scraper.guardar_json(todos_titulos, f"{nombre}.json")
+        
+        elif opcion == "0":
+            print("\n  👋 ¡Hasta luego!")
+            break
+        
+        else:
+            print("  ❌ Opción no válida")
+        
+        input("\n  Presiona Enter para continuar...")
+
+if __name__ == "__main__":
+    main()</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Ejemplos de uso</h2>
 
-<pre><code class="language-bash">
-# Ejecutar
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">bash</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`# Ejecutar
 python scraper.py
 
 # Ejemplo: extraer títulos de Wikipedia
@@ -320,8 +587,27 @@ python scraper.py
 
 # Ejemplo: scraping de noticias
 # URL: https://news.ycombinator.com
-# Selector: .titleline
-</code></pre>
+# Selector: .titleline`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false"># Ejecutar
+python scraper.py
+
+# Ejemplo: extraer títulos de Wikipedia
+# URL: https://es.wikipedia.org/wiki/Python
+# Selector: h1, h2, h3
+
+# Ejemplo: extraer links de una tienda
+# URL: https://tienda-ejemplo.com
+# Filtro: producto
+
+# Ejemplo: scraping de noticias
+# URL: https://news.ycombinator.com
+# Selector: .titleline</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Notas éticas</h2>
 <li>Respeta `robots.txt` de los sitios</li>
@@ -338,5 +624,6 @@ python scraper.py
             <a href="index.html">Volver al inicio →</a>
         </div>
     </div>
+    <script src="interactive.js"></script>
 </body>
 </html>

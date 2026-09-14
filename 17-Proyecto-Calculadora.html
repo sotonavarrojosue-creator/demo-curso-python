@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora — Aprende Python</title>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="interactive.css">
     <style>
         :root { --bg: #0a0a0f; --surface: #12121a; --border: #2a2a3a; --text: #e0e0ec; --muted: #7a7a8e; --accent: #00d4aa; --purple: #a29bfe; --yellow: #ffd93d; --blue: #4ecdc4; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-        .mono { font-family: 'JetBrains Mono', monospace; }
         nav { position: fixed; top: 0; width: 100%; background: rgba(10,10,15,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 1rem 2rem; z-index: 100; display: flex; justify-content: space-between; align-items: center; }
         nav a { color: var(--accent); text-decoration: none; font-weight: 600; font-size: 0.9rem; }
         nav .back { color: var(--muted); }
@@ -22,7 +22,7 @@
         p { margin-bottom: 1rem; color: var(--text); }
         ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
         li { margin-bottom: 0.3rem; }
-        pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem; overflow-x: auto; margin: 1rem 0; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; line-height: 1.5; }
+        pre { display: none; }
         code { font-family: 'JetBrains Mono', monospace; font-size: 0.85em; }
         :not(pre) > code { background: var(--surface); padding: 0.15rem 0.4rem; border-radius: 4px; border: 1px solid var(--border); }
         table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
@@ -30,6 +30,7 @@
         th { background: var(--surface); font-weight: 600; }
         blockquote { border-left: 3px solid var(--accent); padding-left: 1rem; color: var(--muted); margin: 1rem 0; }
         strong { color: var(--yellow); }
+        hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
         .nav-buttons { display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border); }
         .nav-buttons a { color: var(--accent); text-decoration: none; font-weight: 600; padding: 0.8rem 1.5rem; border: 1px solid var(--border); border-radius: 6px; transition: all 0.2s; }
         .nav-buttons a:hover { border-color: var(--accent); background: rgba(0,212,170,0.1); }
@@ -56,8 +57,11 @@
 
 <h2>Código completo</h2>
 
-<pre><code class="language-python">
-import math
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">python</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`import math
 import os
 
 class Calculadora:
@@ -216,14 +220,188 @@ class Calculadora:
 # Ejecutar
 if __name__ == "__main__":
     calc = Calculadora()
-    calc.ejecutar()
-</code></pre>
+    calc.ejecutar()`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">import math
+import os
+
+class Calculadora:
+    def __init__(self):
+        self.historial = []
+        self.memoria = 0
+        self.resultado = 0
+    
+    def limpiar_pantalla(self):
+        os.system('clear' if os.name == 'posix' else 'cls')
+    
+    def mostrar_menu(self):
+        print("\n" + "="*40)
+        print("       CALCULADORA PYTHON")
+        print("="*40)
+        print("  [1] Sumar        [5] Potencia")
+        print("  [2] Restar       [6] Raíz cuadrada")
+        print("  [3] Multiplicar  [7] Factorial")
+        print("  [4] Dividir      [8] Porcentaje")
+        print("-"*40)
+        print("  [M] Guardar en memoria")
+        print("  [R] Recuperar memoria")
+        print("  [H] Ver historial")
+        print("  [L] Limpiar pantalla")
+        print("  [S] Salir")
+        print("="*40)
+        print(f"  Memoria: {self.memoria} | Último: {self.resultado}")
+        print("="*40)
+    
+    def obtener_numero(self, mensaje="Número: "):
+        while True:
+            try:
+                texto = input(mensaje)
+                if texto.lower() == "m":
+                    return self.memoria
+                return float(texto)
+            except ValueError:
+                print("❌ Número no válido")
+    
+    def sumar(self):
+        a = self.obtener_numero("Primer número: ")
+        b = self.obtener_numero("Segundo número: ")
+        self.resultado = a + b
+        self.guardar_historial(f"{a} + {b} = {self.resultado}")
+        print(f"✅ Resultado: {self.resultado}")
+    
+    def restar(self):
+        a = self.obtener_numero("Primer número: ")
+        b = self.obtener_numero("Segundo número: ")
+        self.resultado = a - b
+        self.guardar_historial(f"{a} - {b} = {self.resultado}")
+        print(f"✅ Resultado: {self.resultado}")
+    
+    def multiplicar(self):
+        a = self.obtener_numero("Primer número: ")
+        b = self.obtener_numero("Segundo número: ")
+        self.resultado = a * b
+        self.guardar_historial(f"{a} × {b} = {self.resultado}")
+        print(f"✅ Resultado: {self.resultado}")
+    
+    def dividir(self):
+        a = self.obtener_numero("Dividendo: ")
+        b = self.obtener_numero("Divisor: ")
+        if b == 0:
+            print("❌ Error: No se puede dividir entre cero")
+            return
+        self.resultado = a / b
+        self.guardar_historial(f"{a} ÷ {b} = {self.resultado}")
+        print(f"✅ Resultado: {self.resultado}")
+    
+    def potencia(self):
+        base = self.obtener_numero("Base: ")
+        exp = self.obtener_numero("Exponente: ")
+        self.resultado = base ** exp
+        self.guardar_historial(f"{base}^{exp} = {self.resultado}")
+        print(f"✅ Resultado: {self.resultado}")
+    
+    def raiz(self):
+        numero = self.obtener_numero("Número: ")
+        if numero &lt; 0:
+            print("❌ No se puede raíz cuadrada de número negativo")
+            return
+        self.resultado = math.sqrt(numero)
+        self.guardar_historial(f"√{numero} = {self.resultado}")
+        print(f"✅ Resultado: {self.resultado}")
+    
+    def factorial(self):
+        numero = self.obtener_numero("Número entero: ")
+        if numero &lt; 0 or numero != int(numero):
+            print("❌ Debe ser un número entero positivo")
+            return
+        self.resultado = math.factorial(int(numero))
+        self.guardar_historial(f"{int(numero)}! = {self.resultado}")
+        print(f"✅ Resultado: {self.resultado}")
+    
+    def porcentaje(self):
+        total = self.obtener_numero("Total: ")
+        porc = self.obtener_numero("Porcentaje: ")
+        self.resultado = total * porc / 100
+        self.guardar_historial(f"{porc}% de {total} = {self.resultado}")
+        print(f"✅ Resultado: {self.resultado}")
+    
+    def guardar_historial(self, operacion):
+        self.historial.append(operacion)
+        if len(self.historial) &gt; 50:
+            self.historial.pop(0)
+    
+    def ver_historial(self):
+        if not self.historial:
+            print("📜 Historial vacío")
+            return
+        print("\n📜 HISTORIAL:")
+        print("-"*40)
+        for i, op in enumerate(self.historial[-10:], 1):
+            print(f"  {i}. {op}")
+        print("-"*40)
+    
+    def ejecutar(self):
+        while True:
+            self.mostrar_menu()
+            opcion = input("\n  Opción: ").lower()
+            
+            if opcion == "1":
+                self.sumar()
+            elif opcion == "2":
+                self.restar()
+            elif opcion == "3":
+                self.multiplicar()
+            elif opcion == "4":
+                self.dividir()
+            elif opcion == "5":
+                self.potencia()
+            elif opcion == "6":
+                self.raiz()
+            elif opcion == "7":
+                self.factorial()
+            elif opcion == "8":
+                self.porcentaje()
+            elif opcion == "m":
+                self.memoria = self.resultado
+                print(f"💾 Guardado en memoria: {self.memoria}")
+            elif opcion == "r":
+                print(f"💾 Memoria: {self.memoria}")
+            elif opcion == "h":
+                self.ver_historial()
+            elif opcion == "l":
+                self.limpiar_pantalla()
+            elif opcion == "s":
+                print("\n👋 ¡Hasta luego!")
+                break
+            else:
+                print("❌ Opción no válida")
+            
+            input("\nPresiona Enter para continuar...")
+
+# Ejecutar
+if __name__ == "__main__":
+    calc = Calculadora()
+    calc.ejecutar()</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Cómo probarlo</h2>
 
-<pre><code class="language-bash">
-python calculadora.py
-</code></pre>
+<div class="py-playground">
+<div class="py-playground-header">
+<span class="label">bash</span>
+<div class="py-btn-group">
+<button class="py-btn" onclick="this.closest('.py-playground').querySelector('.py-editor').value=`python calculadora.py`">Reset</button>
+<button class="py-btn py-btn-run" onclick="pyRun(this)">▶ Run</button>
+</div>
+</div>
+<textarea class="py-editor" spellcheck="false">python calculadora.py</textarea>
+<div class="py-loading"><div class="py-spinner"></div> Cargando Python en el navegador...</div>
+<div class="py-output"></div>
+</div>
 
 <h2>Extensiones posibles</h2>
 <li>Agregar operaciones trigonométricas</li>
@@ -240,5 +418,6 @@ python calculadora.py
             <a href="18-Proyecto-Gestor-Tareas.html">Gestor de Tareas →</a>
         </div>
     </div>
+    <script src="interactive.js"></script>
 </body>
 </html>
