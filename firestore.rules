@@ -1,0 +1,30 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Regla principal: cada usuario solo puede leer/escribir su propio documento
+    match /users/{userId} {
+      // Solo el dueño autenticado puede leer su documento
+      allow read: if request.auth != null && request.auth.uid == userId;
+
+      // Solo el dueño autenticado puede crear su documento
+      allow create: if request.auth != null && request.auth.uid == userId;
+
+      // Solo el dueño autenticado puede actualizar su documento
+      allow update: if request.auth != null && request.auth.uid == userId;
+
+      // Nadie puede borrar documentos de usuario
+      allow delete: if false;
+
+      // Subdocumentos (futuro)
+      match /{document=**} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+    }
+
+    // Por defecto: denegar todo
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

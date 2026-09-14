@@ -498,16 +498,9 @@ if __name__ == "__main__":
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="config.js"></script>
     <script>
-        firebase.initializeApp({
-            apiKey: "AIzaSyDLkx5cRmuaFt_1pRcX8ZnsFYIZLp6IxWM",
-            authDomain: "curso-python-app.firebaseapp.com",
-            projectId: "curso-python-app",
-            storageBucket: "curso-python-app.firebasestorage.app",
-            messagingSenderId: "792219958902",
-            appId: "1:792219958902:web:29290b541a8b58a0ffe957",
-            measurementId: "G-S2HCJWVSMM"
-        });
+        firebase.initializeApp(FIREBASE_CONFIG);
     </script>
     <script src="app.js"></script>
     <script src="interactive.js"></script>
