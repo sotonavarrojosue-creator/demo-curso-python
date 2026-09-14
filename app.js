@@ -469,7 +469,21 @@ class UIManager {
             if (user) {
                 document.getElementById('user-name').textContent = this.auth.getDisplayName();
             }
+            // Check module access
+            this.checkModuleAccess();
         });
+    }
+
+    checkModuleAccess() {
+        const lockOverlay = document.getElementById('module-lock');
+        if (!lockOverlay) return;
+        
+        const moduleId = parseInt(document.body.dataset.module);
+        if (moduleId <= 1 || this.auth.isLoggedIn()) {
+            lockOverlay.style.display = 'none';
+        } else {
+            lockOverlay.style.display = 'flex';
+        }
     }
 
     showLogin() {
