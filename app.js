@@ -2,13 +2,13 @@
 // Configuración: reemplazar con tu firebaseConfig
 
 const FIREBASE_CONFIG = {
-    // PEGAR AQUÍ TU firebaseConfig de la consola de Firebase
-    apiKey: "TU_API_KEY",
-    authDomain: "TU_PROYECTO.firebaseapp.com",
-    projectId: "TU_PROYECTO",
-    storageBucket: "TU_PROYECTO.appspot.com",
-    messagingSenderId: "TU_SENDER_ID",
-    appId: "TU_APP_ID"
+    apiKey: "AIzaSyDLkx5cRmuaFt_1pRcX8ZnsFYIZLp6IxWM",
+    authDomain: "curso-python-app.firebaseapp.com",
+    projectId: "curso-python-app",
+    storageBucket: "curso-python-app.firebasestorage.app",
+    messagingSenderId: "792219958902",
+    appId: "1:792219958902:web:29290b541a8b58a0ffe957",
+    measurementId: "G-S2HCJWVSMM"
 };
 
 // Módulos del curso (deben coincidir con los archivos HTML)
@@ -86,6 +86,25 @@ class AuthManager {
 
     async login(email, password) {
         const cred = await firebase.auth().signInWithEmailAndPassword(email, password);
+        return cred.user;
+    }
+
+    async loginWithGoogle() {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        const cred = await firebase.auth().signInWithPopup(provider);
+        
+        // Crear documento de usuario si es nuevo
+        const userDoc = await firebase.firestore().collection('users').doc(cred.user.uid).get();
+        if (!userDoc.exists) {
+            await firebase.firestore().collection('users').doc(cred.user.uid).set({
+                displayName: cred.user.displayName,
+                email: cred.user.email,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                modulosCompletados: [],
+                ultimoModulo: null
+            });
+        }
+        
         return cred.user;
     }
 
@@ -372,6 +391,11 @@ class UIManager {
                 <button class="modal-close" onclick="ui.closeModal()">&times;</button>
                 <div id="modal-login">
                     <h2>Iniciar Sesión</h2>
+                    <button class="btn-google" onclick="ui.handleGoogleLogin()">
+                        <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2a10.3 10.3 0 0 0-.16-1.84H9v3.48h4.84a4.14 4.14 0 0 1-1.8 2.72v2.26h2.92a8.78 8.78 0 0 0 2.68-6.62z"/><path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.92-2.26c-.8.54-1.84.86-3.04.86-2.34 0-4.32-1.58-5.03-3.7H.96v2.33A8.99 8.99 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.97 10.72A5.4 5.4 0 0 1 3.68 9c0-.6.1-1.18.28-1.72V4.95H.96A8.99 8.99 0 0 0 0 9c0 1.45.35 2.82.96 4.05l3.01-2.33z"/><path fill="#EA4335" d="M9 3.58c1.32 0 2.5.45 3.44 1.35l2.58-2.59C13.46.89 11.43 0 9 0A8.99 8.99 0 0 0 .96 4.95l3.01 2.33C4.68 5.16 6.66 3.58 9 3.58z"/></svg>
+                        Continuar con Google
+                    </button>
+                    <div class="divider"><span>o</span></div>
                     <form onsubmit="ui.handleLogin(event)">
                         <input type="email" id="login-email" placeholder="Email" required>
                         <input type="password" id="login-pass" placeholder="Contraseña" required>
@@ -381,6 +405,11 @@ class UIManager {
                 </div>
                 <div id="modal-register" style="display:none">
                     <h2>Crear Cuenta</h2>
+                    <button class="btn-google" onclick="ui.handleGoogleLogin()">
+                        <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2a10.3 10.3 0 0 0-.16-1.84H9v3.48h4.84a4.14 4.14 0 0 1-1.8 2.72v2.26h2.92a8.78 8.78 0 0 0 2.68-6.62z"/><path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.92-2.26c-.8.54-1.84.86-3.04.86-2.34 0-4.32-1.58-5.03-3.7H.96v2.33A8.99 8.99 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.97 10.72A5.4 5.4 0 0 1 3.68 9c0-.6.1-1.18.28-1.72V4.95H.96A8.99 8.99 0 0 0 0 9c0 1.45.35 2.82.96 4.05l3.01-2.33z"/><path fill="#EA4335" d="M9 3.58c1.32 0 2.5.45 3.44 1.35l2.58-2.59C13.46.89 11.43 0 9 0A8.99 8.99 0 0 0 .96 4.95l3.01 2.33C4.68 5.16 6.66 3.58 9 3.58z"/></svg>
+                        Continuar con Google
+                    </button>
+                    <div class="divider"><span>o</span></div>
                     <form onsubmit="ui.handleRegister(event)">
                         <input type="text" id="reg-name" placeholder="Tu nombre" required>
                         <input type="email" id="reg-email" placeholder="Email" required>
@@ -410,6 +439,11 @@ class UIManager {
             .modal-content input:focus { border-color:var(--accent); }
             .btn-primary { width:100%; padding:0.8rem; background:var(--accent); color:var(--bg); border:none; border-radius:6px; font-weight:700; font-size:0.95rem; cursor:pointer; }
             .btn-primary:hover { background:#00b894; }
+            .btn-google { width:100%; padding:0.8rem; background:#fff; color:#333; border:1px solid #ddd; border-radius:6px; font-weight:600; font-size:0.9rem; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:0.6rem; margin-bottom:1rem; }
+            .btn-google:hover { background:#f5f5f5; }
+            .divider { text-align:center; margin:1rem 0; position:relative; color:var(--muted); font-size:0.8rem; }
+            .divider::before { content:''; position:absolute; top:50%; left:0; right:0; height:1px; background:var(--border); }
+            .divider span { background:var(--surface); padding:0 0.8rem; position:relative; }
             .modal-switch { text-align:center; margin-top:1rem; color:var(--muted); font-size:0.85rem; }
             .modal-switch a { color:var(--accent); cursor:pointer; text-decoration:underline; }
             .error-msg { color:#ff6b6b; font-size:0.85rem; margin-top:0.5rem; text-align:center; }
@@ -503,6 +537,17 @@ class UIManager {
             this.closeModal();
         } catch(err) {
             this.showError(this.translateError(err.code));
+        }
+    }
+
+    async handleGoogleLogin() {
+        try {
+            await this.auth.loginWithGoogle();
+            this.closeModal();
+        } catch(err) {
+            if (err.code !== 'auth/popup-closed-by-user') {
+                this.showError(this.translateError(err.code));
+            }
         }
     }
 
