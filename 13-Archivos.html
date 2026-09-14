@@ -431,11 +431,35 @@ with open("gastos.json", "w") as f:
 
 <p><strong>← Anterior:</strong> [[12-Funciones-Avanzadas]] | <strong>Siguiente:</strong> [[14-Errores]] →</p>
 
+
+        <div style="margin-top:3rem;padding:1.5rem;background:var(--surface);border:1px solid var(--border);border-radius:8px;text-align:center">
+            <p style="color:var(--muted);font-size:0.85rem;margin-bottom:1rem">¿Completaste este módulo?</p>
+            <button onclick="completeModule()" style="padding:0.7rem 2rem;background:var(--accent);color:var(--bg);border:none;border-radius:6px;font-weight:700;font-size:0.95rem;cursor:pointer">
+                ✅ Marcar como completado
+            </button>
+        </div>
+
         <div class="nav-buttons">
             <a href="12-Funciones-Avanzadas.html">← Funciones Avanzadas</a>
             <a href="14-Errores.html">Manejo de Errores →</a>
         </div>
     </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script>
+        firebase.initializeApp({
+            apiKey: "TU_API_KEY",
+            authDomain: "TU_PROYECTO.firebaseapp.com",
+            projectId: "TU_PROYECTO",
+            storageBucket: "TU_PROYECTO.appspot.com",
+            messagingSenderId: "TU_SENDER_ID",
+            appId: "TU_APP_ID"
+        });
+    </script>
+    <script src="app.js"></script>
     <script src="interactive.js"></script>
 </body>
 </html>

@@ -470,11 +470,35 @@ if __name__ == "__main__":
 
 <p><strong>← Anterior:</strong> [[17-Proyecto-Calculadora]] | <strong>Siguiente:</strong> [[19-Proyecto-Web-Scraper]] →</p>
 
+
+        <div style="margin-top:3rem;padding:1.5rem;background:var(--surface);border:1px solid var(--border);border-radius:8px;text-align:center">
+            <p style="color:var(--muted);font-size:0.85rem;margin-bottom:1rem">¿Completaste este módulo?</p>
+            <button onclick="completeModule()" style="padding:0.7rem 2rem;background:var(--accent);color:var(--bg);border:none;border-radius:6px;font-weight:700;font-size:0.95rem;cursor:pointer">
+                ✅ Marcar como completado
+            </button>
+        </div>
+
         <div class="nav-buttons">
             <a href="17-Proyecto-Calculadora.html">← Calculadora</a>
             <a href="19-Proyecto-Web-Scraper.html">Web Scraper →</a>
         </div>
     </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script>
+        firebase.initializeApp({
+            apiKey: "TU_API_KEY",
+            authDomain: "TU_PROYECTO.firebaseapp.com",
+            projectId: "TU_PROYECTO",
+            storageBucket: "TU_PROYECTO.appspot.com",
+            messagingSenderId: "TU_SENDER_ID",
+            appId: "TU_APP_ID"
+        });
+    </script>
+    <script src="app.js"></script>
     <script src="interactive.js"></script>
 </body>
 </html>
