@@ -377,6 +377,7 @@
             this.timeLeft = 0;
             this.isPremium = false;
             this.finished = false;
+            this.started = false;
         }
 
         // --------------------------------------------------------------------------
@@ -420,6 +421,69 @@
         // --------------------------------------------------------------------------
         // Render principal
         // --------------------------------------------------------------------------
+
+        // --------------------------------------------------------------------------
+        // Pantalla introctoria (solo free tier)
+        // --------------------------------------------------------------------------
+        _renderIntro(container) {
+            var self = this;
+            var topics = [
+                "Variables y tipos de datos",
+                "Operadores aritméticos y lógicos",
+                "Input / Output",
+                "Condicionales (if, elif, else)",
+                "Loops (for, while)",
+                "Proyectos con loops"
+            ];
+
+            var html = '<div class="exam-container exam-intro">';
+            html += '<div class="exam-intro-header">';
+            html += '<div class="exam-intro-badge">Examen Intermedio</div>';
+            html += '<h2 class="exam-intro-title">Fundamentos de Python</h2>';
+            html += '<p class="exam-intro-subtitle">Evaluación de los módulos 01 al 07</p>';
+            html += '</div>';
+
+            html += '<div class="exam-intro-body">';
+            html += '<p class="exam-intro-desc">Este examen evalúa los conceptos fundamentales que aprendiste en la primera mitad del curso.</p>';
+
+            html += '<div class="exam-intro-topics">';
+            html += '<h3>Temas evaluados</h3>';
+            html += '<div class="exam-intro-topic-grid">';
+            for (var i = 0; i < topics.length; i++) {
+                html += '<div class="exam-intro-topic">' + topics[i] + '</div>';
+            }
+            html += '</div>';
+            html += '</div>';
+
+            html += '<div class="exam-intro-info">';
+            html += '<div class="exam-intro-stat">';
+            html += '<div class="exam-intro-stat-num">25</div>';
+            html += '<div class="exam-intro-stat-label">Preguntas</div>';
+            html += '</div>';
+            html += '<div class="exam-intro-stat">';
+            html += '<div class="exam-intro-stat-num">35:00</div>';
+            html += '<div class="exam-intro-stat-label">Minutos</div>';
+            html += '</div>';
+            html += '<div class="exam-intro-stat">';
+            html += '<div class="exam-intro-stat-num">60%</div>';
+            html += '<div class="exam-intro-stat-label">Para aprobar</div>';
+            html += '</div>';
+            html += '</div>';
+
+            html += '<button class="exam-intro-btn" id="exam-start-btn">Comenzar Examen</button>';
+
+            html += '</div>';
+            html += '</div>';
+
+            container.innerHTML = html;
+
+            document.getElementById("exam-start-btn").addEventListener("click", function () {
+                self.started = true;
+                self.timeLeft = self._getTimerSeconds();
+                self.render(container.id);
+            });
+        }
+
         render(containerId) {
             var container = document.getElementById(containerId);
             if (!container) {
@@ -445,6 +509,20 @@
             }
 
             container.innerHTML = "";
+
+            // Si no empezó y es free, mostrar intro
+            if (!this.started && !this.isPremium) {
+                this._renderIntro(container);
+                return;
+            }
+
+            // Si empezó pero no terminó, mostrar pregunta
+            if (!this.finished) {
+                // Si el timer no corre aún, iniciarlo
+                if (this.timeLeft <= 0) {
+                    this.timeLeft = this._getTimerSeconds();
+                }
+            }
 
             var active = this._getActiveQuestions();
             var total = active.length;
@@ -695,16 +773,41 @@
 
             if (passed) {
                 html += '<div class="exam-result-message exam-pass">';
-                html += '<p>Felicitaciones. Has aprobado el examen final del curso de Python.</p>';
-                html += '<div class="exam-certificate-section">';
-                html += '<p class="exam-cert-text">Certificado disponible</p>';
-                html += '<button class="exercise-btn exercise-btn-verify" id="exam-cert-btn">Descargar Certificado</button>';
-                html += '</div>';
+                if (this.isPremium) {
+                    html += '<p>Felicitaciones. Has aprobado el examen final del curso de Python.</p>';
+                    html += '<div class="exam-certificate-section">';
+                    html += '<p class="exam-cert-text">Certificado disponible</p>';
+                    html += '<button class="exercise-btn exercise-btn-verify" id="exam-cert-btn">Descargar Certificado</button>';
+                    html += '</div>';
+                } else {
+                    html += '<p>Terminaste la versión gratuita del examen.</p>';
+                    html += '<p class="exam-free-complete">Obtuvo ' + score + '% — ' + correct + ' de ' + total + ' correctas</p>';
+                    html += '<div class="exam-upgrade-section">';
+                    html += '<p class="exam-upgrade-text">Desbloqueá el examen completo de 50 preguntas y tu certificado profesional</p>';
+                    html += '<button class="exam-upgrade-btn" id="exam-upgrade-btn">Desbloquear Premium — $25</button>';
+                    html += '<button class="exercise-btn" id="exam-plans-btn">Ver Planes</button>';
+                    html += '</div>';
+                    html += '<div class="exam-retry-section">';
+                    html += '<button class="exercise-btn" id="exam-retry-btn">Intentar de Nuevo</button>';
+                    html += '</div>';
+                }
                 html += '</div>';
             } else {
                 html += '<div class="exam-result-message exam-fail">';
-                html += '<p>Necesitas al menos 60% para aprobar. Podés intentar de nuevo.</p>';
-                html += '<button class="exercise-btn" id="exam-retry-btn">Intentar de Nuevo</button>';
+                if (this.isPremium) {
+                    html += '<p>Necesitas al menos 60% para aprobar. Podés intentar de nuevo.</p>';
+                    html += '<button class="exercise-btn" id="exam-retry-btn">Intentar de Nuevo</button>';
+                } else {
+                    html += '<p>Obtuvo ' + score + '% — Necesitás al menos 60% para aprobar.</p>';
+                    html += '<div class="exam-upgrade-section">';
+                    html += '<p class="exam-upgrade-text">Con Premium tenés acceso al examen completo de 50 preguntas</p>';
+                    html += '<button class="exam-upgrade-btn" id="exam-upgrade-btn">Desbloquear Premium — $25</button>';
+                    html += '<button class="exercise-btn" id="exam-plans-btn">Ver Planes</button>';
+                    html += '</div>';
+                    html += '<div class="exam-retry-section">';
+                    html += '<button class="exercise-btn" id="exam-retry-btn">Intentar de Nuevo</button>';
+                    html += '</div>';
+                }
                 html += '</div>';
             }
 
@@ -780,6 +883,27 @@
                 });
             }
 
+            var upgradeBtn = document.getElementById("exam-upgrade-btn");
+            if (upgradeBtn) {
+                upgradeBtn.addEventListener("click", function () {
+                    if (typeof openStripeCheckout === "function") {
+                        openStripeCheckout();
+                    }
+                });
+            }
+
+            var plansBtn = document.getElementById("exam-plans-btn");
+            if (plansBtn) {
+                plansBtn.addEventListener("click", function () {
+                    var pricing = document.querySelector(".pricing-grid");
+                    if (pricing) {
+                        pricing.scrollIntoView({ behavior: "smooth" });
+                    } else {
+                        window.location.href = "index.html#pricing";
+                    }
+                });
+            }
+
             var retryBtn = document.getElementById("exam-retry-btn");
             if (retryBtn) {
                 var self = this;
@@ -788,6 +912,10 @@
                     self.answers = {};
                     self.finished = false;
                     self.timeLeft = 0;
+                    // En free tier, volver a mostrar intro
+                    if (!self.isPremium) {
+                        self.started = false;
+                    }
                     self.render("examen-final-container");
                 });
             }
@@ -1250,6 +1378,175 @@
 .wrong-answer {
     color: var(--red);
     text-decoration: line-through;
+}
+
+/* --- Examen Intro (free tier) --- */
+.exam-intro {
+    max-width: 560px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.exam-intro-header {
+    margin-bottom: 24px;
+}
+
+.exam-intro-badge {
+    display: inline-block;
+    background: rgba(255, 107, 53, 0.15);
+    color: #ff6b35;
+    border: 1px solid rgba(255, 107, 53, 0.3);
+    border-radius: 12px;
+    padding: 4px 14px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+}
+
+.exam-intro-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 0 6px 0;
+    color: var(--text);
+}
+
+.exam-intro-subtitle {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.exam-intro-body {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    text-align: left;
+}
+
+.exam-intro-desc {
+    color: var(--muted);
+    font-size: 0.95rem;
+    margin: 0 0 20px 0;
+    text-align: center;
+}
+
+.exam-intro-topics h3 {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text);
+    margin: 0 0 10px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.exam-intro-topic-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.exam-intro-topic {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    color: var(--text);
+}
+
+.exam-intro-info {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin-bottom: 24px;
+    padding: 16px 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+}
+
+.exam-intro-stat {
+    text-align: center;
+}
+
+.exam-intro-stat-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+.exam-intro-stat-label {
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.exam-intro-btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.exam-intro-btn:hover {
+    background: #00b894;
+}
+
+/* --- Upgrade CTA (free tier results) --- */
+.exam-free-complete {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin: 8px 0 16px 0;
+}
+
+.exam-upgrade-section {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    margin: 16px 0;
+}
+
+.exam-upgrade-text {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin: 0 0 12px 0;
+}
+
+.exam-upgrade-btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background: #ff6b35;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-bottom: 8px;
+    transition: background 0.2s;
+}
+
+.exam-upgrade-btn:hover {
+    background: #e55a25;
+}
+
+.exam-retry-section {
+    margin-top: 12px;
 }
 
 /* --- Responsive --- */
