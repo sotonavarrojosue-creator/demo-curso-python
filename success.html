@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pago exitoso</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0a0a0f; --surface: #12121a; --border: #2a2a3a; --text: #e0e0ec; --muted: #7a7a8e; --accent: #00d4aa; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 3rem; text-align: center; max-width: 450px; width: 90%; }
+        .icon { font-size: 4rem; margin-bottom: 1rem; }
+        h1 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+        p { color: var(--muted); margin-bottom: 1.5rem; }
+        .btn { display: inline-block; padding: 0.8rem 2rem; background: var(--accent); color: var(--bg); border: none; border-radius: 6px; font-weight: 700; font-size: 1rem; cursor: pointer; text-decoration: none; }
+        .btn:hover { background: #00b894; }
+        .spinner { width: 40px; height: 40px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 1rem; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .success-icon { color: var(--accent); }
+        .error-icon { color: #ff6b6b; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div id="status-loading">
+            <div class="spinner"></div>
+            <h1>Activando tu acceso Premium...</h1>
+            <p>Esperá un momento mientras confirmamos tu pago.</p>
+        </div>
+        <div id="status-success" style="display:none">
+            <div class="icon success-icon">&#10003;</div>
+            <h1>¡Pago exitoso!</h1>
+            <p>Tu acceso Premium está activo. Ya podés acceder a los 19 módulos completos.</p>
+            <a href="index.html" class="btn">Volver al curso</a>
+        </div>
+        <div id="status-error" style="display:none">
+            <div class="icon error-icon">&#10007;</div>
+            <h1>Error al activar</h1>
+            <p>No pudimos confirmar tu pago. Si ya pagaste, contactanos y lo resolvemos.</p>
+            <a href="index.html" class="btn">Volver al curso</a>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script>
+        firebase.initializeApp({
+            apiKey: "AIzaSyDLkx5cRmuaFt_1pRcX8ZnsFYIZLp6IxWM",
+            authDomain: "curso-python-app.firebaseapp.com",
+            projectId: "curso-python-app",
+            storageBucket: "curso-python-app.firebasestorage.app",
+            messagingSenderId: "792219958902",
+            appId: "1:792219958902:web:29290b541a8b58a0ffe957",
+            measurementId: "G-S2HCJWVSMM"
+        });
+    </script>
+    <script src="stripe-checkout.js"></script>
+    <script>
+        // Activar premium al cargar
+        (async function() {
+            // Esperar a que Firebase auth esté listo
+            await new Promise(resolve => {
+                const unsub = firebase.auth().onAuthStateChanged(user => {
+                    unsub();
+                    resolve(user);
+                });
+            });
+
+            const user = firebase.auth().currentUser;
+            if (!user) {
+                document.getElementById('status-loading').style.display = 'none';
+                document.getElementById('status-error').style.display = 'block';
+                return;
+            }
+
+            try {
+                const ok = await activatePremium();
+                if (ok) {
+                    document.getElementById('status-loading').style.display = 'none';
+                    document.getElementById('status-success').style.display = 'block';
+                } else {
+                    throw new Error('activatePremium returned false');
+                }
+            } catch(e) {
+                document.getElementById('status-loading').style.display = 'none';
+                document.getElementById('status-error').style.display = 'block';
+            }
+        })();
+    </script>
+</body>
+</html>

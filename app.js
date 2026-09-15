@@ -1,6 +1,9 @@
 // Firebase Auth + Firestore — Curso Python
 // La configuración se inicializa en cada HTML con firebase.initializeApp()
 
+// Módulos gratuitos (Fase 1-2: Fundamentos + Control de Flujo)
+const FREE_MODULES = ['01','02','03','04','05','06','07'];
+
 // Módulos del curso (deben coincidir con los archivos HTML)
 const CURSO_MODULOS = [
     { id: "01", slug: "01-Hola-Mundo", titulo: "Hola Mundo" },
@@ -112,6 +115,25 @@ class AuthManager {
 
     isLoggedIn() {
         return !!this.user;
+    }
+
+    async isPremium() {
+        if (!this.user) return false;
+        // Check Firestore
+        try {
+            const doc = await firebase.firestore().collection('users').doc(this.user.uid).get();
+            if (doc.exists && doc.data().isPremium) return true;
+        } catch(e) {}
+        // Check localStorage fallback
+        return localStorage.getItem('premium_' + this.user.uid) === 'true';
+    }
+
+    async setPremium(val) {
+        if (!this.user) return;
+        localStorage.setItem('premium_' + this.user.uid, val ? 'true' : 'false');
+        try {
+            await firebase.firestore().collection('users').doc(this.user.uid).update({ isPremium: val });
+        } catch(e) {}
     }
 }
 
@@ -472,21 +494,50 @@ class UIManager {
             if (user) {
                 document.getElementById('user-name').textContent = this.auth.getDisplayName();
             }
-            // Check module access
+            // Check module access (async)
             this.checkModuleAccess();
         });
     }
 
-    checkModuleAccess() {
+    async checkModuleAccess() {
         const lockOverlay = document.getElementById('module-lock');
         if (!lockOverlay) return;
         
         const moduleId = parseInt(document.body.dataset.module);
-        if (moduleId <= 1 || this.auth.isLoggedIn()) {
+        const moduleIdStr = String(moduleId).padStart(2, '0');
+        
+        // Módulos 01-07 siempre libres
+        if (FREE_MODULES.includes(moduleIdStr)) {
+            lockOverlay.style.display = 'none';
+            return;
+        }
+        
+        // Módulo 08+: requiere login + premium
+        if (!this.auth.isLoggedIn()) {
+            this.showPremiumLock(lockOverlay);
+            return;
+        }
+        
+        const premium = await this.auth.isPremium();
+        if (premium) {
             lockOverlay.style.display = 'none';
         } else {
-            lockOverlay.style.display = 'flex';
+            this.showPremiumLock(lockOverlay);
         }
+    }
+
+    showPremiumLock(el) {
+        el.style.display = 'flex';
+        el.innerHTML = `
+            <div class="premium-lock-content">
+                <div style="font-size:3rem;margin-bottom:1rem">&#128274;</div>
+                <h2>Este módulo es Premium</h2>
+                <p>Desbloqueá los 19 módulos completos, el examen de 50 preguntas y tu certificado profesional.</p>
+                <button onclick="openStripeCheckout()" class="btn-premium">Desbloquear Premium — $25</button>
+                <br>
+                <a href="index.html" class="btn-outline">Ver planes</a>
+            </div>
+        `;
     }
 
     showLogin() {
@@ -606,6 +657,13 @@ class UIManager {
         };
         return errors[code] || 'Error: ' + code;
     }
+}
+
+// ========== STRIPE ==========
+function openStripeCheckout() {
+    // Reemplazar con tu Stripe Payment Link real
+    const STRIPE_LINK = 'https://buy.stripe.com/placeholder';
+    window.open(STRIPE_LINK, '_blank');
 }
 
 // ========== INIT ==========

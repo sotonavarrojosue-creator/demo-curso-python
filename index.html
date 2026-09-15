@@ -6,6 +6,7 @@
     <title>Aprende Python — Curso Gratuito</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="exercise.css">
     <style>
         :root {
             --bg: #0a0a0f;
@@ -471,10 +472,68 @@
     </div>
 </section>
 
+<!-- Planes y Precios -->
+<section class="phases" style="max-width:800px;margin:0 auto;padding:2rem">
+    <h2 style="text-align:center;color:var(--text);font-size:1.8rem;margin-bottom:0.5rem">Elegí tu plan</h2>
+    <p style="text-align:center;color:var(--text-muted);margin-bottom:2rem">Empezá gratis. Desbloqueá todo cuando estés listo.</p>
+    <div class="pricing-grid">
+        <!-- Plan Gratis -->
+        <div class="pricing-card">
+            <div class="pricing-tier">Gratis</div>
+            <div class="pricing-price">$0</div>
+            <ul class="pricing-features">
+                <li>✓ 7 módulos (Fundamentos)</li>
+                <li>✓ Ejercicios interactivos</li>
+                <li>✓ Quiz por módulo</li>
+                <li>✓ Examen de 25 preguntas</li>
+                <li>✓ Certificado Fundamentos</li>
+                <li>✓ Python en el navegador</li>
+            </ul>
+            <button class="pricing-btn pricing-btn-free" onclick="document.querySelector('.phase').scrollIntoView({behavior:'smooth'})">Empezar gratis</button>
+        </div>
+        <!-- Plan Premium -->
+        <div class="pricing-card pricing-card-featured">
+            <div class="pricing-badge">Más popular</div>
+            <div class="pricing-tier">Premium</div>
+            <div class="pricing-price">$25</div>
+            <ul class="pricing-features">
+                <li>✓ 19 módulos completos</li>
+                <li>✓ Todos los ejercicios</li>
+                <li>✓ Examen de 50 preguntas (70 min)</li>
+                <li>✓ Certificado Profesional</li>
+                <li>✓ 3 proyectos prácticos</li>
+                <li>✓ Acceso de por vida</li>
+            </ul>
+            <button class="pricing-btn pricing-btn-premium" onclick="openStripeCheckout()">Desbloquear Premium →</button>
+        </div>
+    </div>
+</section>
+
+<!-- Examen Final -->
+<section style="max-width:800px;margin:0 auto;padding:2rem">
+    <h2 style="text-align:center;color:var(--text);font-size:1.8rem;margin-bottom:0.5rem">Examen Final</h2>
+    <p style="text-align:center;color:var(--text-muted);margin-bottom:2rem">Poné a prueba lo que aprendiste.</p>
+    <div id="examen-final-container"></div>
+</section>
+
 <footer class="footer">
     <p>Curso de Python — Construido con dedicación</p>
-    <p style="margin-top: 0.5rem;">19 módulos · 100+ ejercicios · 3 proyectos · Gratis para siempre</p>
+    <p style="margin-top: 0.5rem;">19 módulos · 100+ ejercicios · 3 proyectos · Gratis + Premium</p>
 </footer>
 
+<script src="stripe-checkout.js"></script>
+<script src="exercise.js"></script>
+<script src="quiz.js"></script>
+<script src="examen-final.js"></script>
+<script>
+    // Initialize examen final
+    document.addEventListener('DOMContentLoaded', () => {
+        const container = document.getElementById('examen-final-container');
+        if (container && typeof ExamenFinal !== 'undefined') {
+            const examen = new ExamenFinal();
+            examen.render('examen-final-container');
+        }
+    });
+</script>
 </body>
 </html>
